@@ -1,0 +1,89 @@
+FA4559  RED
+2EB973 GREEN
+FDFFE3 OFFWHITE
+A4DE84 GreenParrot
+TODO:
+Category;
+    - Select Category - Done.
+    - Update Category - Done
+    - Delete Category - DONE
+    - Category menu Order
+
+    encrypted_menu_branding_id
+    $brand_color = $_POST['brand_color'];
+    $secondary_color = $_POST['secondary_color'];
+    $third_color = $_POST['third_color'];
+    $font_color = $_POST['font_color'];
+    $status = $_POST['status'];
+$crud_data = array(
+				'brand_color' => $brand_color,
+				'secondary_color' => $secondary_color,
+				'third_color' => $third_color,
+				'font_color' => $font_color,
+				'user_id' => $mid,
+				'status' => $status,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s'),
+			);
+
+Virtual Host : local.zampoita.com
+Ref: https://www.cloudways.com/blog/configure-virtual-host-on-windows-10-for-wordpress/
+
+HTML UI : http://local.zampoita.com/public/FrontUI/#
+
+URL : https://local.zampoita.com/sso/1234567890
+
+/*return response()->json([
+            'success' => false,
+            'message' => __('api.common_error_500'),
+        ], 500);*/
+
+ANGULAR HELP:
+Plugins :
+- https://plnkr.co/edit/h08qQF2qlVE3arERpdfi?p=preview&preview
+- https://plnkr.co/plunk/CwS5th
+
+//Notification.error('Error notification');
+  //  Notification.success({message: 'Success notification<br>Some other <b>content</b><br><a href="https://github.com/alexcrack/angular-ui-notification">This is a link</a><br><img src="https://angularjs.org/img/AngularJS-small.png">', title: 'Html content'});
+
+/sso
+    - API call for JWT using ssoToken,
+      ssoToken note exist then return back to merchant panel
+      ssoToken exist then return details and redirect on category page
+
+
+API response:
+   status : true/false
+   message: array/string
+   code : 200/505 etc..
+   data : return array data
+
+
+URLS:
+
+1. https://betagit.zampoita.com/merchant/create_cus_menu -> http://local.zampoita.com/manage-custom-menu
+
+    http://local.zampoita.com/manage-custom-menu#categories
+    http://local.zampoita.com/manage-custom-menu#products
+    http://local.zampoita.com/manage-custom-menu#branding
+    http://local.zampoita.com/manage-custom-menu#setting
+
+2. https://betagit.zampoita.com/menu/el-horno-de-la-abuela -> http://local.zampoita.com/menu/el-horno-de-la-abuela
+3. https://betagit.zampoita.com/merchant/create_cus_menu/2/add-product -> http://local.zampoita.com/product
+4. https://betagit.zampoita.com/merchant/create_cus_menu/2/edit-product/NDA5 -> http://local.zampoita.com/product/ID
+5. https://betagit.zampoita.com/merchant/create_cus_menu/2/add-product-fixed/NzA= -> -> http://local.zampoita.com/add/ID
+
+
+
+
+Angular Setup:
+https://www.sitepoint.com/how-to-consume-laravel-api-with-angularjs/
+https://github.com/francescomalatesta/laravel-api-boilerplate-angular-example/blob/master/app/Http/api_routes.php
+
+
+API Setup:
+https://www.avyatech.com/rest-api-with-laravel-8-using-jwt-token/
+
+OTHER SETUP:
+
+https://www.tutsmake.com/laravel-7-6-tutorial-from-scratch-laravel-step-by-step/

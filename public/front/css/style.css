@@ -1,0 +1,4638 @@
+/*   
+Theme Name: Slate Sign
+Description: Custom Wordpress theme for SlateSign by Gecko Web Solutions Ltd
+Author: Dan Davies
+Version: 1.0
+Tags: 
+
+*/
+
+
+/* Import a basic layout */
+@import url('styles/2c-r.css');
+
+/* Reset default browser styles */
+@import url('styles/reset.css');
+
+/* Rebuild default browser styles */
+@import url('styles/rebuild.css');
+
+/* Basic WordPress Styles */
+@import url('styles/wp.css');
+
+
+
+/* =Fonts Import
+-------------------------------------------------------------- */
+
+
+@font-face {
+    font-family: 'gotham_blackregular';
+    src: url('fonts/gotham-black-webfont.eot');
+    src: url('fonts/gotham-black-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-black-webfont.woff2') format('woff2'),
+    url('fonts/gotham-black-webfont.woff') format('woff'),
+    url('fonts/gotham-black-webfont.ttf') format('truetype'),
+    url('fonts/gotham-black-webfont.svg#gotham_blackregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'gotham_blackitalic';
+    src: url('fonts/gotham-blackitalic-webfont.eot');
+    src: url('fonts/gotham-blackitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-blackitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-blackitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-blackitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-blackitalic-webfont.svg#gotham_blackitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'gotham_boldregular';
+    src: url('fonts/gotham-bold-webfont.eot');
+    src: url('fonts/gotham-bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-bold-webfont.woff2') format('woff2'),
+    url('fonts/gotham-bold-webfont.woff') format('woff'),
+    url('fonts/gotham-bold-webfont.ttf') format('truetype'),
+    url('fonts/gotham-bold-webfont.svg#gotham_boldregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'gotham_bolditalic';
+    src: url('fonts/gotham-bolditalic-webfont.eot');
+    src: url('fonts/gotham-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-bolditalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-bolditalic-webfont.woff') format('woff'),
+    url('fonts/gotham-bolditalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-bolditalic-webfont.svg#gotham_bolditalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'gotham_bookregular';
+    src: url('fonts/gotham-book-webfont.eot');
+    src: url('fonts/gotham-book-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-book-webfont.woff2') format('woff2'),
+    url('fonts/gotham-book-webfont.woff') format('woff'),
+    url('fonts/gotham-book-webfont.ttf') format('truetype'),
+    url('fonts/gotham-book-webfont.svg#gotham_bookregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'gotham_mediumregular';
+    src: url('fonts/gotham-medium-webfont.eot');
+    src: url('fonts/gotham-medium-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-medium-webfont.woff2') format('woff2'),
+    url('fonts/gotham-medium-webfont.woff') format('woff'),
+    url('fonts/gotham-medium-webfont.ttf') format('truetype'),
+    url('fonts/gotham-medium-webfont.svg#gotham_mediumregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'gotham_bookitalic';
+    src: url('fonts/gotham-bookitalic-webfont.eot');
+    src: url('fonts/gotham-bookitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-bookitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-bookitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-bookitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-bookitalic-webfont.svg#gotham_bookitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_lightregular';
+    src: url('fonts/gotham-light-webfont.eot');
+    src: url('fonts/gotham-light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-light-webfont.woff2') format('woff2'),
+    url('fonts/gotham-light-webfont.woff') format('woff'),
+    url('fonts/gotham-light-webfont.ttf') format('truetype'),
+    url('fonts/gotham-light-webfont.svg#gotham_lightregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_lightitalic';
+    src: url('fonts/gotham-lightitalic-webfont.eot');
+    src: url('fonts/gotham-lightitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-lightitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-lightitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-lightitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-lightitalic-webfont.svg#gotham_lightitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_mediumitalic';
+    src: url('fonts/gotham-mediumitalic-webfont.eot');
+    src: url('fonts/gotham-mediumitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-mediumitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-mediumitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-mediumitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-mediumitalic-webfont.svg#gotham_mediumitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_thinregular';
+    src: url('fonts/gotham-thin-webfont.eot');
+    src: url('fonts/gotham-thin-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-thin-webfont.woff2') format('woff2'),
+    url('fonts/gotham-thin-webfont.woff') format('woff'),
+    url('fonts/gotham-thin-webfont.ttf') format('truetype'),
+    url('fonts/gotham-thin-webfont.svg#gotham_thinregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_thinitalic';
+    src: url('fonts/gotham-thinitalic-webfont.eot');
+    src: url('fonts/gotham-thinitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-thinitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-thinitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-thinitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-thinitalic-webfont.svg#gotham_thinitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_ultraregular';
+    src: url('fonts/gotham-ultra-webfont.eot');
+    src: url('fonts/gotham-ultra-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-ultra-webfont.woff2') format('woff2'),
+    url('fonts/gotham-ultra-webfont.woff') format('woff'),
+    url('fonts/gotham-ultra-webfont.ttf') format('truetype'),
+    url('fonts/gotham-ultra-webfont.svg#gotham_ultraregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_ultraitalic';
+    src: url('fonts/gotham-ultraitalic-webfont.eot');
+    src: url('fonts/gotham-ultraitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-ultraitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-ultraitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-ultraitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-ultraitalic-webfont.svg#gotham_ultraitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gotham_extralightregular';
+    src: url('fonts/gotham-xlight-webfont.eot');
+    src: url('fonts/gotham-xlight-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-xlight-webfont.woff2') format('woff2'),
+    url('fonts/gotham-xlight-webfont.woff') format('woff'),
+    url('fonts/gotham-xlight-webfont.ttf') format('truetype'),
+    url('fonts/gotham-xlight-webfont.svg#gotham_extralightregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'gotham_extralightitalic';
+    src: url('fonts/gotham-xlightitalic-webfont.eot');
+    src: url('fonts/gotham-xlightitalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gotham-xlightitalic-webfont.woff2') format('woff2'),
+    url('fonts/gotham-xlightitalic-webfont.woff') format('woff'),
+    url('fonts/gotham-xlightitalic-webfont.ttf') format('truetype'),
+    url('fonts/gotham-xlightitalic-webfont.svg#gotham_extralightitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* =General
+-------------------------------------------------------------- */
+
+body {
+    margin: 0;
+    background: #e4e4e5;
+    color:#595a5d;
+    font-family: 'gotham_bookregular';
+    font-weight:normal;
+    font-size:14px;
+    line-height: 1;
+    -webkit-text-size-adjust: none;
+}
+
+.desktop {
+    display: block ! important;
+}
+
+.mobile {
+    display: none ! important;
+}
+
+
+/*<-------------------------------------New-Css_Start---------------------------------------------------->*/
+.main.voucher {
+    width: auto;
+    height: auto;
+    background: #fff;
+    margin: 0px auto;
+}
+.main-heading
+{
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 18px;
+    font-family:century gothic;
+}
+/*.main .left
+{
+  height: 665px;
+  float: left;
+}*/
+.main .left .form
+{
+    background: #e4e4e6;
+    height: 630px;
+    width: 551px;
+}
+.main.voucher .left .for_buttons {
+    width: 555px;
+    height: 45px;
+    margin: 5px 0px;
+}
+.main.voucher .left .for_buttons .btn-1 {
+    border: none;
+    background: #76787C;
+    width: 275px;
+    height: 45px;
+    margin: 0px 5px 0 0;
+    padding: 0px 15px;
+    color: #fff;
+    text-transform: uppercase;
+    float: left;
+    text-align: left;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.main.voucher .left .for_buttons .btn-1:hover {
+    background: #919396;
+}
+.main .left .for_buttons .btn-2 {
+    border: none;
+    background: #8cc63f;
+    width: 275px;
+    height: 45px;
+    margin: 0px;
+    padding: 0px 15px;
+    color: #fff;
+    text-transform: uppercase;
+    float: left;
+    text-align: left;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+    cursor: pointer;
+}
+.main .left .for_buttons .btn-2:hover {
+    background: #A3D065;
+}
+.main.voucher .right {
+    width: 369px;
+    height: 665px;
+    margin: 0px;
+    float:right;
+}
+.main.voucher .right .img-1 {
+    width: 369px;
+    height: 125px;
+    margin: 0px 0px 5px 0;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Promo-1.png") no-repeat 0 0 / 100% auto;
+    float: left;
+    /* Xmas */
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Promo-1-xmas.jpg") no-repeat 0 0 / 100% auto;
+}
+.main.voucher .right .img-2 {
+    width: 369px;
+    height: 585px;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Promo-2.png") no-repeat 0 0 / 100% auto;
+    margin: 0;
+    float: right;
+}
+.main.voucher .left {
+    width: 555px;
+    height: 715px;
+}
+.main.voucher .left .form {
+    background: #e4e4e6;
+    height: 665px;
+    width: 555px;
+}
+
+.main.voucher .item {
+    width: 525px;
+    margin-bottom: 20px;
+    position: relative;
+    float: left;
+}
+
+.main.voucher .item.title {
+    margin-bottom: 10px;
+}
+
+.main.voucher .item .help-block {
+    position: absolute;
+    top: 55px;
+    left: 5px;
+    font-family: 'gotham_lightregular';
+    font-size: 12px;
+}
+
+.main.voucher .item.message .help-block {
+    top: 110px;
+}
+
+.main.voucher .left label.main-heading {
+    padding: 1px 0 26px;
+    font-family: 'gotham_lightregular';
+}
+
+.main.voucher .item.half {
+    width: 260px;
+    margin-right: 5px;
+    float: left;
+}
+
+.main.voucher .item label {
+    padding: 0 0 5px;
+    display: block;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+}
+
+.main.voucher .item.half.lastname {
+    margin-right: 0px;
+}
+
+.main.voucher .item.half input[type="text"] {
+    width: 230px;
+}
+
+.main.voucher .item.half input[type="text"].lastname {
+    margin-right: 0px;
+}
+
+.main.voucher input[type="text"] {
+    padding: 0 15px;
+    height: 35px;
+    border: 0px;
+    border-radius: 0px;
+    width: 495px;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+    color: #595a5d;
+}
+
+.main.voucher textarea {
+    padding: 15px;
+    width: 495px;
+    margin: 0;
+    border: 0px;
+    border-radius: 0;
+    height: 60px;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+    color: #595a5d;
+    resize: none;
+}
+
+.main.voucher input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+}
+
+.main.voucher .item.half.tick .checkmark {
+    height: 35px;
+    width: 35px;
+    border: 0px;
+    float: left;
+    background: white;
+}
+
+.main.voucher .item.half.tick input[type="radio"]:checked ~ .checkmark::after {
+    display: block;
+}
+
+.main.voucher .item.half.tick .checkmark::after {
+    top: 10px;
+    left: 10px;
+}
+
+.main.voucher .item.half.tick .checkmark::after {
+    top: 9px;
+    left: 9px;
+    width: 17px;
+    height: 16px;
+    border-radius: 100%;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Tick.png") no-repeat 0 0 / 17px 16px;
+    display: block;
+    float: left;
+}
+
+.main.voucher .item.half.tick .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.main.voucher .item.half.tick input[type="radio"]:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+.main.voucher .item.half.tick.last {
+    margin-right: 0;
+}
+
+.main.voucher .item.half.tick label {
+    padding: 0 0 5px;
+    display: block;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+    float: right;
+    text-align: left;
+    width: 217px;
+    line-height: 35px;
+}
+
+.ml-20
+{
+    margin-left: 20px;
+}
+.ml-10
+{
+    margin-left: 10px;
+}
+.mr-20
+{
+    margin-right: 20px;
+}
+
+.mr-10
+{
+    margin-right: 20px;
+}
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+label {
+    padding: 7px 7px 7px 0;
+    display: inline-block;
+    font-family:century gothic;
+    font-size: 14.5px;
+}
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+/*input[type=submit]:hover {*/
+/*    background-color: #45a049;*/
+/*}*/
+.main.voucher .container {
+    padding: 15px;
+}
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+
+}
+.col-50 {
+    float: left;
+    width: 45%;
+    margin-top: 6px;
+    /*margin: 0px 35px 0px 0px;*/
+}
+.col-100 {
+    float: left;
+    width: 96%;
+    margin-top: 15px;
+}
+.col-3 {
+    float: left;
+    width: 28%;
+    margin-top: 6px;
+}
+.main.voucher .col-3 {
+    float: left;
+    width: 171.666px;
+    margin-right: 5px;
+    margin-top: 0;
+}
+.main.voucher .col-3:nth-of-type(3) {
+    margin-right: 0px;
+}
+.main.voucher .item.col-3.for-box-set {
+    width: 151.6666px;
+    padding: 0 10px;
+    height: 35px;
+    background: white;
+    margin-bottom: 0;
+    position: relative;
+}
+.main.voucher .item.col-3.for-box-set .checkmark {
+    width: 24px;
+    height: 24px;
+    float: right;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 0 0 / 200% auto;
+    margin-top: 5px;
+}
+.main.voucher .item.col-3.for-box-set input[type="radio"]:checked ~ .checkmark::after {
+    display: block;
+}
+
+.main.voucher .item.col-3.for-box-set .checkmark::after {
+    top: 10px;
+    left: 10px;
+}
+
+.main.voucher .item.col-3.for-box-set .checkmark::after {
+    top: 5px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 100% 0 / 200% auto;
+    display: block;
+    float: left;
+    left: auto;
+}
+
+.main.voucher .item.col-3.for-box-set .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.main.voucher .item.col-3.for-box-set input[type="radio"]:checked ~ .checkmark {
+    background-color: #fff;
+}
+.main.voucher .item.col-3.for-box-set input[type="radio"] {
+    left: auto;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    top: 5px;
+    right: 10px;
+}
+.main.voucher .item.col-3.for-box-set label {
+    line-height: 35px;
+    padding: 0;
+    float: left;
+}
+.main.voucher .item.col-3.for-box-set.last {
+    margin-right: 0;
+}
+.main.voucher .col-3 input[type="text"] {
+    width: 142px;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.main.voucher .item.title.none {
+    margin-bottom: 0;
+}
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .col-25, .col-50, .col-75, .col-100, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+
+/*<-------------------------------------New-Css_End---------------------------------------------------->*/
+a {
+    text-decoration: none;
+    color:#3b3c3e;
+}
+
+a:hover {
+    text-decoration: none ! important;
+    color:#919396;
+}
+
+img {
+    width:100%;
+}
+
+b, strong {
+    font-weight: normal ! important;
+    font-family: 'gotham_mediumregular';
+}
+
+#wrapper {
+    width:930px;
+    margin:0 auto;
+    background: #fff;
+    padding:5px;
+    margin-bottom:25px;
+}
+
+#top-header {
+    width:940px;
+    margin:0 auto;
+    height:96px;
+    padding:0px;
+    color: #919396;
+}
+
+#top-header .left {
+    margin:0;
+    padding:0;
+    width:50%;
+    padding-top:35px;
+}
+
+#top-header .right {
+    margin:0;
+    padding:3px 20px 3px 0;
+    width:170px;
+    height:auto;
+    text-align: right;
+}
+
+#top-header a {
+    color:#595a5d;
+}
+
+#top-header a:hover {
+    color:#919396;
+}
+
+#top-header p {
+    margin: 0 0 5px 20px;
+    text-transform: uppercase;
+}
+
+span.chev {
+    float:right;
+}
+
+span.link {
+    width:100%;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 99;
+}
+
+span.white {
+    color:#fff;
+}
+
+/* =Header
+-------------------------------------------------------------- */
+
+
+#top-header .right .basket img.basket_image {
+    width: 20px;
+    position: absolute;
+    left: -50px;
+    top: 40px;
+    height: 18px;
+}
+
+#top-header .right #comm100-button-340 {
+    float: right;
+    margin-top: 25px;
+}
+
+#christmas-message {
+    float: left;
+    width: 100%;
+    height: 45px;
+    background: url("../images/Pre-Christmas-Delievery-Banner.png") no-repeat 0 0 / 100% auto;
+    margin-bottom: 5px;
+}
+
+#branding {
+    margin: 0;
+    width:182px;
+    height:182px;
+    background: #919396;
+    float:left;
+    margin:0 5px 5px 0;
+}
+
+#branding img {
+    width:100%;
+}
+
+#top-bar {
+    width: 743px;
+    height: 183px;
+    /* background: url("../images/header-bg.png") no-repeat 0 0 / 100% auto; */
+    /* background: url("../images/header-bg-covid.png") no-repeat 0 0 / 100% auto; */
+    background: url("../images/header-bg-xmas.png") no-repeat 0 0 / 100% auto;
+    float: right;
+    background-size: 100% auto;
+    font-family: 'gotham_thinregular';
+}
+
+#top-bar p.email {
+    float:right;
+    text-align: right;
+    font-size:22px;
+    padding:116px 15px 5px 0;
+    margin:0;
+    width:100%;
+}
+
+#top-bar p.email.voucher {
+    text-transform: uppercase;
+    font-size: 15px;
+    background: url("../images/order-voucher-image-cta.png") no-repeat 636px 73px / 99.5px 73.5px;
+    padding-right: 115px;
+    padding-top: 113px;
+    padding-bottom: 16px;
+    width: 628px;
+    color:#8CC63F;
+    /* Xmas */
+    color: #ce9e3e;
+    background: url("../images/order-voucher-image-cta-xmas.png") no-repeat 636px 73px / 99.5px 73.5px; 
+}
+
+#top-bar p.email a {
+    color:#fff;
+}
+
+#top-bar p.email.voucher:hover {
+    color:#FFF;
+}
+
+#top-bar p.email a:hover {
+    color:#919396;
+}
+
+#top-bar p.strapline {
+    float:right;
+    text-align: right;
+    font-size:15px;
+    padding:0px 15px 0 0;
+    color:#919396;
+    text-transform: uppercase;
+    width:100%;
+}
+
+#top-bar p.email.voucher strong {
+    font-family: 'gotham_bookregular';
+}
+
+/* =Menu
+-------------------------------------------------------------- */
+
+#access {
+    margin: 0 0 5px 0;
+    overflow: auto;
+    width:100%;
+    height:45px;
+}
+
+#access ul {
+    margin: 0;
+    list-style: none;
+}
+
+#access ul li {
+    background: #919396 none repeat scroll 0 0;
+    float: left;
+    font-family: "gotham_lightregular";
+    font-size: 15px;
+    margin: 0 5px 0 0;
+    width:182px;
+    height:45px;
+    line-height: 45px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+#access ul.order li {
+    width:152px;
+    padding:0 15px;
+    color:#c8c9cb;
+}
+
+#access ul li:hover {
+    background: #adaeb0 none repeat scroll 0 0;
+}
+
+#access ul.order li:hover {
+    background: #919396 none repeat scroll 0 0;
+}
+
+
+#access ul li a span.chev {
+    color:#c8c9cb;
+}
+
+#access ul li a {
+    color:#fff;
+    width:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 152px;
+    height: 45px;
+    padding: 0 15px;
+}
+
+#access ul li#menu-item-23,
+#access ul li.last {
+    margin-right:0px;
+}
+
+.skip-link {
+    display: none;
+}
+.menu ul {
+    list-style: none;
+    margin: 0;
+}
+.menu ul ul {
+    display: none;
+}
+.menu li {
+    display: inline;
+}
+.menu a {
+    display: block;
+    float: left;
+}
+
+
+/* =Content
+-------------------------------------------------------------- */
+
+#content {
+    margin:5px 0;
+    float:left;
+    width:100%;
+}
+
+#container {
+    float: left;
+    margin: 0;
+    width: 100%;
+}
+
+.post {
+    margin: 0 0 3em 0;
+}
+.entry-content, .entry-summary {
+    margin: 0;
+    position: relative;
+}
+
+.order .entry-content {
+    height:440px;
+}
+
+.home .entry-content ul,
+.home .entry-summary ul {
+    margin: 0 0 0em 1em;
+}
+
+.entry-content ul,
+.entry-summary ul {
+    margin: 0 0 2em 1em;
+}
+
+.entry-content #step5a .tab_con ul {
+    list-style: none;
+    margin: 0;
+}
+
+.entry-content #step5a .tab_con ul li.fixing_type {
+    float: left;
+    height: 270px;
+    width: 462.5px;
+    margin-right: 5px;
+}
+
+.entry-content #step5a .tab_con ul li.fixing_type:nth-of-type(2) {
+    margin-right: 0px;
+}
+
+.entry-content #step5a .tab_con ul li.fixing_type img {
+    width: 100%;
+    height: auto;
+}
+
+#step5a .clearfix.buttons {
+    width: 100%;
+}
+
+#step5a .clearfix.buttons .spacer {
+    height: 45px;
+    float: left;
+    width: 556px;
+    background: #e4e4e5;
+    margin-right: 0;
+}
+
+#step5a .clearfix.buttons .button.edgergt_color.pull-left {
+    float: right;
+    margin: 0;
+    background: url("../images/add-to-cart-button.png") no-repeat 0 0 / 200% auto;
+}
+
+#step5a .clearfix.buttons .button.edgergt_color.pull-left:hover {
+    background-position: 100% 0;
+}
+
+#step5a .clearfix.buttons .button.edgergt_color.pull-left button {
+    cursor: pointer;
+    background: transparent;
+    content: " ";
+}
+
+#step5a .lft_step.clearfix .clearfix {
+    max-height: 275px;
+}
+
+.entry-content ul li,
+.entry-summary ul li {
+    padding-bottom:4px;
+    font-size:11px;
+    line-height: 12px;
+    color:#919396;
+}
+
+.entry-content ul li.last,
+.entry-summary ul li.last  {
+    padding-bottom:0px;
+}
+
+p {
+    line-height: 1.2em;
+    margin-bottom:1.2em;
+    color: #919396;
+    font-size:12px;
+}
+
+p.last {
+    margin:0;
+}
+
+p.intro {
+    font-size:13px;
+    color:#595a5d;
+}
+
+.entry-summary p {
+    font-size:12px;
+}
+
+#channel {
+    width: 900px;
+    height: 45px;
+    background: #8CC63F;
+    margin-bottom: 5px;
+    line-height: 45px;
+    padding: 0 15px;
+    font-family: 'gotham_bookregular';
+    text-transform: uppercase;
+    font-size: 15px;
+    color: black;
+}
+
+#channel span.grey {
+    color: white;
+}
+
+.page h1.entry-title {
+    width:96.7741935%;
+    height:65px;
+    background: #c8c9cb;
+    line-height: 65px;
+    text-transform: uppercase;
+    color:#fff;
+    padding:0 15px;
+    font-size: 19px;
+    font-family: 'gotham_lightregular';
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+h3 {
+    text-transform: uppercase;
+    font-size:12px;
+    margin-top:22px;
+    padding-bottom:2px;
+}
+
+.page-id-15 h3 {
+    margin-top:20px;
+}
+
+.full {
+    width:728px;
+    display:block;
+    float:left;
+    padding:15px 0 0 15px;
+    margin-right:0px;
+}
+
+
+.left {
+    width:317px;
+    display:block;
+    float:left;
+    padding:10px 37px 0 15px;
+    margin-right:5px;
+}
+
+.page-template-galleries-page .left {
+    width:385px;
+    display:block;
+    float:left;
+    padding:15px 0px 0 20px;
+    margin-right:0px;
+}
+
+.mid {
+    width:182px;
+    display:block;
+    float:left;
+    margin-right:5px;
+    height:495px;
+}
+
+.mid .item {
+    width:100%;
+    height:120px;
+    margin-bottom:5px;
+    position: relative;
+}
+
+.mid .item:hover {
+    background-position: 100% 0;
+}
+
+.mid .proof {
+    background: url("../images/button-tile-proof-tool.png");
+    background-size: 200% auto;
+}
+
+.mid .signature {
+    background: url("../images/button-tile-signature.png");
+    background-size: 200% auto;
+}
+
+.mid .gallery {
+    background: url("../images/button-tile-galleries.png");
+    background-size: 200% auto;
+}
+
+.mid .fixings {
+    background: url("../images/button-tile-fixings.png");
+    background-size: 200% auto;
+}
+
+.mid .faq {
+    background: url("../images/button-tile-faq.png");
+    background-size: 200% auto;
+}
+
+.right {
+    width:369px;
+    display:block;
+    height:370px;
+    float:right;
+    position: relative;
+}
+
+.right .meteor-slides img {
+    height: 370px ! important;
+}
+
+#sig-link {
+	background: url("../images/Slate-Sign-Web-Home-Signature-Promo-Bar.jpg") no-repeat 0 0 / 100% auto;
+	width: 100%;
+	height: 120px;
+	margin-top: 5px;
+    position: relative;
+}
+
+.page-template-galleries-page .right {
+    width:295px;
+}
+
+.right .gal  {
+    width:70px;
+    height:70px;
+    background: #e4e4e5;
+    position: absolute;
+}
+
+.right .one {
+    top:0;
+    left:0;
+}
+
+.right .two {
+    top:0;
+    left:75px;
+}
+
+.right .three {
+    top:0;
+    left:150px;
+}
+
+.right .four {
+    top:0;
+    left:225px;
+}
+
+.right .five {
+    top:75px;
+    left:0;
+    margin:0;
+}
+
+.right .six {
+    top:75px;
+    left:75px;
+}
+
+.right .seven {
+    top:75px;
+    left:150px;
+}
+
+.right .eight {
+    top:75px;
+    left:225px;
+}
+
+.right .nine {
+    top:150px;
+    left:0;
+}
+
+.right .ten {
+    top:150px;
+    left:75px;
+    margin:0;
+}
+
+.right .eleven {
+    top:150px;
+    left:150px;
+}
+
+.right .twelve {
+    top:150px;
+    left:225px;
+}
+
+.right .thirteen {
+    top:225px;
+    left:0;
+}
+
+.right .fourteen {
+    top:225px;
+    left:75px;
+}
+
+.right .fifteen {
+    top:225px;
+    left:150px;
+}
+
+.right .sixteen {
+    top:225px;
+    left:225px;
+}
+
+.right .seventeen {
+    top:300px;
+    left:0;
+}
+
+.right .eighteen {
+    top:300px;
+    left:75px;
+}
+
+.right .nineteen {
+    top:300px;
+    left:150px;
+}
+
+.right .twenty {
+    top:300px;
+    left:225px;
+}
+
+.ngg-gallery-thumbnail a {
+    margin: 0 ! important;
+}
+
+.ngg-gallery-thumbnail {
+    border: 0 solid #a9a9a9 ! important;
+    margin: 0 ! important;
+}
+
+.ngg-galleryoverview {
+    margin-top: 0px ! important;
+}
+
+.ngg-gallery-thumbnail-box {
+    margin: 0 5px 5px 0 ! important;
+}
+
+.ngg-gallery-thumbnail-box:nth-of-type(4n+4) {
+    margin: 0 0px 5px 0 ! important;
+}
+
+.ngg-gallery-thumbnail img {
+    background-color: transparent ! important;
+    border: none ! important;
+    margin: 0 ! important;
+    padding: 0px ! important;
+}
+
+#swipebox-overlay {
+    background: rgba(0,0,0,0.8) ! important;
+}
+
+#swipebox-bottom-bar, #swipebox-top-bar {
+    background: #8cc63f none repeat scroll 0 0 ! important;
+}
+
+.page-id-56 .about .entry-content p strong {
+    margin-bottom:30px;
+    margin-top:0;
+    display: block;
+}
+
+
+.about .entry-content p strong {
+    margin-top:30px;
+    display: block;
+    margin-bottom:0;
+}
+
+.about .entry-content p:nth-of-type(1) strong {
+    margin-top:0px;
+    margin-bottom:0;
+    display: block;
+}
+
+/* =Order
+-------------------------------------------------------------- */
+
+
+.tab-content > .tab-pane {
+    display: none;
+}
+
+.tab-content > .active {
+    display: block;
+}
+
+
+.header_common {
+    background: #c8c9cb;
+    border-bottom: transparent;
+    height: 125px;
+    width:100%;
+}
+
+.header_common h5{
+    color:#fff;
+    font-weight:normal;
+    text-transform: uppercase;
+    font-size: 18px;
+    margin-top:16px;
+}
+
+.header_common h5 span.text-black {
+    color:#595a5d;
+}
+
+.five,
+.ten {
+    border: 0 none;
+    float: left;
+    height: 157.5px;
+    margin: 5px 0px 0 0;
+    width: 182px;
+}
+
+.clearfix {
+    clear:both;
+    float: left;
+}
+
+.tab_con {margin-top: 0px;}
+
+#step5a .tab_con {
+    width: 100%;
+}
+
+.order #content {
+    margin:0 0 5px 0;
+}
+
+
+.header_common .col-sm-9 {
+    float:left;
+    padding:0 0 0 15px;
+    width:700px;
+}
+
+#step5a .header_common .col-sm-9 {
+    width: 900px;
+}
+
+.header_common.gift .col-sm-9 {
+    width: 900px;
+}
+
+.header_common .col-sm-3 {
+    float:left;
+    padding:0;
+    width:115px;
+}
+
+.header_common .col-sm-3 img {
+    margin:0;
+    width:205px;
+    height:115px;
+}
+
+
+
+.header_common ul {
+    padding: 13px 18px 10px !important;
+    margin:0;
+}
+
+.header_common ul li {
+    color: #919396;
+    font-size: 13px;
+    line-height: 16px;
+    padding-bottom: 0;
+    color:#595a5d;
+}
+
+
+
+.lft_step ul li.bg_img img {
+    width:100%;
+}
+
+
+.col-sm-7 {
+    height: 320px;
+    position: absolute;
+    right: 0;
+    top: 120px;
+    width: 556px;
+}
+
+
+
+/* =Contact
+-------------------------------------------------------------- */
+
+.contact-form-bg {
+    width:339px;
+    height:300px;
+    background: #e4e4e5;
+    padding:10px 15px;
+}
+
+.contact-form-bg h2 {
+    margin-bottom: 18px;
+}
+
+.contact-form-bg p {
+    margin-bottom: 5px;
+}
+
+.contact-form-bg input {
+    width:320px;
+    padding:0 10px;
+    border:none;
+    height:35px;
+    line-height:35px;
+    color: #a3d165;
+}
+
+.contact-form-bg input.error {
+    background: pink;
+    color: white;
+}
+
+.contact-form-bg input.error::-webkit-input-placeholder,
+.contact-form-bg textarea.error::-webkit-input-placeholder {
+    color: white;
+}
+
+.contact-form-bg textarea.error {
+    background: pink;
+    color: white;
+}
+
+.contact-form-bg textarea {
+    width:320px;
+    padding:10px;
+    border:none;
+    height:125px;
+    line-height:15px;
+    color: #8cc63f;
+}
+
+::-webkit-input-placeholder {
+    color: #8cc63f;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #8cc63f;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #8cc63f;
+}
+
+:-ms-input-placeholder {
+    color: #8cc63f;
+}
+
+.contact-button {
+    width:100%;
+    height:45px;
+    background: #8cc63f;
+    margin-top:5px;
+    position: relative;
+}
+
+.contact-button:hover {
+    background: #a3d165;
+}
+
+.contact-button input {
+    width:369px;
+    height:45px;
+    padding:0 15px;
+    background: transparent;
+    border:none;
+    position: absolute;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.contact-button p {
+    position: absolute;
+    top:0;
+    left:0;
+    width:339px;
+    height:100%;
+    z-index: 10;
+    line-height: 45px;
+    color:#fff;
+    text-transform: uppercase;
+    font-size:14px;
+    margin: 0;
+    padding:0 15px;
+}
+
+.contact-button img {
+    display: none;
+}
+
+div.wpcf7-validation-errors {
+    display:none ! important;
+}
+
+span.wpcf7-not-valid-tip {
+    display: none ! important;
+}
+
+input.wpcf7-not-valid,
+textarea.wpcf7-not-valid {
+    background: #e8f4d9;
+}
+
+div.wpcf7-mail-sent-ok {
+    background: #e4e4e5 none repeat scroll 0 0 ! important;
+    border: medium none ! important;
+    font-size: 12px ! important;
+    height: 312px ! important;
+    margin: 0 ! important;
+    padding: 15px ! important;
+    position: absolute ! important;
+    top: 28px ! important;
+    width: 339px ! important;
+    max-height: 255px;
+    line-height:18px;
+    z-index:30;
+}
+
+
+/* =Navigation
+-------------------------------------------------------------- */
+
+.navigation {
+    margin: 0 0 1.5em 0;
+    overflow: auto;
+}
+
+
+/* =Widget Areas
+-------------------------------------------------------------- */
+
+#primary {
+	float: left;
+	overflow: hidden;
+	width: 182px;
+	background: #e4e4e5;
+	height: auto;
+	height: 1745px;
+}
+
+.page-id-52 #primary {
+    height: 785px;
+}
+
+.page-id-56 #primary {
+    height: 1675px;
+}
+
+.page-id-567 #primary {
+    height: 1080px;
+}
+
+#primary ul {
+    margin:6px 0 5px 15px;
+    float:left;
+}
+
+#primary ul li {
+    float:left;
+    margin:0;
+    padding:0;
+}
+
+#primary ul li ul {
+    margin:0;
+}
+
+#primary ul li ul li {
+    width:152px;
+    display: block;
+    line-height: 29px;
+    border-bottom:1px dashed #919396;
+    float:left;
+    font-size:13px;
+    padding:0;
+    text-transform: uppercase;
+}
+
+#primary ul li ul li a {
+    width:100%;
+    color:#595a5d;
+}
+
+#primary ul li ul li a:hover {
+    color:#919396;
+}
+
+#primary ul li ul li#menu-item-98,
+#primary ul li ul li#menu-item-569 {
+    border-bottom:none;
+}
+
+.widget-area ul {
+    list-style: none;
+    margin-left: 0;
+}
+.widget-area ul ul {
+    list-style: disc;
+    margin-left: 1.1em;
+}
+.widget-area ul ul ul {
+    margin-left: 2.5em;
+}
+.widget-container {
+    margin: 0 0 1.5em 0;
+}
+
+/* =Temporary styles until the
+        directory can read @import
+        
+.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alignleft {
+    float: left;
+}
+
+.alignright {
+    float: right;
+}
+        
+-------------------------------------------------------------- */
+
+
+#main.cart .main2 .right2 .cart_item_image_section .img-1 {
+    width: 369px;
+    height: 213px;
+    margin: 0px 0px 5px 0px;
+    background: #eee;
+}
+
+#main.cart .main2 .row.mt-10 {
+    margin: 0 5px 5px 0;
+    width: 555px;
+    height: 213px;
+}
+
+#main.cart .main2 .left2 {
+    width: 556px;
+    height: auto;
+    float: left;
+    padding-bottom: 0;
+}
+
+#main.cart .row .left {
+    padding: 0 0 0 15px;
+    margin: 0;
+}
+
+#main.cart .row .right {
+    width: 185px;
+    float: right;
+    height: 213px;
+}
+
+#main.cart .row .right .buttons {
+    height: 41px
+}
+
+#main.cart .row .right .buttons button {
+    float: left;
+    width: 22px;
+    height: 22px;
+    border: 0px !important;
+}
+
+#main.cart .row .right .buttons button.add {
+    background: url("../images/Plus-&-Minus-Buttons-Add.png") no-repeat 0 0 / 300% auto !important;
+}
+
+#main.cart .row .right .buttons button.add:hover,
+#main.cart .row .right .buttons button.add[disabled] {
+    background-position: 50% 0 !important;
+}
+
+#main.cart .row .right .buttons button.add[disabled],
+#main.cart .row .right .buttons button.minus[disabled] {
+    cursor: not-allowed;
+}
+
+#main.cart .row .right .buttons button.add:active {
+    background-position: 100% 0 !important;
+}
+
+#main.cart .row .right .buttons button.minus {
+    background: url("../images/Plus-&-Minus-Buttons-Remove.png") no-repeat 0 0 / 300% auto !important
+}
+
+#main.cart .row .right .buttons button.minus:hover,
+#main.cart .row .right .buttons button.minus[disabled] {
+    background-position: 50% 0 !important;
+}
+
+#main.cart .row .right .buttons button.minus:active {
+    background-position: 100% 0 !important;
+}
+
+#main.cart .row .right .buttons input {
+    padding: 0;
+    width: 96px !important;
+    float: left;
+    text-align: center;
+    height: 23px;
+    font-family: 'gotham_lightregular';
+    font-size: 14px;
+}
+
+#main.cart .row h3 {
+    margin: 0;
+    font-size: 15px;
+    font-family: 'gotham_lightregular';
+    padding: 26px 0 10px;
+    line-height: 1;
+    color: #919396;
+}
+
+#main.cart .row .left h3 {
+    padding: 26px 0 14px;
+}
+
+#main.cart .row p {
+    font-size: 12px;
+    line-height: 1;
+    margin: 0 0 7px;
+    color: #919396;
+    float: left;
+    width: 100%;
+}
+
+#main.cart .row p span.result {
+    float: right;
+    padding-right: 38px;
+}
+
+#main.cart .row p.title {
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+#main.cart .row p.totals {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-family: 'gotham_mediumregular';
+    color: #595a5e;
+    padding-top: 0;
+    float: left;
+}
+
+#main.cart .row.voucher p.totals {
+    padding-top: 37px;
+}
+
+#main.cart h1 span.grey  {
+    color: #595a5e;
+}
+
+#main.cart .proof {
+    padding: 0 0 20px 15px;
+    padding-right: 200px;
+    float: left;
+}
+
+#main.cart p.last-paragraf {
+    font-size: 14px !important;
+    margin: 0;
+    padding: 0 15px;
+    font-family: 'gotham_bookregular';
+}
+
+#main.cart .proof p {
+    color: #8CC63F;
+    font-family: 'gotham_bookregular';
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+#main.cart .proof #urgent-graphic {
+    width: 520px;
+    height: 190px;
+    background: url("../images/express-graphic.jpg") no-repeat 0 0 / 100% auto;
+    float: left;
+    margin-top: 290px;
+}
+
+#main.cart .delivery_section {
+    float: left;
+    padding-top: 14px;
+    margin-bottom: 11px;
+}
+
+#main.cart .delivery_section p {
+    margin: 0px 0 7px;
+}
+
+#main.cart .delivery_section .inp {
+    float: left;
+    width: 342px;
+    border: 1px solid #c8c9cb;
+    height: 35px;
+    padding: 0 10px 0 15px;
+}
+
+#main.cart .delivery_section.advanced .inp {
+    width: 360px;
+    padding: 0;
+}
+
+#main.cart .delivery_section .inp label {
+    font-family: 'gotham_lightregular';
+    line-height: 35px;
+    padding: 0;
+    float: left;
+    font-size: 13px;
+}
+
+#main.cart .delivery_section .inp input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    left: 27px;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    margin: 0;
+    top: 9px;
+}
+
+#main.cart .delivery_section .inp .item:nth-of-type(2) input[type="radio"] {
+    left: 27px;
+}
+
+#main.cart .delivery_section .inp .checkmark {
+    width: 17px;
+    height: 17px;
+    float: right;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 0 0 / 200% auto;
+    margin-top: 9px;
+    float: left;
+    margin-left: 5px;
+    margin-right: 20px;
+}
+
+#main.cart .delivery_section .inp .checkmark::after {
+    top: 9px;
+    right: 20px;
+    width: 17px;
+    height: 17px;
+    border-radius: 100%;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 100% 0 / 200% auto;
+    display: block;
+    float: left;
+    left: auto;
+}
+
+#main.cart .delivery_section .inp label.display_delivery_price {
+    float: right;
+}
+
+#main.cart .delivery_section .inp .item {
+    float: left;
+    position: relative;
+}
+
+#main.cart .delivery_section .inp .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+#main.cart .delivery_section .inp input[type="radio"]:checked ~ .checkmark::after {
+    display: block;
+}
+
+#main.cart .delivery_section .inp input[type="radio"]:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+/*
+    // 24-02-2021
+*/
+#main.cart .payment_method_section {
+    float: left;
+    padding-top: 14px;
+    margin-bottom: 11px;
+}
+
+#main.cart .payment_method_section p {
+    margin: 0px 0 7px;
+}
+
+#main.cart .payment_method_section .inp {
+    float: left;
+    width: 342px;
+    border: 1px solid #c8c9cb;
+    height: 35px;
+    padding: 0 10px 0 15px;
+}
+
+#main.cart .payment_method_section .inp label {
+    font-family: 'gotham_lightregular';
+    line-height: 35px;
+    padding: 0;
+    float: left;
+    font-size: 13px;
+}
+
+#main.cart .payment_method_section .inp input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    left: 27px;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    margin: 0;
+    top: 9px;
+}
+
+#main.cart .payment_method_section .inp .item:nth-of-type(2) input[type="radio"] {
+    left: 27px;
+}
+
+#main.cart .payment_method_section .inp .checkmark {
+    width: 17px;
+    height: 17px;
+    float: right;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 0 0 / 200% auto;
+    margin-top: 9px;
+    float: left;
+    margin-left: 5px;
+    margin-right: 20px;
+}
+
+#main.cart .payment_method_section .inp .checkmark::after {
+    top: 9px;
+    right: 20px;
+    width: 17px;
+    height: 17px;
+    border-radius: 100%;
+    background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 100% 0 / 200% auto;
+    display: block;
+    float: left;
+    left: auto;
+}
+
+#main.cart .payment_method_section .inp label.display_delivery_price {
+    float: right;
+}
+
+#main.cart .payment_method_section .inp .item {
+    float: left;
+    position: relative;
+}
+
+#main.cart .payment_method_section .inp .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+#main.cart .payment_method_section .inp input[type="radio"]:checked ~ .checkmark::after {
+    display: block;
+}
+
+#main.cart .payment_method_section .inp input[type="radio"]:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+#main.cart input::placeholder {
+    color: inherit;
+}
+
+#main.cart form.example input[type="text"] {
+    padding: 10px;
+    font-size: 13px;
+    border: none;
+    float: left;
+    width: 250px;
+    color: #595a5d !important;
+    background: none;
+    box-sizing: border-box;
+    font-family: 'gotham_lightregular';
+    padding-left: 15px;
+}
+
+#main.cart form.example input[type="text"]::focus {
+    border: none !important;
+}
+
+#main.cart .voucher_code_section {
+    float: left;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#main.cart .voucher_code_section p {
+    margin: 0 0 7px;
+}
+
+#main.cart .voucher_code_section p span.remove {
+    float: right;
+    padding-right: 0;
+    color: #d3222a;
+}
+
+#main.cart .voucher_code_section .inp {
+    border: 1px solid #c8c9cb;
+    height: 33px;
+}
+
+#main.cart .voucher_code_section .inp button {
+    font-family: 'gotham_lightregular';
+    font-size: 13px;
+    float: right;
+    padding: 0 10px;
+    width: auto;
+}
+
+#main.cart .total_checkout_section {
+    float: right;
+    width: auto;
+    margin: 25px 0 20px;
+}
+
+#main.cart .total_checkout_section #vat-breakdown {
+    float: left;
+    height: 40px;
+}
+
+#main.cart .total_checkout_section #vat-breakdown p {
+    margin: 0;
+    line-height: 40px;
+    padding-right: 15px;
+}
+
+#main.cart .total_checkout_section button.back-to-store2.checkout {
+    float: right;
+    background: #8CC63F !important;
+    text-align: left;
+    padding: 0 15px;
+    font-family: 'gotham_lightregular';
+    text-transform: uppercase;
+    border: 0px !important;
+    width: 182px;
+}
+
+#main.cart .total_checkout_section button.back-to-store2.checkout:hover {
+    color: white;
+    background: #A3D165 ! important;
+    border: 0px ! important;
+}
+
+#main.cart .total_checkout_section div.total {
+    float: left;
+    width: 152px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    color: white;
+    text-transform: uppercase;
+    background: #919396;
+    font-size: 15px;
+}
+
+#main.cart .total_checkout_section div.total span.results {
+    float: right;
+}
+
+#main.cart .continue-button {
+    float: left;
+    margin: 25px 0 20px 0;
+    height: 40px;
+    width: auto;
+    background: #595a5e;
+    line-height: 40px;
+    text-align: right;
+    color: white;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-family: 'gotham_lightregular';
+    width: 200px;
+    padding: 0 15px;
+    position: relative;
+}
+
+#main.cart .continue-button:hover {
+    background: #919396;
+}
+
+#main.cart .continue-button span.chev {
+    float: left;
+}
+
+#main.cart .continue-button span.link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+}
+
+#main.cart .voucher_code_section p.help-block {
+    float: left;
+    padding: 0 15px;
+    font-family: 'gotham_lightregular';
+    font-size: 13px;
+}
+
+#main.cart #buttons {
+    clear: both;
+    float: left;
+    width: 100%;
+}
+
+#main.cart #buttons form#frm_paypal {
+    float: right;
+    margin-left: 5px;
+}
+
+#main.cart #email {
+    float: right;
+    width: 369px;
+    margin-bottom: 20px;
+}
+
+#main.cart #email p {
+    margin: 0 0 7px;
+}
+
+#main.cart #email input {
+    padding: 10px;
+    padding-left: 10px;
+    font-size: 13px;
+    border: 1px solid #c8c9cb;
+    float: left;
+    width: 369px;
+    color: #595a5d !important;
+    background: none;
+    box-sizing: border-box;
+    font-family: 'gotham_lightregular';
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+
+
+
+
+/* =Footer Areas
+-------------------------------------------------------------- */
+
+#footer {
+    width:930px;
+    margin:0;
+    background: #c8c9cb;
+    height:65px;
+}
+
+#footer p {
+    color:#fff;
+    padding:15px;
+    width:610px;
+    float:left;
+    margin-bottom:0;
+    font-size:15px;
+    line-height: 18px;
+}
+
+#footer ul.links {
+    list-style: none;
+    margin:35px 25px 0 0;
+    float:right;
+}
+
+
+#footer ul.links li {
+    float:left;
+    font-size: 15px;
+    color:#919396;
+}
+
+#footer ul.links li a {
+    color:#fff;
+}
+
+#footer ul.links li a:hover {
+    color:#919396;
+}
+
+#footer ul.links li:nth-of-type(even) {
+    padding:0 10px;
+}
+
+
+
+#base {
+    color:#adaeb0;
+    margin-bottom:35px;
+    margin: 0 auto;
+    padding: 0;
+    width: 940px;
+    font-size:14px;
+    line-height: 1.2em;
+}
+
+#base p {
+    font-size:13px;
+}
+
+#base .left {
+    display: block;
+    float: left;
+    margin-right: 0px;
+    max-width: none;
+    padding: 8px 0 0 20px;
+    width: auto;
+    margin-bottom:100px;
+}
+
+#base .gecko {
+    background: rgba(0, 0, 0, 0) url("../images/gecko.png") repeat scroll 0 0;
+    background-size: 200% auto;
+    float: right;
+    height: 94px;
+    margin-right: 30px;
+    position: relative;
+    width: 76px;
+    margin-bottom:100px;
+}
+
+#base .gecko:hover {
+    background-position: 100% 0;
+}
+
+
+
+
+
+
+#main.cart .voucher_code_section p.voucher_amount_section {
+    margin: 0 0 20px;
+}
+
+#main.cart #email textarea {
+    padding: 10px;
+    font-size: 13px;
+    border: 1px solid #c8c9cb;
+    float: left;
+    width: 369px;
+    color: #595a5d !important;
+    background: none;
+    box-sizing: border-box;
+    font-family: 'gotham_lightregular';
+    padding-left: 15px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+#main.cart #email p.bold {
+    font-family: 'gotham_mediumitalic';
+    color: #595a5e;
+    padding: 10px 0;
+}
+
+/*
+    // 03-03-2021
+*/
+#main.cart .payment_method_section .inp input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    left: 43px;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    margin: 0;
+    top: 9px;
+}
+#main.cart .payment_method_section .inp .item:nth-of-type(2) input[type="radio"] {
+    left: inherit;
+    right: 20px;
+}
+#main.cart .example5.payment_method_section {
+    padding-top: 5px;
+    margin-top: 14px;
+}
+
+.signature .header_common {
+	background: #e4e4e5;
+    height: 175px;
+    position: relative;
+}
+
+.signature .header_common .icon {
+    float: right;
+    width: 216px;
+    height: 177px;
+    background:url("../images/siganture-menu-page-decal.png") no-repeat 0 0 / 100% auto;
+    position: absolute;
+    right: 30px;
+    top: 0;
+}
+
+.signature .header_common h1 {
+    visibility:hidden;
+    position: relative;
+}
+
+.signature .header_common h1::after {
+	width: 100px;
+	content: " ";
+	background: url("../images/signature-collection-logo.png") no-repeat 0 0 / auto 100%;
+	height: 45px;
+	float: left;
+	width: 100%;
+	visibility: visible;
+	margin-top: 16px;
+	margin-bottom: 23px;
+}
+
+.signature .header_common p {
+	font-size: 13px;
+	padding-bottom: 13px;
+}
+
+#content.signature_collection {
+    margin-bottom: 0;
+}
+
+#content.signature_collection .item {
+    float: left;
+    width: 462px;
+    border-right: 6px solid white;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+#content.signature_collection .item:nth-of-type(even) {
+    border-right: 0px solid white;
+}
+
+#content.signature_collection .item .image {
+    height: 346px;
+    width: 100%;
+    position: relative;
+}
+
+#content.signature_collection .item .image .label {
+    width: 78px;
+    height: 78px;
+    left: 15px;
+    top: 27px;
+    background: url("../images/add-number-roundal.png") no-repeat 0 0 / 100% auto;
+    position: absolute;
+}
+
+#content.signature_collection .item .image img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: block;
+}
+
+#content.signature_collection .item .info {
+    height: 90px;
+    width: 426px;
+    background: #e4e4e5;
+    padding: 0 18px;
+	font-size: 18px;
+	font-family: 'gotham_lightregular';
+}
+
+#content.signature_collection .item:hover .info {
+    background:#8cc63f;
+}
+
+#content.signature_collection .item .info h3 {
+	width: 100%;
+	margin: 0;
+	padding: 20px 0 13px;
+	font-size: 18px;
+}
+
+#content.signature_collection .item .info .price {
+    float: left;
+}
+
+#content.signature_collection .item .info .view {
+    float: right;
+    color: white;
+}
+
+.signature_single #content {
+    margin: 0;
+}
+
+.signature_single .entry-content {
+    display: flex;
+}
+
+.signature_single .left {
+	float: left;
+	width: 339px;
+	margin-right: 5px;
+	padding: 0;
+    background: #e4e4e5;
+    padding: 0 15px;
+}
+
+.signature_single .left h2 {
+    visibility:hidden;
+    position: relative;
+}
+
+.signature_single .left h2::after {
+	width: 100px;
+	content: " ";
+	background: url("../images/Signature-Collection-Logo.png") no-repeat 0 0 / auto 100%;
+	height: 45px;
+	float: left;
+	width: 100%;
+	visibility: visible;
+	margin-top: 16px;
+	margin-bottom: 13px;
+}
+
+.signature_single .left h1,
+.signature_single .left span.price {
+    font-family: 'gotham_bookregular';
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+.signature_single .left h1 {
+    margin-bottom: 25px;
+}
+
+.signature_single .left .info {
+	float: left;
+	width: 100%;
+	margin-top: 11px;
+	font-size: 16px;
+	color: #919396;
+}
+
+.signature_single .left .info .item {
+	float: left;
+	width: 100%;
+}
+
+.signature_single .left .description {
+	float: left;
+	width: 100%;
+	margin-top: 11px;
+	font-size: 16px;
+	color: #c8c9cb;
+	margin-bottom: 2em;
+}
+
+.signature_single .left .description p {
+	font-size: 14px;
+    margin: 29px 0 14px;
+    color: #3b3c3e;
+}
+
+.signature_single .left label {
+    float: left;
+    width: 100%;
+}
+
+.signature_single .left input {
+	border: 0px;
+	width: 319px;
+	height: 35px;
+	padding: 0 10px;
+	font-family: 'gotham_bookregular';
+}
+
+.signature_single .left .customise p {
+	float: left;
+	width: 100%;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: #3b3c3e;
+}
+
+.signature_single .left .customise span.index {
+	font-size: 13px;
+	font-family: 'gotham_lightitalic';
+	margin: 10px 0;
+	float: left;
+}
+
+.signature_single .left .button {
+	float: left;
+	width: 343px;
+	background: #8cc63f;
+	height: 45px;
+	line-height: 45px;
+	padding: 0 13px;
+	margin: 5px 0 0;
+	border-bottom: 5px solid white;
+	text-transform: uppercase;
+	color: white;
+	font-size: 14px;
+	font-family: 'gotham_lightregular';
+    margin-left: -15px;
+    border-top: 5px solid white;
+}
+
+.signature_single .right {
+	float: left;
+	width: 556px;
+	height: auto;
+	margin-bottom: 5px;
+    background: #595a5d;
+}
+
+.signature_single .right img {
+	border-bottom: 5px solid white;
+	margin: 0 0 -5px;
+}
+
+
+
+/* Tablet styling : 621 // 1000 */
+
+@media only screen
+    /* and (min-width : 621px) */
+and (min-width : 1px)
+and (max-width : 1000px) {
+
+
+    body {
+        font-size: 1.4vw;
+    }
+
+    #top-header {
+        width: 94vw;
+        height: 9.6vw;
+    }
+
+    #top-header .left {
+        padding-top: 3.5vw;
+    }
+
+    .left {
+        width: 31.7vw;
+        padding: 1vw 3.7vw 0 1.5vw;
+        margin-right: 0.5vw;
+    }
+
+    #top-header p {
+        margin: 0 0 0.5vw 2vw;
+    }
+
+    p {
+        font-size: 1.2vw;
+    }
+
+    #top-header .right {
+        padding: 0.3vw 2vw 0.3vw 0;
+        width: 17vw;
+    }
+
+    #top-header .right .basket img.basket_image {
+        width: 2vw;
+        left: -5vw;
+        top: 4vw;
+        height: 1.8vw;
+    }
+
+    #top-header .right #comm100-button-340 {
+        margin-top: 2.5vw;
+    }
+
+    #wrapper {
+        width: 93vw;
+        padding: 0.5vw;
+        margin-bottom: 2.5vw;
+    }
+
+    #branding {
+        width: 18.2vw;
+        height: 18.2vw;
+        margin: 0 0.5vw 0.5vw 0;
+    }
+
+    #top-bar {
+        width: 74.3vw;
+        height: 18.3vw;
+    }
+
+    #top-bar p.email.voucher {
+        font-size: 1.5vw;
+        background: url("../images/order-voucher-image-cta.png") no-repeat 63.6vw 7.3vw / 9.95vw 7.35vw;
+        /* background: url("../images/order-voucher-image-cta-xmas.png") no-repeat 63.6vw 7.3vw / 9.95vw 7.35vw; */
+        padding-right: 11.5vw;
+        padding-top: 11.3vw;
+        padding-bottom: 1.6vw;
+        width: 62.8vw;
+    }
+
+    #top-bar p.strapline {
+        font-size: 1.5vw;
+        padding: 0px 1.5vw 0 0;
+    }
+
+    #access {
+        margin: 0 0 0.5vw 0;
+        height: 4.5vw;
+    }
+
+    #access ul li {
+        font-size: 1.5vw;
+        margin: 0 0.5vw 0 0;
+        width: 18.2vw;
+        height: 4.5vw;
+        line-height: 4.5vw;
+    }
+
+    .page h1.entry-title {
+        height: 6.5vw;
+        line-height: 6.5vw;
+        padding: 0 1.5vw;
+        font-size: 1.9vw;
+    }
+
+    #content {
+        margin: 0.5vw 0;
+    }
+
+    p.intro {
+        font-size: 1.3vw;
+    }
+
+    .entry-content ul li, .entry-summary ul li {
+        padding-bottom: 0.4vw;
+        font-size: 1.1vw;
+        line-height: 1.2vw;
+    }
+
+    .mid {
+        width: 18.2vw;
+        margin-right: 0.5vw;
+        height: 49.5vw;
+    }
+
+    .mid .item {
+        height: 12vw;
+        margin-bottom: 0.5vw;
+    }
+
+    .right {
+        width: 36.9vw;
+        height: 37vw;
+    }
+
+    .right .meteor-slides img {
+        height: 37vw !important;
+    }
+
+    .right #sig-link {
+        height: 12vw;
+        margin-top: 0.5vw;
+    }
+
+    #footer {
+        width: 93vw;
+        height: 6.5vw;
+    }
+
+    #footer p {
+        padding: 1.5vw;
+        width: 61vw;
+        font-size: 1.5vw;
+        line-height: 1.8vw;
+    }
+
+    #footer ul.links {
+        margin: 3.5vw 2.5vw 0 0;
+    }
+
+    #footer ul.links li {
+        font-size: 1.5vw;
+    }
+
+    #base {
+        margin-bottom: 3.5vw;
+        width: 94vw;
+        font-size: 1.4vw;
+    }
+
+    #base .left {
+        padding: 0.8vw 0 0 2vw;
+        margin-bottom: 10vw;
+    }
+
+    #base p {
+        font-size: 1.3vw;
+    }
+
+    #primary {
+        width: 18.2vw;
+        height: 175.5vw;
+    }
+
+    #primary ul {
+        margin: 0.6vw 0 0.5vw 1.5vw;
+    }
+
+    #primary ul li ul li {
+        width: 15.2vw;
+        line-height: 2.9vw;
+        border-bottom: 0.1vw dashed #919396;
+        font-size: 1.3vw;
+    }
+
+    .full {
+        width: 72.8vw;
+        padding: 1.5vw 0 0 1.5vw;
+    }
+
+    h2 {
+        font-size: 1.3vw;
+        margin-bottom: 2.5vw;
+    }
+
+    .about .entry-content p strong {
+        margin-top: 3vw;
+    }
+
+    #access ul li a {
+        width: 15.2vw;
+        height: 4.5vw;
+        padding: 0 1.5vw;
+    }
+
+    .page-template-galleries-page .left {
+        width: 38.5vw;
+        padding: 1.5vw 0px 0 2vw;
+    }
+
+    .page-template-galleries-page .right {
+        width: 29.5vw;
+    }
+
+    .right .gal {
+        width: 7vw;
+        height: 7vw;
+    }
+
+    .ngg-galleryoverview {
+        margin-top: 4vw;
+        margin-bottom: 5vw;
+        min-height: 10vw;
+    }
+
+    .ngg-gallery-thumbnail-box {
+        width: 7vw;
+    }
+
+    .ngg-gallery-thumbnail-box {
+        margin: 0 0.5vw 0.5vw 0 !important;
+    }
+
+    .right .two {
+        left: 7.5vw;
+    }
+
+    .right .three {
+        left: 15vw;
+    }
+
+    .right .four {
+        left: 22.5vw;
+    }
+
+    .right .five {
+        top: 7.5vw;
+    }
+
+    .right .six {
+        top: 7.5vw;
+        left: 7.5vw;
+    }
+
+    .right .seven {
+        top: 7.5vw;
+        left: 15vw;
+    }
+
+    .right .eight {
+        top: 7.5vw;
+        left: 22.5vw;
+    }
+
+    .right .nine {
+        top: 15vw;
+    }
+
+    .right .ten {
+        top: 15vw;
+        left: 7.5vw;
+    }
+
+    .right .eleven {
+        top: 15vw;
+        left: 15vw;
+    }
+
+    .right .twelve {
+        top: 15vw;
+        left: 22.5vw;
+    }
+
+    .right .thirteen {
+        top: 22.5vw;
+    }
+
+    .right .fourteen {
+        top: 22.5vw;
+        left: 7.5vw;
+    }
+
+    .right .fifteen {
+        top: 22.5vw;
+        left: 15vw;
+    }
+
+    .right .sixteen {
+        top: 22.5vw;
+        left: 22.5vw;
+    }
+
+    .right .seventeen {
+        top: 30vw;
+    }
+
+    .right .eighteen {
+        top: 30vw;
+        left: 7.5vw;
+    }
+
+    .right .nineteen {
+        top: 30vw;
+        left: 15vw;
+    }
+
+    .right .nineteen {
+        top: 30vw;
+        left: 15vw;
+    }
+
+    #container .ngg-gallery-thumbnail-box {
+        width: 7vw;
+    }
+
+    .contact-form-bg {
+        width: 33.9vw;
+        height: 30vw;
+        padding: 1vw 1.5vw;
+    }
+
+    .contact-form-bg h2 {
+        margin-bottom: 1.8vw;
+    }
+
+    .contact-form-bg input {
+        width: 32vw;
+        padding: 0 1vw;
+        height: 3.5vw;
+        line-height: 3.5vw;
+        font-size: 1.2vw;
+    }
+
+    .contact-form-bg textarea {
+        width: 32vw;
+        padding: 1vw;
+        height: 12.5vw;
+        line-height: 1.5vw;
+        font-size: 1.2vw;
+    }
+
+    .contact-button {
+        width: 100%;
+        height: 4.5vw;
+        margin-top: 0.5vw;
+    }
+
+    .contact-button input {
+        width: 36.9vw;
+        height: 4.5vw;
+        padding: 0 1.5vw;
+    }
+
+    .contact-button p {
+        width: 33.9vw;
+        line-height: 4.5vw;
+        font-size: 1.4vw;
+        padding: 0 1.5vw;
+    }
+
+    h3 {
+        font-size: 1.2vw;
+        margin-top: 2.2vw;
+        padding-bottom: 0.2vw;
+    }
+
+    #access ul.order li {
+        width: 15.2vw;
+        padding: 0 1.5vw;
+    }
+
+    .order #content {
+        margin: 0 0 0.5vw 0;
+    }
+
+    .order .entry-content {
+        height: 44vw;
+    }
+
+    .header_common .col-sm-9 {
+        padding: 0 0 0 1.5vw;
+        width: 70vw;
+    }
+
+    .tab-pane h5 {
+        margin: 1.6vw 0 0px;
+    }
+
+    .header_common h5 {
+        font-size: 1.8vw;
+    }
+
+    .header_common ul {
+        padding: 1vw 1.8vw 1.5vw;
+        line-height: 1.8vw;
+    }
+
+    .header_common ul {
+        padding: 1.3vw 1.8vw 1vw !important;
+    }
+
+    .header_common .col-sm-3 {
+        width: 11.5vw;
+    }
+
+    .header_common .col-sm-3 img {
+        width: 20.5vw;
+        height: 11.5vw;
+    }
+
+    .header_common {
+        height: 12.5vw;
+    }
+
+    #comm100-button-340 img {
+        width: 14.8vw ! important;
+    }
+
+    .header_common.gift .col-sm-9 {
+        width: 90vw;
+    }
+
+    .header_common h5 {
+        font-size: 1.8vw;
+        margin-top: 1.6vw;
+    }
+
+    .header_common ul li {
+        font-size: 1.3vw;
+        line-height: 1.6vw;
+    }
+
+    .main.voucher .right {
+        width: 36.9vw;
+        height: 66.5vw;
+    }
+
+    .main.voucher .right .img-1 {
+        width: 36.9vw;
+        height: 12.5vw;
+        margin: 0px 0px 0.5vw 0;
+    }
+
+    .main.voucher .right .img-2 {
+        width: 36.9vw;
+        height: 58.5vw;
+    }
+
+    .main.voucher .left {
+        width: 55.5vw;
+        height: 71.5vw;
+    }
+
+    .main.voucher .left .form {
+        height: 66.5vw;
+        width: 55.5vw;
+    }
+
+    .main.voucher .container {
+        padding: 1.5vw;
+    }
+
+    .main.voucher .left label.main-heading {
+        padding: 0.1vw 0 2.6vw;
+    }
+
+    .main-heading {
+        font-size: 1.8vw;
+    }
+
+    .main.voucher .item.half {
+        width: 26vw;
+        margin-right: 0.5vw;
+    }
+
+    .main.voucher .item {
+        width: 52.5vw;
+        margin-bottom: 2vw;
+    }
+
+    .main.voucher .item label {
+        padding: 0 0 0.5vw;
+        font-size: 1.4vw;
+    }
+
+    .main.voucher .item.half input[type="text"] {
+        width: 23vw;
+    }
+
+    .main.voucher input[type="text"] {
+        padding: 0 1.5vw;
+        height: 3.5vw;
+        width: 49.5vw;
+        font-size: 1.4vw;
+    }
+
+    .main.voucher textarea {
+        padding: 1.5vw;
+        width: 49.5vw;
+        height: 6vw;
+        font-size: 1.4vw;
+    }
+
+    .main.voucher .item.half.tick label {
+        padding: 0 0 0.5vw;
+        font-size: 1.4vw;
+        width: 21.7vw;
+        line-height: 3.5vw;
+    }
+
+    .main.voucher input[type="radio"] {
+        width: 3.5vw;
+        height: 3.5vw;
+    }
+
+    .main.voucher .item.half.tick .checkmark {
+        height: 3.5vw;
+        width: 3.5vw;
+    }
+
+    .main.voucher .item.half.tick .checkmark::after {
+        top: 0.9vw;
+        left: 0.9vw;
+        width: 1.7vw;
+        height: 1.6vw;
+        background: url("../images/Slate-Sign-Web-Voucher-Page-Tick.png") no-repeat 0 0 / 1.7vw 1.6vw;
+    }
+
+    .main.voucher .col-3 {
+        width: 17.1666vw;
+        margin-right: 0.5vw;
+    }
+
+    .main.voucher .col-3 input[type="text"] {
+        width: 14.2vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set {
+        width: 15.16666vw;
+        padding: 0 1vw;
+        height: 3.5vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set label {
+        line-height: 3.5vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set input[type="radio"] {
+        left: auto;
+        right: 0;
+        width: 5vw;
+        height: 5vw;
+        top: 3.5vw;
+        right: 2.2vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set .checkmark {
+        width: 2.4vw;
+        height: 2.4vw;
+        margin-top: 0.5vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set .checkmark::after {
+        top: 0.5vw;
+        right: 1vw;
+        width: 2.4vw;
+        height: 2.4vw;
+    }
+
+    .main.voucher .left .for_buttons {
+        width: 55.5vw;
+        height: 4.5vw;
+        margin: 0.5vw 0px;
+    }
+
+    .main.voucher .left .for_buttons .btn-1 {
+        width: 27.5vw;
+        height: 4.5vw;
+        margin: 0px 0.5vw 0 0;
+        padding: 0px 1.5vw;
+        font-size: 1.4vw;
+    }
+
+    .main .left .for_buttons .btn-2 {
+        width: 27.5vw;
+        height: 4.5vw;
+        margin: 0px;
+        padding: 0px 1.5vw;
+        font-size: 1.4vw;
+    }
+
+    .column-p {
+        height: 2vw;
+    }
+
+    #main.cart .payment_method_section {
+        padding-top: 1/4vw;
+        margin-bottom: 1.1vw;
+    }
+
+    #main.cart .payment_method_section p {
+        margin: 0px 0 0.7vw;
+    }
+
+    #main.cart .payment_method_section .inp {
+        width: 34.2vw;
+        border: 0.1vw solid #c8c9cb;
+        height: 3.5vw;
+        padding: 0 1.0vw 0 1.5vw;
+    }
+
+    #main.cart .payment_method_section .inp label {
+        line-height: 3.5vw;
+        font-size: 1.3vw;
+    }
+
+    #main.cart .payment_method_section .inp input[type="radio"] {
+        left: inherit;
+        width: 3vw;
+        height: 3vw;
+        top: 3vw;
+        right: 0;
+    }
+
+    #main.cart .payment_method_section .inp .checkmark {
+        width: 1.7vw;
+        height: 1.7vw;
+        margin-top: 0.9vw;
+        margin-left: 0.5vw;
+        margin-right: 2vw;
+    }
+
+    #main.cart .payment_method_section .inp .checkmark::after {
+        top: 0.9vw;
+        right: 2vw;
+        width: 1.7vw;
+        height: 1.7vw;
+    }
+
+    #main.cart .example5.payment_method_section {
+        padding-top: 0.5vw;
+        margin-top: 1.4vw;
+    }
+
+    .example.example5 * {
+        font-size: 1.4vw;
+    }
+
+    #example5-paymentRequest {
+        max-width: 50vw;
+        margin-bottom: 1vw;
+    }
+
+    .example.example5 fieldset {
+        padding: 1.5vw;
+        border-radius: 0.6vw;
+    }
+
+    .example.example5 fieldset legend {
+        font-size: 1.4vw;
+    }
+
+    .example.example5 .row {
+        margin: 0 0 1vw;
+    }
+
+    .example.example5 label {
+        font-size: 1.2vw;
+    }
+
+    .example.example5 .input {
+        padding: 0.5vw 0.5vw 0.6vw;
+        border-bottom: 0.1vw solid rgba(255,255,255,0.6);
+    }
+
+    .example5 input.input:focus {
+        border-bottom: 0.1vw solid #fff !important;
+        padding: 0 0.5vw !important;
+    }
+    .ElementsApp, .ElementsApp .InputElement {
+        font-size: 1.6vw;
+    }
+
+    #channel {
+        width: 90vw;
+        height: 4.5vw;
+        margin-bottom: 0.5vw;
+        line-height: 4.5vw;
+        padding: 0 1.5vw;
+        font-size: 1.5vw;
+    }
+
+    #main.cart .proof #urgent-graphic {
+        width: 52vw;
+        height: 19vw;
+        margin-top: 29vw;
+    }
+
+    .signature .header_common {
+        height: 17.5vw;
+    }
+
+    .signature .header_common .icon {
+        width: 21.6vw;
+        height: 17.7vw;
+        right: 3vw;
+    }
+
+    .signature .header_common h1::after {
+        width: 100%;
+        height: 4.5vw;
+        margin-top: 1.6vw;
+        margin-bottom: 2.3vw;
+    }
+
+    .signature .header_common p {
+        font-size: 1.3vw;
+        padding-bottom: 1.3vw;
+    }
+
+    #content.signature_collection .item {
+        width: 46.2vw;
+        border-right: 0.6vw solid white;
+        margin-bottom: 0.5vw;
+    }
+
+    #content.signature_collection .item .image {
+        height: 34.6vw;
+    }
+
+    #content.signature_collection .item .image .label {
+        width: 7.8vw;
+        height: 7.8vw;
+        left: 1.5vw;
+        top: 2.7vw;
+    }
+
+    #content.signature_collection .item .info {
+        height: 9vw;
+        width: 42.6vw;
+        padding: 0 1.8vw;
+        font-size: 1.8vw;
+    }
+
+    #content.signature_collection .item .info h3 {
+        padding: 2vw 0 1.3vw;
+        font-size: 1.8vw;
+    }
+
+    .signature_single .left {
+        width: 33.9vw;
+        margin-right: 0.5vw;
+        padding: 0 1.5vw;
+    }
+
+    .signature_single .left h2::after {
+        width: 100%;
+        height: 4.5vw;
+        margin-top: 1.6vw;
+        margin-bottom: 1.3vw;
+    }
+
+    .signature_single .left h1 {
+        margin-bottom: 2.5vw;
+    }
+
+    .signature_single .left h1, .signature_single .left span.price {
+        font-size: 1.6vw;
+    }
+
+    .signature_single .left .info {
+        margin-top: 1.1vw;
+        font-size: 1.6vw;
+    }
+
+    .signature_single .left .description {
+        margin-top: 1.1vw;
+        font-size: 1.6vw;
+    }
+
+    .signature_single .left .description p {
+        font-size: 1.4vw;
+        margin: 2.9vw 0 1.4vw;
+    }
+
+    .signature_single .left .customise p {
+        margin-bottom: 0.5vw;
+        font-size: 1.4vw;
+    }
+
+    .signature_single .left input {
+        width: 31.9vw;
+        height: 3.5vw;
+        padding: 0 1vw;
+    }
+
+    .signature_single .left .customise span.index {
+        font-size: 1.3vw;
+        margin: 1.0vw 0;
+    }
+
+    .signature_single .left .button {
+        width: 34.3vw;
+        height: 4.5vw;
+        line-height: 4.5vw;
+        padding: 0 1.3vw;
+        margin: 0.5vw 0 0;
+        border-bottom: 0.5vw solid white;
+        font-size: 1.4vw;
+        margin-left: -1.5vw;
+        border-top: 0.5vw solid white;
+    }
+
+    .signature_single .right {
+        width: 55.6vw;
+        margin-bottom: 0.5vw;
+    }
+
+    .signature_single .right img {
+        border-bottom: 0.5vw solid white;
+        margin: 0 0 -0.5vw;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+@media only screen
+and (min-width : 1px)
+and (max-width : 620px) {
+
+    span.nav-open {
+        width: 5.80645161290323vw;
+        height: 5.80645161290323vw;
+        float: right;
+        margin-top: 2.903225806451613vw;
+        margin-bottom: 0;
+        background: url("../images/mob-nav-icon.png") no-repeat 0 0 / 5.80645161290323vw 5.80645161290323vw;
+        margin-left: 0;
+        margin-right: 5.80645161290323vw;
+    }
+
+    /* The side navigation menu */
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        background-color: #3b3c3e;
+        overflow-x: hidden;
+        padding-top: 25vw;
+        transition: 0.5s;
+    }
+
+    /* The navigation menu links */
+    .sidenav a {
+        padding: 0;
+        text-decoration: none;
+        font-size: 5vw;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+        text-align: center;
+        font-family: 'gotham_lightregular';
+        color: white;
+        margin-bottom: 5vw;
+    }
+
+    /* When you mouse over the navigation links, change their color */
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    /* Position and style the close button (top right corner) */
+    .sidenav .closebtn {
+        position: absolute;
+        top: 4.67741935483871vw;
+        right: 5.80645161290323vw;
+        width: 5.80645161290323vw;
+        height: 5.80645161290323vw;
+        float: right;
+        margin-top: 0;
+        margin-bottom: 0;
+        background: url("../images/mob-nav-cross.png") no-repeat 0 0 / 5.80645161290323vw 5.80645161290323vw;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+    #main {
+        transition: margin-left .5s;
+    }
+
+    body {
+        font-size: 4.5vw;
+    }
+
+    #wrapper {
+        width: 96.774193548387097vw;
+        padding: 0;
+        margin-bottom: 0;
+        border: 1.612903225806452vw solid white;
+    }
+
+    #branding {
+        width: 96.774193548387097vw;
+        height: 32.258064516129032vw;
+        margin: 0;
+        border-bottom: 1.612903225806452vw solid white;
+    }
+
+    .desktop {
+        display: none ! important;
+    }
+
+    .mobile {
+        display: block ! important;
+    }
+
+    #top-header {
+        width: 96.774193548387097vw;
+        height: 12.096774193548387vw;
+        float: left;
+        border: 1.612903225806452vw solid white;
+        background: white;
+    }
+
+    #top-header .left {
+        display: none;
+    }
+
+    #top-header .right {
+        padding: 0;
+        width: 100%;
+    }
+
+    #top-header .right .basket img.basket_image {
+        width: 6.451612903225806vw;
+        left: 0;
+        top: 0;
+        height: 5.806451612903226vw;
+        padding-top: 2.903225806451613vw;
+        padding-bottom: 3.225806451612903vw;
+        float: left;
+        position: relative;
+    }
+
+    #main.cart .payment_method_section .inp input[type="radio"] {
+        left: inherit;
+        width: 3vw;
+        height: 3vw;
+        top: 3vw;
+        right: 0;
+    }
+
+    #comm100-button-340 img {
+        width: 42.741935483870968vw !important;
+        float: right;
+        padding-top: 3px;
+    }
+
+    #top-header .right #comm100-button-340 {
+        margin-top: 0;
+        margin: 0px 15vw;
+        float: left;
+    }
+    #top-bar {
+        display: block;
+        border-bottom: 1.612903225806452vw solid white;
+        /* Covid 
+        background: url("../images/Slate-Sign-Mob-Notice.png") no-repeat 0 0 / 100% auto;
+        height: 36.2903225806452vw;
+        */
+        background: url("../images/christmas-mob.png") no-repeat 0 0 / 100% auto;
+        height: 26vw;
+        width: 100%;
+    }
+
+    #top-bar p.email.voucher,
+    #top-bar p.strapline {
+        display: none;;
+    }
+
+    #access {
+        display: none;
+    }
+
+    #main {
+        float: left;
+        width: 96.774193548387097vw;
+    }
+
+    .right.mobile {
+        width: 100%;
+        height: 96.774193548387097vw;
+        overflow: hidden;
+        border-bottom: 1.612903225806452vw solid white;
+    }
+
+    #top-bar.mobile,
+    .top-bar.mobile {
+        width: 100%;
+        height: auto;
+    }
+
+    #top-bar .order,
+    .top-bar .order {
+        background: url(../images/order-cta-button.png) no-repeat 0 0 / 96.7741935483871vw 36.2903225806452vw;
+        width: 100%;
+        height: 36.2903225806452vw;
+        /*
+        border-bottom: 1.612903225806452vw solid white; 
+        */
+        position: relative;
+
+    }
+
+    #top-bar .gift-vouchers,
+    .top-bar .gift-vouchers {
+        /* Standard Green
+        background: url(../images/gift-vouchers-tile-mob.png) no-repeat 0 0 / 96.7741935483871vw 36.2903225806452vw; */
+        background: url(../images/christmas-vouchers.png) no-repeat 0 0 / 96.7741935483871vw 36.2903225806452vw;
+        width: 100%;
+        height: 36.2903225806452vw;
+        border-bottom: 1.612903225806452vw solid white;
+        position: relative;
+
+    }
+
+    h1.entry-title span {
+        display: block;
+    }
+
+    .page h1.entry-title {
+        height: 20.2903225806452vw;
+        line-height: 1.25;
+        padding: 7vw 0px 9vw;
+        font-size: 5.75vw;
+        text-align: center;
+        width: 100%;
+    }
+
+    h1.entry-title span.chunk {
+        font-family: 'gotham_boldregular';
+    }
+
+    .left {
+        width: 100%;
+        padding: 0;
+        margin-right: 0;
+        text-align: center;
+        margin-top: 8.06451612903226vw;
+    }
+
+    p.intro {
+        font-size: 3.8vw;
+    }
+
+    p.intro br {
+        display: none;
+    }
+
+    .home .entry-content ul, .home .entry-summary ul {
+        margin: 0;
+    }
+
+    .entry-content ul li, .entry-summary ul li {
+        padding-bottom: 1vw;
+        font-size: 3.5vw;
+        line-height: 1.2;
+        font-family: 'gotham_lightregular';
+    }
+
+    #main .icons.mobile {
+        background: url("../images/breast cancer & 25 years badge.png") no-repeat 0 0 / 96.7741935483871vw 30.5645161290323vw;
+        width: 100%;
+        height: 30.5645161290323vw;
+        float: left;
+        padding: 0;
+        margin-top: 12.9032258064516vw;
+    }
+
+    .mid {
+        width: 100%;
+        margin-right: 0;
+        height: auto;
+        margin-top: 7.74193548387097vw;
+    }
+
+    .mid .item {
+        height: 36.2903225806452vw;
+        margin-bottom: 1.61290322580645vw;
+    }
+
+    .mid .proof {
+        background: url("../images/proof-tool-button.png");
+        background-size: 100% auto;
+    }
+
+    .mid .signature {
+        background: url("../images/button-tile-signature-mob.jpg");
+        background-size: 100% auto;
+    }
+
+    .mid .gallery {
+        background: url("../images/galleries-button.png");
+        background-size: 100% auto;
+    }
+
+    .mid .fixings {
+        background: url("../images/fitings-button.png");
+        background-size: 100% auto;
+    }
+
+    #footer {
+        width: 100%;
+        height: 48.3870967741936vw;
+    }
+
+    #footer p {
+        padding: 0;
+        width: 100%;
+        font-size: 3.75vw;
+        line-height: 1.2;
+        text-align: center;
+        padding: 6.5vw 10% 12vw;
+        width: 80%;
+        font-family: 'gotham_lightregular';
+    }
+
+    #footer ul.links {
+        margin: 0;
+        text-align: center;
+        float: none;
+    }
+
+    #footer ul.links li {
+        font-size: 3.5vw;
+        list-style: none;
+        display: inline-block;
+        float: none;
+    }
+
+    #base {
+        margin-bottom: 0;
+        width: 100%;
+        font-size: 4.5vw;
+        background: white;
+        float: left;
+    }
+
+    #base .left {
+        padding: 0;
+        /* margin-bottom: 0; */
+        width: 100%;
+        margin: 10vw 0;
+    }
+
+    #base p {
+        font-size: 3.5vw;
+        font-family: 'gotham_lightregular';
+    }
+
+    #base p.caps {
+        text-transform: uppercase;
+    }
+
+    #base p span {
+        display: block;
+    }
+
+    #top-header .basket {
+        float: left;
+        margin-left: 5.80645161290323vw;
+    }
+
+    .page h1.entry-title {
+        padding-top: 10vw;
+        height: auto;
+    }
+
+    h2 {
+        font-size: 5vw;
+        margin-bottom: 5vw;
+    }
+
+    p {
+        font-size: 3.75vw;
+    }
+
+    h3 {
+        font-size: 4.5vw;
+        margin-top: 5vw;
+        padding-bottom: 2vw;
+    }
+
+    #main.contact .right {
+        width: 100%;
+        height: auto;
+        order: 1;
+    }
+
+    .contact-form-bg {
+        width: 90%;
+        height: auto;
+        padding: 5vw 5% 2.5vw;
+    }
+
+    .contact-form-bg h2 {
+        margin-bottom: 5vw;
+        text-align: center;
+    }
+
+    .contact-form-bg p {
+        margin-bottom: 5vw;
+    }
+
+    .contact-form-bg input {
+        width: 80%;
+        padding: 0 10%;
+        height: 12vw;
+        line-height: 12vw;
+        font-size: 3.75vw;
+        text-align: center;
+    }
+
+    .contact-form-bg textarea {
+        width: 80%;
+        padding: 2.5vw 10%;
+        height: auto;
+        line-height: 1.25;
+        font-size: 3.75vw;
+        text-align: center;
+    }
+
+    .contact-button {
+        width: 100%;
+        height: 15vw;
+        margin-top: 1.612903225806452vw;
+        margin-bottom: 1.612903225806452vw;
+    }
+
+    .contact-button input {
+        width: 100%;
+        height: 15vw;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .contact-button p {
+        width: 80%;
+        line-height: 15vw;
+        font-size: 3.75vw;
+        padding: 0 10%;
+    }
+
+    label.invalid-feedback {
+        padding: 2vw 0;
+        display: inline-block;
+        font-family: century gothic;
+        font-size: 3.5vw;
+        width: 100%;
+        text-align: center;
+    }
+
+    label.invalid-feedback strong {
+        font-family: 'gotham_lightregular';
+    }
+
+    .mid .faq {
+        background: url("../images/faq-button.png");
+        background-size: 100% auto;
+    }
+
+    .page-template-galleries-page .entry-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-template-galleries-page .entry-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-template-galleries-page .entry-content .left {
+        order: 2;
+    }
+
+    .page-template-galleries-page .entry-content .right {
+        order: 1;
+        overflow: hidden;
+    }
+
+    .page-template-galleries-page .entry-content .top-bar {
+        order: 3;
+    }
+
+    #content {
+        margin: 1.61290322580645vw 0 0;
+    }
+
+    .page-template-galleries-page .right {
+        width: 100%;
+    }
+
+    .right .gal {
+        width: 22.9032258064516vw;
+        height: 22.9032258064516vw;
+        margin: 0 1.61290322580645vw 1.61290322580645vw 0;
+    }
+
+    .right .gal:nth-of-type(4n+4) {
+        margin: 0 0 1.61290322580645vw 0;
+    }
+
+    #container .ngg-gallery-thumbnail-box {
+        width: 22.9032258064516vw;
+    }
+
+    .ngg-gallery-thumbnail-box {
+        margin: 0 1.61290322580645vw 1.61290322580645vw 0 !important;
+    }
+
+    .right {
+        height: auto;
+    }
+
+    .page-template-galleries-page .left {
+        width: 100%;
+        padding: 0;
+    }
+
+    .ngg-galleryoverview {
+        margin-top: 0 ! important;
+        margin-bottom: 0 ! important;
+        min-height: none ! important;
+    }
+
+    .right .gal {
+        background: white;
+        position: absolute;
+    }
+
+    span.gallery-nav-open {
+        width: auto;
+        height: 6.12903225806452vw;
+        float: none;
+        margin-top: 4.03225806451613vw;
+        margin-bottom: 2.41935483870968vw;
+        background: url("../images/gallery-nav-icon.png") no-repeat 0 0 / auto 100%;
+        margin-left: 24.6774193548387vw;
+        margin-right: 5.80645161290323vw;
+        padding-left: 8vw;
+        line-height: 6.12903225806452vw;
+        text-transform: uppercase;
+        font-family: 'gotham_lightregular';
+        font-size: 3.5vw;
+    }
+
+    /* The side navigation menu */
+    .gallerysidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        background-color: #3b3c3e;
+        overflow-x: hidden;
+        padding-top: 25vw;
+        transition: 0.5s;
+    }
+
+    /* The navigation menu links */
+    .gallerysidenav a {
+        padding: 0;
+        text-decoration: none;
+        font-size: 5vw;
+        /* color: #818181; */
+        display: block;
+        transition: 0.3s;
+        text-align: center;
+        font-family: 'gotham_lightregular';
+        color: white;
+        margin-bottom: 5vw;
+        width: 100%;
+    }
+
+    .gallerysidenav a span.chev {
+        display: none;
+    }
+
+    /* When you mouse over the navigation links, change their color */
+    .gallerysidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    /* Position and style the close button (top right corner) */
+    .gallerysidenav .closebtn {
+        position: absolute;
+        top: 4.67741935483871vw;
+        right: 5.80645161290323vw;
+        width: 5.80645161290323vw;
+        height: 5.80645161290323vw;
+        float: right;
+        margin-top: 0;
+        margin-bottom: 0;
+        background: url("../images/mob-nav-cross.png") no-repeat 0 0 / 5.80645161290323vw 5.80645161290323vw;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    ul#menu-galleries {
+        margin: 0;;
+    }
+
+    .full {
+        width: 100%;
+        padding: 5vw 0;
+        text-align: center;
+    }
+
+    ul#menu-faqs {
+        margin: 0;
+    }
+
+    ul#menu-faqs li {
+        width: 100%;
+        display: block;
+    }
+
+    ul#menu-faqs li a {
+        width: 100%;
+    }
+
+    .header_common {
+        height: auto;
+    }
+
+    .header_common .col-sm-3 {
+        display: none;
+    }
+
+    .header_common .col-sm-9 {
+        padding: 2vw 5%;
+        width: 90%;
+        text-align: center;
+        height: 76vw;
+    }
+
+    .header_common h5 {
+        font-size: 5vw ! important;
+        font-family: 'gotham_lightregular';
+        line-height: 1.5;
+        margin: 3vw 0 ! important;
+    }
+
+    .header_common ul {
+        margin: 0;
+        padding: 5vw 0 10vw;
+        line-height: 1.5;
+    }
+
+    .tab-pane .header_common ul li {
+        padding-bottom: 3vw;
+        font-size: 3.5vw;
+        line-height: 1.3;
+    }
+
+    .style_1 {
+        height: 41.2903225806452vw !important;
+        margin: 1.61290322580645vw 1.61290322580645vw 0 0 !important;
+        width: 47.5vw !important;
+    }
+
+    .style_1:nth-of-type(even) {
+        margin-right: 0 ! important;
+    }
+
+    .order #content {
+        margin: 0 0 1.61290322580645vw 0;
+    }
+
+    .col-sm-7 {
+        height: 55.6451612903226vw;
+        top: 12vw;
+        width: 100%;
+    }
+
+    .header_common.gift .col-sm-9 {
+        width: auto;
+        padding-bottom: 0;
+        float: left;
+        height: auto;
+    }
+
+    .header_common ul {
+        padding: 2vw 2vw 5vw !important;
+    }
+
+    .header_common ul li {
+        font-size: 3.5vw !important;
+        line-height: 1.25 !important;
+        padding-bottom: 3vw !important;
+    }
+
+    .main.voucher .left {
+        width: 100%;
+        height: auto;
+    }
+
+    .main.voucher .left {
+        width: 100%;
+        height: auto;
+        margin-top: 0;
+    }
+
+    .main.voucher .left .form {
+        height: auto;
+        width: 100%;
+    }
+
+    .main.voucher .container {
+        padding: 5%;
+    }
+
+    .main.voucher .left label.main-heading {
+        padding: 0 0 5vw;
+    }
+
+    .main-heading {
+        font-size: 4.5vw;
+    }
+
+    .main.voucher .item.half {
+        width: 100%;
+        margin-right: 0;
+        float: left;
+    }
+
+    .main.voucher .item label {
+        padding: 0 0 2vw;
+        font-size: 4vw;
+    }
+
+    .main.voucher .item.half input[type="text"] {
+        width: 90%;
+    }
+
+    .main.voucher input[type="text"] {
+        padding: 0 5%;
+        height: 12vw;
+        border: 0px;
+        border-radius: 0px;
+        width: 90%;
+        font-size: 3.5vw;
+        color: #595a5d;
+        text-align: center;
+    }
+
+    .main.voucher .item .help-block {
+        position: relative;
+        top: inherit;
+        left: inherit;
+        font-family: 'gotham_lightregular';
+        font-size: 3.5vw;
+        padding: 2vw 0;
+    }
+
+    .main.voucher .item {
+        width: 100%;
+        margin-bottom: 5vw;
+    }
+
+    .main.voucher textarea {
+        padding: 2vw 5%;
+        width: 90%;
+        margin: 0;
+        border: 0px;
+        border-radius: 0;
+        height: auto;
+        font-family: 'gotham_lightregular';
+        font-size: 3.5vw;
+        color: #595a5d;
+        text-align: center;
+    }
+
+    .main.voucher .item.half.tick label {
+        padding: 0;
+        display: block;
+        font-family: 'gotham_lightregular';
+        font-size: 4vw;
+        float: right;
+        text-align: left;
+        width: 70vw;
+        line-height: 10vw;
+    }
+
+    .main.voucher .item.half.tick .checkmark {
+        height: 10vw;
+        width: 10vw;
+    }
+
+    .main.voucher .item.half.tick .checkmark::after {
+        top: 2vw;
+        left: 2vw;
+        width: 6vw;
+        height: 8vw;
+        background: url("../images/Slate-Sign-Web-Voucher-Page-Tick.png") no-repeat 0 0 / 100% auto;
+    }
+
+    .main.voucher .col-3 input[type="text"] {
+        width: 100%;
+        padding: 0;
+    }
+
+    .main.voucher .col-3 {
+        float: left;
+        width: 30%;
+        margin-right: 5%;
+        margin-top: 0;
+    }
+
+    .main.voucher .item.col-3.for-box-set {
+        width: 25%;
+        padding: 0 2.5%;
+        height: 12vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set label {
+        line-height: 12vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set .checkmark {
+        width: 5vw;
+        height: 5vw;
+        margin-top: 3.5vw;
+    }
+
+    .main.voucher .item.col-3.for-box-set .checkmark::after {
+        top: 3.5vw;
+        width: 5vw;
+        height: 5vw;
+        border-radius: 5vw;
+        background: url("../images/Slate-Sign-Web-Voucher-Page-Radio.png") no-repeat 100% 0 / 200% auto;
+        float: left;
+        left: auto;
+        right: auto;
+    }
+
+    .main.voucher .left .for_buttons .btn-1 {
+        border: none;
+        background: #76787C;
+        width: 47.5vw;
+        height: 12vw;
+        margin: 0 1.61290322580645vw 0 0;
+        color: #fff;
+        text-transform: uppercase;
+        float: left;
+        text-align: left;
+        font-family: 'gotham_lightregular';
+        font-size: 2.5vw;
+        padding: 0 2.5vw;
+    }
+
+    .main.voucher input[type="radio"] {
+        width: 10vw;
+        height: 10vw;
+    }
+
+    .main .left .for_buttons .btn-2 {
+        border: none;
+        background: #8cc63f;
+        width: 47.5vw;
+        height: 12vw;
+        margin: 0px;
+        padding: 0 2.5vw;
+        color: #fff;
+        text-transform: uppercase;
+        float: left;
+        text-align: left;
+        font-family: 'gotham_lightregular';
+        font-size: 2.5vw;
+        cursor: pointer;
+    }
+
+    .main.voucher .left .for_buttons {
+        width: 100%;
+        height: auto;
+        margin: 0 0 1.61290322580645vw;
+        float: left;
+    }
+
+    .main.voucher .right {
+        width: 100%;
+        height: auto;
+    }
+
+    .main.voucher .right .img-1 {
+        width: 100%;
+        height: 33vw;
+        margin: 0px 0px 1.61290322580645vw 0;
+    }
+
+    .main.voucher .right .img-2 {
+        width: 100%;
+        height: 64.5161290322581vw;
+        margin: 0 0 1.61290322580645vw;
+    }
+
+    .header_common.gift .col-sm-9 {
+        width: 90%;
+        padding: 2vw 5%;
+        text-align: center;
+    }
+
+    #frm_order_gift_voucher .buttons {
+        margin-top: 10px;
+    }
+
+    #main.cart .payment_method_section {
+        padding-top: 5vw;
+        margin-bottom: 10vw;
+    }
+
+    #main.cart .payment_method_section p {
+        margin: 0 0 0.7vw;
+        text-align: center;
+        font-family: 'gotham_lightregular';
+    }
+
+    #main.cart .payment_method_section .inp {
+        width: 91.9354838709678vw;
+        border: 0.32258064516129vw solid #c8c9cb;
+        height: 8.87096774193548vw;
+        padding: 0 2.41935483870968vw;
+    }
+    #main.cart .payment_method_section .inp .item:nth-of-type(2) input[type="radio"] {
+        left: inherit;
+        right: 0;
+    }
+
+    #channel {
+        width: 93.6vw;
+        height: auto;
+        background: #8CC63F;
+        margin-bottom: 1.6vw;
+        line-height: 1.25;
+        padding: 1.6vw;
+        font-family: 'gotham_bookregular';
+        text-transform: uppercase;
+        font-size: 4vw;
+        color: black;
+        text-align: center;
+    }
+
+    #main.cart .proof #urgent-graphic {
+        width: 100%;
+        height: 40vw;
+        margin-top: 0;
+    }
+
+    .right .meteor-slides img {
+        height: auto !important;
+    }
+
+    #sig-link {
+        height: 33vw;
+        margin-top: 1.612903225806452vw;
+        background-image: url("../images/signature-mob.png");
+        margin-bottom: 1.612903225806452vw;
+    }
+
+    #content.signature_collection .item {
+        width: 100%;
+        border-right: 0;
+        margin-bottom: 1.612903225806452vw;
+    }
+
+    #content.signature_collection .item .image {
+        height: auto;
+    }
+
+    #content.signature_collection .item .info {
+        height: auto;
+        width: 95%;
+        padding: 0 2.5% 3vw;
+        font-size: 4.5vw;
+        float: left;
+    }
+
+    #content.signature_collection .item .info h3 {
+        padding: 2vw 0 3vw;
+        font-size: 4.5vw;
+    }
+
+    .signature .header_common.gift .col-sm-9 {
+        width: 95%;
+        padding: 2vw 2.5%;
+    }
+
+    #content.signature_collection .item .image .label {
+        width: 15vw;
+        height: 15vw;
+        left: 5vw;
+        top: 5vw;
+    }
+    .signature .header_common h1::after {
+        width: 100%;
+        height: 9vw;
+        margin-top: 0;
+        margin-bottom: 5vw;
+        background-position: center;
+    }
+
+    .signature .header_common p {
+        font-size: 3vw;
+        padding-bottom: 2vw;
+        float: left;
+    }
+
+    .signature .header_common {
+        height: auto;
+    }
+
+    .signature_single .entry-content {
+        flex-direction: column;
+    }
+
+    .signature_single .left {
+        width: 95%;
+        margin-right: 0;
+        padding: 0 2.5%;
+        margin-top: 0;
+        order: 2;
+    }
+
+    .signature_single .left a {
+        text-transform: uppercase;
+        padding: 5vw 0 0em;
+        float: left;
+        width: 100%;
+        font-size: 3.5vw;
+    }
+
+    .signature_single .left h2::after {
+        width: 100%;
+        height: 10vw;
+        margin-top: 3vw;
+        margin-bottom: 5vw;
+        background-position: center;
+    }
+
+    .signature_single .left h1, .signature_single .left span.price {
+        font-size: 4vw;
+    }
+
+    .signature .header_common .icon {
+        background: transparent;
+    }
+
+    .signature_single .left .info {
+        margin-top: 2vw;
+        font-size: 3.5vw;
+    }
+
+    .signature_single .left .description {
+        margin-top: 2vw;
+        font-size: 4vw;
+    }
+
+    .signature_single .left .description p {
+        font-size: 3.5vw;
+        margin: 2vw 0 3vw;
+    }
+
+    .signature_single .left .customise p {
+        margin-bottom: 1vw;
+        font-size: 3.2vw;
+    }
+
+    .signature_single .left input {
+        width: 90%;
+        height: 9vw;
+        padding: 0 5%;
+    }
+
+    .signature_single .left .customise span.index {
+        font-size: 3vw;
+        margin: 2vw 0;
+    }
+
+    .signature_single .left .button {
+        width: 95%;
+        height: 12vw;
+        line-height: 12vw;
+        padding: 0 5%;
+        margin: 0.5vw 0 0;
+        border-bottom: 1.612903225806452vw solid white;
+        font-size: 4vw;
+        margin-left: -2.5%;
+        border-top: 1.612903225806452vw solid white;
+        text-align: left;
+    }
+
+    .signature_single .left .info {
+        margin-top: 5vw;
+    }
+
+    .signature_single .left .description {
+        margin-top: 5vw;
+    }
+
+    .signature_single .left .customise {
+        float: left;
+        width: 100%;
+        margin-top: 5vw;
+    }
+
+    .signature_single .right img {
+        border-bottom: 1.612903225806452vw solid white;
+        margin: 0 0 -1.612903225806452vw;
+    }
+
+    #top-bar.mobile, .top-bar.mobile {
+        display: block !important;
+        border: 0;
+    }
+    #christmas-message {
+        display: none;
+    }
+
+
+}
+
+/* Checkout Page Overview */
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999999;
+    left: 0;
+    top: 0;
+    /* background-color: rgb(0,0,0);*/
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+    transition: 0.5s;
+    display: none;
+}
+.overlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.75;
+}
+.overlayShow{
+    display:block;
+}
+.overlay__inner {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.overlay__content {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*.spinner {
+    width: 75px;
+    height: 75px;
+    display: inline-block;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.05);
+    border-top-color: #fff;
+    animation: spin 1s infinite linear;
+    border-radius: 100%;
+    border-style: solid;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}*/

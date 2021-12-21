@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+body
+{
+	background: #d1d1d1;
+	font-family: 'Montserrat', sans-serif;
+
+}
+.main2
+{
+	width: 930px;
+	height: auto;
+	background: #fff;
+	margin: 0px auto;
+}
+.main2 .left2
+{
+	width: 551px;
+	height: auto;
+	float: left;
+}
+.main2 .left3
+{
+	width: 250px;
+	height: aut0;
+	float: left;
+}
+.main2 .right2
+{
+	width: 369px;
+	height: auto;
+	float:right;
+}
+.main2 .right2 .img-1
+{
+	width: 369px;
+	height: 190px;
+	margin: 0px 0px 5px 0px;
+	background: url(../images/bg-1.png) no-repeat 0 0 / 100% 190px;	
+}
+
+.main2 .right2 .img-2
+{
+	width: 364px;
+	height: 495px;
+	background: green;
+	background: url(../images/bg-2.png) no-repeat 0 0 / 100% 495px;	
+}
+
+/* Create three equal columns that floats next to each other */
+.column-heading {
+  float: left;
+  width: 60%;
+  height: 40px; /* Should be removed. Only for demonstration */
+}
+.column-heading h1
+{
+	padding: 0px 20px;
+	font-family: 'Montserrat', sans-serif;
+
+}
+.column-heading2 {
+  float: left;
+  width: 40%;
+  height: 40px; /* Should be removed. Only for demonstration */
+}
+.column-heading2 h1 {
+  padding: 0px 0px;
+	font-family: 'Montserrat', sans-serif;
+}
+.column-p {
+  float: left;
+  width: 60%;
+  height: 20px; /* Should be removed. Only for demonstration */
+}
+.column-p p
+{
+	line-height: 20px;
+	font-size: 12px;
+	padding: 0px 20px;
+	margin: 0px;
+	font-family: 'Montserrat', sans-serif;
+}
+.column-p2 {
+  float: left;
+  width: 40%;
+  height: 20px; /* Should be removed. Only for demonstration */
+}
+.column-p2 p
+{
+	line-height: 20px;
+	font-size: 12px;
+	margin: 0px;
+	font-family: 'Montserrat', sans-serif;
+}
+.mt-25
+{
+	margin-top: 25px;
+}
+.mt-10
+{
+	margin-top: 10px;
+}
+
+.form-2_input {
+width: 40px!important;
+border:none!important;
+border-radius:0px!important;
+background: none!important;
+resize: vertical;
+}
+
+input {
+  border: solid 2px;
+  color: #777;
+  height: 2rem;
+  padding: 0.5rem;
+  width: 4rem;
+   box-sizing: border-box;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-moz-inner-spin-button {
+  -webkit-appearance: none;
+}
+button {
+  background:none!important;
+  border:1px solid #8cc63f;
+  border-radius: 50%;
+  color: #8cc63f;
+  cursor: pointer;
+  height: 25px;
+  line-height: 2;
+  padding: 0;
+  width: 25px;
+}
+input:focus,
+button:hover,
+button:focus {
+  background: none;
+  border:1px solid #8cc63f!important;
+  color: #000;
+}
+.back-to-store
+{
+	background: #595a5e!important;
+	border:none;
+	border-radius: 0px!important;
+	width: 180px;
+	color: #fff;
+	margin:0px 20px;
+	font-size: 15px;
+	height: 40px;
+	font-family: 'Montserrat', sans-serif
+}
+.last-paragraf
+{
+	color: #8cc63f;
+	font-size: 11px!important;
+}
+.main2 .right2 .img-100
+{
+	width: 369px;
+	height: 162px;
+	margin: 5px 0px 5px 0px;
+}
+.back-to-store2
+{
+	background: #595a5e!important;
+	border:none;
+	border-radius: 0px!important;
+	width: 180px;
+	float: left;
+	color: #fff;
+	font-size: 15px;
+	height: 40px;
+	font-family: 'Montserrat', sans-serif
+}

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index');
 Route::get('/', 'HomeController@index')->name('/');
 Route::get('sso/{token?}', 'HomeController@sso')->name('sso');
+Route::get('menu/{slug}', 'MenuController@menu')->name('menu');
 Route::get("logout", "HomeController@logout")->name("logout");
 Route::group(['middleware' => ['auth', 'prevent-back-history']], function() {
     Route::get('custom-menu/{type?}', 'Front\CustomMenuController@manageCustomMenu')->name('custom-menu');

@@ -462,9 +462,9 @@ if (!function_exists('include_route_files')) {
             return $ip;
         }
     }
-    if (!function_exists('_generateSeoURL')) 
+    if (!function_exists('_generateSeoURLOld')) 
     {
-        function _generateSeoURL($string, $wordLimit = 0) 
+        function _generateSeoURLOld($string, $wordLimit = 0) 
         {
             $separator = '-';
         
@@ -495,5 +495,16 @@ if (!function_exists('include_route_files')) {
     }
 }
 
+if (!function_exists('_betagitZampoitaWebUrl')) {
+    function _betagitZampoitaWebUrl($urlSegment) {
+        return config('constants.live_urls.betagitZampoita').$urlSegment;
+    }
+}
+
+if (!function_exists('_generateSeoURL')) {
+    function _generateSeoURL($string) {
+        return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+    }
+}
 
 ?>

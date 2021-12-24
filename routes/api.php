@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductController as DefaultProductController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\BrandingController;
 
 Route::post('login', [AuthController::class, 'authenticate']);
@@ -24,8 +25,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('categories', [CategoryController::class, 'store']);
     Route::delete('categories/{category}',  [CategoryController::class, 'destroy']);
     Route::put('categories/{category}',  [CategoryController::class, 'update']);
+    Route::post('categories/update-user-category-order',  [CategoryController::class, 'updateUserCategoryOrder']);
     Route::post('categories/assign', [CategoryController::class, 'assignCategory']);
     #Route::resource('categories', [CategoryController::class]);
+
+    Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
 
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
     Route::put('branding-by-user/{menuBranding}', [BrandingController::class, 'update']);
@@ -34,7 +38,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('logout', [ApiController::class, 'logout']);
     Route::get('get_user', [ApiController::class, 'get_user']);
 
-    Route::get('products', [TestController::class, 'index']);
+    // Route::get('products', [TestController::class, 'index']);
     Route::get('products/{id}', [ProductController::class, 'show']);
     Route::post('create', [ProductController::class, 'store']);
     Route::put('update/{product}',  [ProductController::class, 'update']);

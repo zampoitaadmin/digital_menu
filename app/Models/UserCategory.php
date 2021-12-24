@@ -153,4 +153,10 @@ class UserCategory extends Model
         }
         return $maxUserCategoryOrder;
     }
+
+    public function updateRecord($crud,$where)
+    {
+        $update = DB::table('user_category')->where($where)->update($crud);
+        return $update;
+    }
 }

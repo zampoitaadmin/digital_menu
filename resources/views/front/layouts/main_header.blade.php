@@ -15,20 +15,35 @@
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-9">
                 <div class="main-menu">
-                    <ul class="nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Dropdown link
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Link 1</a>
-                                <a class="dropdown-item" href="#">Link 2</a>
-                                <a class="dropdown-item" href="#">Link 3</a>
+                    <ul>
+                        <li style="margin: 0px;">
+                            <div class="js">
+                                <div class="language-picker js-language-picker" data-trigger-class="btn btn--subtle">
+                                    <form action="" class="language-picker__form">
+                                        <label for="language-picker-select"></label>
+                                        <select name="language-picker-select" id="language-picker-select">
+                                            <option lang="en" value="english" selected>English</option>
+                                            <option lang="de" value="deutsch">Spanish</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn text-white dropdown-toggle bg-none" type="button"  data-toggle="dropdown">
+                                <i class="fas fa-sign-in-alt"></i> Eateries
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Edit Profile</a>
+                                    <a class="dropdown-item" href="#">Account Info</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
                             </div>
                         </li>
                     </ul>
-
-
+                    {{--
                     @if(auth()->user())
                         <ul class="nav">
                             <li class="nav-item dropdown">
@@ -42,15 +57,13 @@
                                 </div>
                             </li>
                         </ul>
-
                     @else
-
                         <ul class="right-nav">
                             <li class="active"><a href="#">Client login</a> </li>
                             <li> <a href="#">Signup</a> </li>
                         </ul>
                     @endif
-
+                    --}}
                 </div>
             </div>
         </div>

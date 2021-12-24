@@ -6,6 +6,7 @@ return [
     'common_error_access_denied' => "Access denied",
 
     'module_category' => "Category",
+    'module_user_category' => "User Category",
     'module_branding' => "Branding",
 
     'common_empty' => "Record(s) not available",

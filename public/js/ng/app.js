@@ -12,7 +12,8 @@ var bbApp = angular.module('bbApp', [
     'ngSanitize',
     'ui-notification',
     //'ngResource',
-    'bbAppControllers'
+    'bbAppControllers',
+    'ui.sortable'
 ]);
 bbApp.config(function (localStorageServiceProvider) {
     localStorageServiceProvider

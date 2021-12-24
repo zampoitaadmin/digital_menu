@@ -254,6 +254,29 @@ class CategoryController extends ApiController
             'statusCode' => $this->statusCode,
         ], $this->statusCode);
     }
+    public function updateUserCategoryOrder(Request $request){
+        $data = $request->only('newUserCategoryOrder');
+        $userId = $this->user->id;
+        if(isset($data['newUserCategoryOrder']) && !empty($data['newUserCategoryOrder'])){
+            foreach ($data['newUserCategoryOrder'] as $key => $categoryId) {
+                #update user_category set user_category_order='1' where category_id=1 and user_id=1;
+                $userCategoryOrder = ($key+1);
+                $crudData = array(
+                    'user_category_order' => $userCategoryOrder,
+                    'updated_at' => getCurrentDateTime()
+                );
+                $where = array( 'user_id' => $userId, 'category_id' => $categoryId );
+                $this->objUserCategory->updateRecord($crudData,$where);
+            }
+            $this->message = __('api.common_update',['module'=> __('api.module_user_category')]);
+        }
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+            //'data' => $category
+        ], Response::HTTP_OK);
+    }
 
     public function assignCategory(Request $request){
         $data = $request->only('selectedCategory');

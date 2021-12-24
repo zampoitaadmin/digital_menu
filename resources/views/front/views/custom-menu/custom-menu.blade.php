@@ -79,6 +79,7 @@
     <script src='{{ asset("assets/ng/category/servicesCategory.js?t=".time()) }}'></script>
 
     <script src='{{ asset("assets/ng/custom-menu/productsCtrl.js?t=".time()) }}'></script>
+    <script src='{{ asset("assets/ng/products/servicesProduct.js?t=".time()) }}'></script>
 
     <script src='{{ asset("assets/ng/custom-menu/brandingCtrl.js?t=".time()) }}'></script>
     <script src='{{ asset("assets/ng/custom-menu/servicesBranding.js?t=".time()) }}'></script>

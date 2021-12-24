@@ -60,6 +60,16 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
 
+    function updateUserCategoryOrder(data, onSuccess, onError){
+        Restangular.all("api/categories/update-user-category-order").post(data).then(function(response) {
+                onSuccess(response);
+            }, function(response){
+                onError(response);
+            }
+        );
+    }
+
+
     function assignCategory(data, onSuccess, onError){
         Restangular.all('api/categories/assign').post(data).then(function(response){
             onSuccess(response);
@@ -93,7 +103,8 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
         create: create,
         update: update,
         remove: remove,
-        assignCategory: assignCategory
+        assignCategory: assignCategory,
+        updateUserCategoryOrder: updateUserCategoryOrder
     }
 
 }]);

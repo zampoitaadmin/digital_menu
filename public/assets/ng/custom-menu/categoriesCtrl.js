@@ -459,6 +459,71 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
         }).catch(swal.noop);
     };
 
+    $scope.isArrayDifferentFun = ((firstArray, secondArray) => {
+        let isArrayDifferent = false;
+        firstArray.forEach((val, index) => {
+            if(firstArray[index] !== secondArray[index]) {
+                isArrayDifferent = true;
+                return;
+            }
+        });
+        return isArrayDifferent;
+    });
+
+    $scope.currentUserCategoryOrder = [];
+    $scope.sortableOptions = {
+        update: function (e, ui) {
+            $scope.currentUserCategoryOrder = [];
+            var currentUserCategoryOrder = $scope.userSelectedCategories.map(function(element){
+                return element.id;
+            });
+            $scope.currentUserCategoryOrder = currentUserCategoryOrder;
+        },
+        stop: function (e, ui) {
+            var newUserCategoryOrder = $scope.userSelectedCategories.map(function(element){
+                return element.id;
+            });
+            
+            let isArrayDifferent = $scope.isArrayDifferentFun($scope.currentUserCategoryOrder, newUserCategoryOrder);
+            
+            if(isArrayDifferent){
+                let jsObject = {'newUserCategoryOrder':newUserCategoryOrder};
+                categoryService.updateUserCategoryOrder(jsObject, function(response){
+                    if(response.status){
+                        Notification.success(response.message);
+                        $scope.onLoadFun();
+                    }else{
+                        Notification.error(response.message);
+                        //$scope.formCrudRequestErrors.message =  response.message;
+                    }
+                }, function(response){
+                    //alert('Some errors occurred while communicating with the service. Try again later.');
+                    console.error(" In assignCategoryToUserFun ERROR");
+                    //console.error(response);
+                    var responseData = response.data;
+                    if(response.status != 200){
+                        if(angular.isObject(responseData.message)){
+                            //$scope.requestFormDataError = response.data.message;
+                            console.warn(responseData.message);
+                        }else{
+                            // bbNotification.error(response.data.message);
+                            if(responseData.message.length==0){
+                                $scope.loaderUserSelectedCategory = $window.msgError;
+                            }else {
+                                //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                Notification.error(responseData.message);
+                                //$scope.formCrudRequestErrors.message = responseData.message ;
+                                //TODO Error Msg with Refresh
+                                //alert("in "+responseData.message);
+                            }
+                        }
+                    }
+                });
+            }
+
+        }
+    };
+
 }]);
 
 function checkSAValidation(){

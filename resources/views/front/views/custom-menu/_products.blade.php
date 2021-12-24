@@ -25,22 +25,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="main">
+                            <span class="loaderProduct bb-loader" ng-bind-html="loaderProduct" ng-if="loaderProduct.length>0"></span>
                             <div class="accordion" id="faq">
-                                <div class="card">
-                                    <div class="card-header" id="faqhead1">
-                                        <a href="#" class="btn btn-header-link " data-toggle="collapse" data-target="#faq1"
-                                           aria-expanded="true" aria-controls="faq1">Deserts</a>
+                                <div class="card" ng-repeat="categoryProduct in userSelectedCategoriesProducts">
+                                    <div class="card-header">
+                                        <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }}</a>
                                     </div>
-                                    <div id="faq1" class="collapse show" aria-labelledby="faqhead1" data-parent="#faq">
+                                    <div id="@{{ categoryProduct.slug }}" class="collapse" data-parent="#faq">
                                         <div class="card-body px-3 py-1">
-                                            <div class="row bootstrap snippets bootdeys" id="store-list">
+                                            <div class="row bootstrap snippets bootdeys" id="store-list" ng-repeat="productInfo in categoryProduct.responseProducts">
                                                 <div class="col-md-12 col-xs-12">
                                                     <div class="panel">
                                                         <div class="panel-body">
                                                             <div class="row">
                                                                 <div class="col-sm-3 pb-3">
                                                                     <a href="#">
-                                                                        <img src="assets/images/p-1.jpg"  class="img-fluid img-thumbnail rounded h-100">
+                                                                        <img src="{{ _betagitZampoitaWebUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
                                                                     </a>
                                                                 </div>
                                                                 <div class="col-sm-9">
@@ -49,7 +49,7 @@
                                                                             <a href="#">
                                                                                 MENU ITEM NO :
                                                                                 <div class="btn-group" role="group" aria-label="Third group">
-                                                                                    <button type="button" class="btn btn-del_edt mb-1">8</button>
+                                                                                    <button type="button" class="btn btn-del_edt mb-1">@{{ productInfo.product_order }}</button>
                                                                                 </div>
                                                                             </a>
                                                                         </strong>
@@ -65,137 +65,24 @@
                                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
-                                                                    <h6 class="m-0">Lorem Ipsum</h6>
+                                                                    <h6 class="m-0">@{{ productInfo.product_name }}</h6>
                                                                     <p>
-                                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                                        @{{ productInfo.product_description }}
                                                                     </p>
                                                                     <p>
-                                                                    <p class="my-2"><b>Allergy items selected</b></p>
-                                                                    <button type="button" class="p-0 btn btn-outline-info">
-                                                                        <img src="https://betagit.zampoita.com/assets/allergy/soja.png" class="img-fluid" width="30" height="30">
-                                                                    </button>
-                                                                    <a href="#" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="">€25.00</a>
-                                                                    <a href="#" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="">€2.00</a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="faqhead2">
-                                        <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq2"
-                                           aria-expanded="true" aria-controls="faq2">Teast-2</a>
-                                    </div>
-                                    <div id="faq2" class="collapse" aria-labelledby="faqhead2" data-parent="#faq">
-                                        <div class="card-body px-3 py-1">
-                                            <div class="row bootstrap snippets bootdeys" id="store-list">
-                                                <div class="col-md-12 col-xs-12">
-                                                    <div class="panel">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-sm-3  pb-3">
-                                                                    <a href="#">
-                                                                        <img src="assets/images/p-1.jpg" class="img-fluid img-thumbnail rounded h-100">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <h4 class="title-store">
-                                                                        <strong>
-                                                                            <a href="#">
-                                                                                MENU ITEM NO :
-                                                                                <div class="btn-group" role="group" aria-label="Third group">
-                                                                                    <button type="button" class="btn btn-del_edt mb-1">8</button>
-                                                                                </div>
-                                                                            </a>
-                                                                        </strong>
-                                                                    </h4>
-                                                                    <div class="pull-right">
-                                                                        <button type="button" class="btn btn-sm btn-primary mb-1">
-                                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-sm btn-warning mb-1">
-                                                                            <i class="fa fa-archive" aria-hidden="true"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-sm btn-danger mb-1">
-                                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                    <p class="my-2" ng-if="productInfo.responseAllergies.length"><b>Allergy items selected</b></p>
+                                                                    <div ng-repeat="allergyInfo in productInfo.responseAllergies">
+                                                                        <button type="button" class="p-0 btn btn-outline-info">
+                                                                            <img src="{{ _betagitZampoitaWebUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
                                                                         </button>
                                                                     </div>
-                                                                    <h6 class="m-0">Lorem Ipsum</h6>
-                                                                    <p>
-                                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                                    </p>
-                                                                    <p>
-                                                                    <p class="my-2"><b>Allergy items selected</b></p>
-                                                                    <button type="button" class="p-0 btn btn-outline-info">
-                                                                        <img src="https://betagit.zampoita.com/assets/allergy/soja.png" class="img-fluid" width="30" height="30">
-                                                                    </button>
-                                                                    <a href="#" class="btn btn_custom_for_only_colo pull-right mx-1" data-original-title="" title="">€25.00</a>
-                                                                    <a href="#" class="btn btn_custom_for_only_colo pull-right mx-1" data-original-title="" title="">€2.00</a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="faqhead3">
-                                        <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq3"
-                                           aria-expanded="true" aria-controls="faq3">Test-3</a>
-                                    </div>
-                                    <div id="faq3" class="collapse" aria-labelledby="faqhead3" data-parent="#faq">
-                                        <div class="card-body px-3 py-1">
-                                            <div class="row bootstrap snippets bootdeys" id="store-list">
-                                                <div class="col-md-12 col-xs-12">
-                                                    <div class="panel">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-sm-3">
-                                                                    <a href="#">
-                                                                        <img src="https://media.istockphoto.com/photos/varied-food-carbohydrates-protein-vegetables-fruits-dairy-legumes-on-picture-id1218254547?b=1&k=6&m=1218254547&s=170667a&w=0&h=EXwwoHJ3wI0H2jDfoFhqOiIo2c4cL0y7R8Gop3iIO30=" class="img-responsive product-img">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <h4 class="title-store">
-                                                                        <strong>
-                                                                            <a href="#">
-                                                                                MENU ITEM NO :
-                                                                                <div class="btn-group" role="group" aria-label="Third group">
-                                                                                    <button type="button" class="btn btn-del_edt mb-1">8</button>
-                                                                                </div>
-                                                                            </a>
-                                                                        </strong>
-                                                                    </h4>
-                                                                    <div class="pull-right">
-                                                                        <button type="button" class="btn btn-sm btn-primary mb-1">
-                                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-sm btn-warning mb-1">
-                                                                            <i class="fa fa-archive" aria-hidden="true"></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-sm btn-danger mb-1">
-                                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <h6 class="m-0">Lorem Ipsum</h6>
-                                                                    <p>
-                                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                                    </p>
-                                                                    <p>
-                                                                    <p class="my-2"><b>Allergy items selected</b></p>
-                                                                    <button type="button" class="p-0 btn btn-outline-info">
-                                                                        <img src="https://betagit.zampoita.com/assets/allergy/soja.png" class="img-fluid" width="30" height="30">
-                                                                    </button>
-                                                                    <a href="#" class="btn btn_custom_for_only_colo pull-right mx-1" data-original-title="" title="">€25.00</a>
-                                                                    <a href="#" class="btn btn_custom_for_only_colo pull-right mx-1" data-original-title="" title="">€2.00</a>
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Fixed Price">@{{ productInfo.product_price | currency : "€" }}</a>
+
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1 R">@{{ productInfo.product_1r | currency : "€" }}</a>
+
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1/2 R">@{{ productInfo.product_12r | currency : "€" }}</a>
+
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Tapa">@{{ productInfo.product_topa | currency : "€" }}</a>
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -209,7 +96,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 left-box">
+                    <!-- <div class="col-lg-12 col-md-12 left-box">
                         <form class="p-4 bg-white card">
                             <div class="row">
                                 <div class="col-md-6">
@@ -308,7 +195,7 @@
                             </div>
                             <button type="submit" class="btn btn btn_custom_for_only_color">Submit</button>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

@@ -76,9 +76,20 @@
         });
     });
 
+
     /*$(function () {
         $('.selectpicker').selectpicker();
         $('pick__lang').selectpicker();
+
+    $(function () {
+        if ($('.selectpicker').length) {
+            $('.selectpicker').selectpicker();
+        }
+        if ($('pick__lang').length) {
+            $('pick__lang').selectpicker();
+        }
+
+
     });
 
     function go__bahasa() {

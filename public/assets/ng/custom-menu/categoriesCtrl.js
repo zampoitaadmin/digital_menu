@@ -4,6 +4,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
   //  Notification.success({message: 'Success notification<br>Some other <b>content</b><br><a href="https://github.com/alexcrack/angular-ui-notification">This is a link</a><br><img src="https://angularjs.org/img/AngularJS-small.png">', title: 'Html content'});
     //  window.location = '/';//$location.path('/sso/');
     console.info("in CustomMenuCategoryController");
+    $('a[href="custom-menu#categories"]').click();
     $scope.isCategoryLoader = false;
     $scope.loaderCategory = false;
     $scope.loaderUserCategory = false;

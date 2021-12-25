@@ -1,7 +1,7 @@
 
 bbAppControllers.controller('settingCtrl', ['$scope', '$location','userService', 'settingService','$window','Notification',  function ($scope, $location, userService, settingService,$window,Notification) {
     console.info("in settingCtrl");
-
+    $('a[href="custom-menu#setting"]').click();
     $scope.requestDataSetting = {'isActiveWebsiteTemplate':0,'websiteURL':'','standardDeliveryCharge':'0.00','minimumDeliveryCharge':'0.00','freeDeliveryCharge':'0.00'};
     $scope.messageSetting = '';
     $scope.loaderSetting = '';

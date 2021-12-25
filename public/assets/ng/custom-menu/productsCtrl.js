@@ -140,6 +140,10 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
 
         }
     };
+
+    $scope.addProductFun = function(){
+        $('#addProductModel').modal('show');
+    };
     
     $scope.onLoadFun = function(){
         $scope.refreshUserSelectedCategory();

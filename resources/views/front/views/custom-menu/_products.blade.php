@@ -8,9 +8,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="main">
+                           <div class="pull-right">
+                                <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
+                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
+                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
+                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
+                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
+                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
+                           </div>
                             <span class="loaderProduct bb-loader" ng-bind-html="loaderProduct" ng-if="loaderProduct.length>0"></span>
                             <div class="accordion" id="faq">
-                                <div class="card" ng-repeat="categoryProduct in userSelectedCategoriesProducts">
+                                <div class="card" style="background: none" ng-repeat="categoryProduct in userSelectedCategoriesProducts">
                                     <div class="card-header">
                                         <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }}</a>
                                     </div>
@@ -30,7 +38,7 @@
                                                                     <h4 class="title-store">
                                                                         <strong>
                                                                             <a href="#">
-                                                                                MENU ITEM NO :
+                                                                                {{ __('message_lang.product_text_1') }} :
                                                                                 <div class="btn-group" role="group" aria-label="Third group">
                                                                                     <button type="button" class="btn btn-del_edt mb-1">@{{ productInfo.product_order }}</button>
                                                                                 </div>
@@ -181,6 +189,39 @@
                     </div> -->
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addProductModel" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="exampleModalLabel"><?= __('message_lang.product_text_2'); ?></h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form name="frmAddProduct" id="frmAddProduct" novalidate autocomplete="off">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="email1"><?= ucfirst(__('message_lang.form_input_categorySP')); ?></label>
+                        <input type="text" class="form-control my-1" name="categoryNameSp" ng-model="formCrudRequestData.categoryNameSp" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_categorySP')]); ?>" required>
+                        <span ng-show="frmAddProduct.$submitted || frmAddProduct.categoryNameSp.$dirty">
+                                                <span class="validationMessageClass" ng-show="frmAddProduct.categoryNameSp.$error.required || formCrudRequestErrors.categoryNameSp">This field is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email1"><?= ucfirst(__('message_lang.form_input_category')); ?></label>
+                        <input type="text" class="form-control my-1" name="categoryNameEn" ng-model="formCrudRequestData.categoryNameEn" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_category')]); ?>" required>
+                        <span ng-show="frmAddProduct.$submitted || frmAddProduct.categoryNameEn.$dirty">
+                                                <span class="validationMessageClass" ng-show="frmAddProduct.categoryNameEn.$error.required  || formCrudRequestErrors.categoryNameEn">This field is required.</span>
+                        </span>
+                    </div>
+                    <p class="validationMessageClass" ng-if="formCrudRequestErrors.message" > @{{ formCrudRequestErrors.message}}</p>
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-dark my-1 w-25" name="btnSubmit" ng-click="updateRecordFun(frmAddProduct.$valid);"><?= __('common.btn_submit'); ?></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

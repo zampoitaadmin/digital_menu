@@ -17,7 +17,7 @@
                 <div class="main-menu">
                     <ul>
                         <li style="margin: 0px;">
-                            <div class="js">
+                            <!-- <div class="js">
                                 <div class="language-picker js-language-picker" data-trigger-class="btn btn--subtle">
                                     <form action="" class="language-picker__form">
                                         <label for="language-picker-select"></label>
@@ -26,6 +26,14 @@
                                             <option lang="de" value="deutsch">Spanish</option>
                                         </select>
                                     </form>
+                                </div>
+                            </div> -->
+                            <div class="dropdown">
+                                <button class="btn text-white dropdown-toggle bg-none" type="button"  data-toggle="dropdown">English
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">English</a>
+                                    <a class="dropdown-item" href="#">Spanish</a>
                                 </div>
                             </div>
                         </li>

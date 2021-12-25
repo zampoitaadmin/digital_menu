@@ -76,7 +76,7 @@
         });
     });
 
-    $(function () {
+    /*$(function () {
         $('.selectpicker').selectpicker();
         $('pick__lang').selectpicker();
     });
@@ -237,7 +237,7 @@
                 });
             });
         }
-    }());
+    }());*/
 </script>
 {{--<script src="{{ asset("assets/ng/libs/angular-v1-6/angular.min.js") }}"></script>
 <script src="{{ asset("assets/ng/libs/angular-v1-6/angular-route.min.js") }}"></script>

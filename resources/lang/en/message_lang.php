@@ -36,5 +36,8 @@ return [
     'setting_minimum_delivery_charge' => "Minimum Order For Delivery",
     'setting_free_delivery_charge' => "Free Delivery Charge on Order Over",
 
+    'product_text_1' => "MENU ITEM NO",
+    'product_text_2' => "Add Product",
+    'product_text_3' => "Update Product",
 ];
 ?>

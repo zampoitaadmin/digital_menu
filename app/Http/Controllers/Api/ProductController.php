@@ -41,15 +41,20 @@ class ProductController extends ApiController
                 {
                     $responseCategories[$key]->slug = _generateSeoURL($categoryInfo->name);
                     $responseProducts = $this->objProduct->getProductData($categoryInfo->category_id, $userId);
-                    $responseCategories[$key]->responseProducts = $responseProducts;
 
                     if($responseProducts){
                         foreach ($responseProducts as $productKey => $productInfo)
                         {
+                            $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
+                            $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
+                            $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);
+                            $responseProducts[$productKey]->product_12r = _number_format($productInfo->product_12r);
                             $responseAllergies = $this->objAllergy->getProductAllergies($productInfo->product_id);
-                            $responseCategories[$key]->responseProducts[$productKey]->responseAllergies = $responseAllergies;
+                            $responseProducts[$productKey]->responseAllergies = $responseAllergies;
                         }
                     }
+
+                    $responseCategories[$key]->responseProducts = $responseProducts;
                 }
                 // _pre($responseCategories);
                 $responseData['products'] = $responseCategories;

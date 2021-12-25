@@ -1,6 +1,7 @@
 
 bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService', 'brandingService','$window','Notification',  function ($scope, $location, userService, brandingService,$window,Notification) {
     console.info("in brandingCtrl");
+    $('a[href="custom-menu#branding"]').click();
     $scope.requestDataBranding = {'mainColor':'','secondaryColor':'','thirdColor':'','fontColor':'','brandLogo':'','id':0};
     $scope.messageBrand = '';
     $scope.refreshBranding = function(){

@@ -25,6 +25,16 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
 
         });
     }
+
+    function getAllAllergies(onSuccess, onError){
+        Restangular.all('api/all-allergies').customGET().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+
+        });
+    }
+
     function create(data, onSuccess, onError){
         Restangular.all('api/categories').post(data).then(function(response){
 
@@ -104,7 +114,8 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
         update: update,
         remove: remove,
         assignCategory: assignCategory,
-        updateUserCategoryOrder: updateUserCategoryOrder
+        updateUserCategoryOrder: updateUserCategoryOrder,
+        getAllAllergies: getAllAllergies
     }
 
 }]);

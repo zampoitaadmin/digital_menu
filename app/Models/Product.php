@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use DB;
 class Product extends Model
 {
-    public $table = 'product';
-
+    public $table = 'products';
+    protected $primaryKey = 'product_id';
     protected $fillable = [
-        'category_id ',
+        'product_id',
+        'category_id',
         'user_id',
         'product_type',
         'product_name',
@@ -25,11 +24,9 @@ class Product extends Model
         'created_at',
         'updated_at'
     ];
-
     public function getProductData($categoryId, $userId)
     {
         // SELECT products.*, category.name FROM products JOIN category ON products.category_id = category.id WHERE products.category_id = '11' AND products.user_id = '2930' ORDER BY category.id ASC, products.product_order ASC
-
         $select = DB::raw('products.*, category.name');
         $dataBase = DB::table('products')->select($select);
         $dataBase->where('products.user_id', '=', $userId);
@@ -40,5 +37,20 @@ class Product extends Model
         #$responseData= $dataBase->orderBy('user_category.user_category_order','asc')->get();
         $responseData= $dataBase->orderByRaw("category.id ASC, products.product_order ASC")->get();
         return $responseData;
+    }
+    public function createRecord($crud)
+    {
+        $lastId = DB::table('products')->insertGetId($crud);
+        return $lastId;
+    }
+    public function updateRecord($crud,$where)
+    {
+        $update = DB::table('products')->where($where)->update($crud);
+        return $update;
+    }
+    public function createBulkRecord($crud)
+    {
+        $lastId = DB::table('product_allergies')->insert($crud);
+        return $lastId;
     }
 }

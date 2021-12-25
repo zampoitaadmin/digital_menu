@@ -6,6 +6,8 @@ return [
     'common_error_access_denied' => "Access denied",
 
     'module_category' => "Category",
+    'module_product' => "Product",
+    'module_allergy' => "Allergy",
     'module_user_category' => "User Category",
     'module_branding' => "Branding",
     'module_setting' => "Setting",

@@ -33,4 +33,14 @@ class Allergy extends Model
         $responseData= $dataBase->get();
         return $responseData;
     }
+
+    public function getAllAllergies()
+    {
+        // SELECT allergy.* FROM allergy WHERE allergy.status = 'active'
+        $select = DB::raw('allergy.*');
+        $dataBase = DB::table('allergy')->select($select);
+        $dataBase->where('allergy.status', 'active');
+        $responseData= $dataBase->get();
+        return $responseData;
+    }
 }

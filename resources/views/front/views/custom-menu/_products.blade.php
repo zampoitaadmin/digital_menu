@@ -8,14 +8,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="main">
-                           <div class="pull-right">
-                                <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
-                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
-                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
-                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
-                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
-                            <div class="btn btn-success my-2" ng-click="openAddProductModal()">Add Product</div>
-                           </div>
+                            <div class="pull-right">
+                                <div class="btn btn_custom_for_only_color my-2" ng-click="openAddProductModal()">Add Product</div>
+                            </div>
                             <span class="loaderProduct bb-loader" ng-bind-html="loaderProduct" ng-if="loaderProduct.length>0"></span>
                             <div class="accordion" id="faq">
                                 <div class="card" style="background: none" ng-repeat="categoryProduct in userSelectedCategoriesProducts">
@@ -38,7 +33,7 @@
                                                                     <h4 class="title-store">
                                                                         <strong>
                                                                             <a href="#">
-                                                                                {{ __('message_lang.product_text_1') }} :
+                                                                                {{ __('message_lang.product_menu_item_no') }} :
                                                                                 <div class="btn-group" role="group" aria-label="Third group">
                                                                                     <button type="button" class="btn btn-del_edt mb-1">@{{ productInfo.product_order }}</button>
                                                                                 </div>
@@ -46,7 +41,7 @@
                                                                         </strong>
                                                                     </h4>
                                                                     <div class="pull-right">
-                                                                        <button type="button" class="btn btn-sm btn-primary mb-1">
+                                                                        <button type="button" class="btn btn-sm btn-primary mb-1" ng-click="openEditProductModal(productInfo)">
                                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                                         </button>
                                                                         <button type="button" class="btn btn-sm btn-warning mb-1">
@@ -193,33 +188,117 @@
     </div>
 </div>
 
-<div class="modal fade" id="addProductModel" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="productModel" >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="exampleModalLabel"><?= __('message_lang.product_text_2'); ?></h5>
+                <h5 class="modal-title" id="exampleModalLabel"><?= __('message_lang.product_add_product'); ?></h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form name="frmAddProduct" id="frmAddProduct" novalidate autocomplete="off">
+            <form name="frmProduct" id="frmProduct" novalidate autocomplete="off">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="email1"><?= ucfirst(__('message_lang.form_input_categorySP')); ?></label>
-                        <input type="text" class="form-control my-1" name="categoryNameSp" ng-model="formCrudRequestData.categoryNameSp" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_categorySP')]); ?>" required>
-                        <span ng-show="frmAddProduct.$submitted || frmAddProduct.categoryNameSp.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmAddProduct.categoryNameSp.$error.required || formCrudRequestErrors.categoryNameSp">This field is required.</span>
-                        </span>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Category</label>
+                            <select class="form-control" name="categoryId" ng-model="requestDataProduct.categoryId" required>
+                                <option value="">Select Your Category</option>
+                                <option ng-repeat="category in userSelectedCategories" ng-if="category.category_type=='Normal'" value="@{{ category.id }}">@{{ category.name }}</option>
+                            </select>
+                            <span ng-show="frmProduct.$submitted || frmProduct.categoryId.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.categoryId.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control" name="productName" ng-model="requestDataProduct.productName" placeholder="" required>
+                            <span ng-show="frmProduct.$submitted || frmProduct.productName.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.productName.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Product Description</label>
+                            <textarea class="form-control" name="productDescription" ng-model="requestDataProduct.productDescription" required></textarea>
+                            <span ng-show="frmProduct.$submitted || frmProduct.productDescription.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.productDescription.$error.required">This field is required.</span>
+                            </span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="email1"><?= ucfirst(__('message_lang.form_input_category')); ?></label>
-                        <input type="text" class="form-control my-1" name="categoryNameEn" ng-model="formCrudRequestData.categoryNameEn" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_category')]); ?>" required>
-                        <span ng-show="frmAddProduct.$submitted || frmAddProduct.categoryNameEn.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmAddProduct.categoryNameEn.$error.required  || formCrudRequestErrors.categoryNameEn">This field is required.</span>
-                        </span>
+                        <label class="control-label">Upload File</label>
+                        <!-- <div class="preview-zone hidden">
+                        </div>
+                        <div class="dropzone-wrapper">
+                            <div class="dropzone-desc">
+                                <i class="glyphicon glyphicon-download-alt"></i>
+                                <p>Choose an image file or drag it here.</p>
+                            </div>
+                            <input type="file" name="img_logo" class="dropzone">
+                        </div> -->
+                        <div class="custom-file">
+                            <input type="file" file-input="productMainImage" class="custom-file-input" placeholder="Choose File" id="customFileLang" lang="en">
+                            <label class="custom-file-label" for="customFileLang"><?= __('common.input_file_choose'); ?></label>
+                        </div>
                     </div>
-                    <p class="validationMessageClass" ng-if="formCrudRequestErrors.message" > @{{ formCrudRequestErrors.message}}</p>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label for="inputState">Product Price  </label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Tapa</label>
+                            <input type="text" class="form-control" name="productTopa" ng-model="requestDataProduct.productTopa" placeholder="" required>
+                            <span ng-show="frmProduct.$submitted || frmProduct.productTopa.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.productTopa.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>1/2 R</label>
+                            <input type="text" class="form-control" name="product1r" ng-model="requestDataProduct.product1r" placeholder="" required>
+                            <span ng-show="frmProduct.$submitted || frmProduct.product1r.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.product1r.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>1 R</label>
+                            <input type="text" class="form-control" name="product12r" ng-model="requestDataProduct.product12r" placeholder="" required>
+                            <span ng-show="frmProduct.$submitted || frmProduct.product12r.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.product12r.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Fixed</label>
+                            <input type="text" class="form-control" name="productPrice" ng-model="requestDataProduct.productPrice" placeholder="" required>
+                            <span ng-show="frmProduct.$submitted || frmProduct.productPrice.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.productPrice.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Allergy</label>
+                            <select class="form-control" name="allergyId" ng-model="requestDataProduct.allergyId" multiple required>
+                                <option value="">Select Allergy</option>
+                                <option ng-repeat="allergy in allAllergies" value="@{{ allergy.id }}">@{{ allergy.name }}</option>
+                            </select>
+                            <span ng-show="frmProduct.$submitted || frmProduct.allergyId.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.allergyId.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Status</label>
+                            <select class="form-control" name="status" ng-model="requestDataProduct.status" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                            <span ng-show="frmProduct.$submitted || frmProduct.status.$dirty">
+                                <span class="validationMessageClass" ng-show="frmProduct.status.$error.required">This field is required.</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer border-top-0 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-dark my-1 w-25" name="btnSubmit" ng-click="updateRecordFun(frmAddProduct.$valid);"><?= __('common.btn_submit'); ?></button>
+                    <button type="submit" class="btn btn-dark my-1 w-25" name="btnSubmit" ng-click="productRecordFun(frmProduct.$valid);"><?= __('common.btn_submit'); ?></button>
                 </div>
             </form>
         </div>

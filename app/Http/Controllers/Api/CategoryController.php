@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Category;
-use App\Models\UserCategory;
+use App\Models\UserCategory, App\Models\Allergy;
 use Illuminate\Http\Request;
 
 use JWTAuth;
@@ -24,6 +24,7 @@ class CategoryController extends ApiController
         $this->message = '';
         $this->objCategory = new Category();
         $this->objUserCategory = new UserCategory();
+        $this->objAllergy = new Allergy();
         $this->user = JWTAuth::parseToken()->authenticate();
     }
 
@@ -371,5 +372,29 @@ class CategoryController extends ApiController
             'statusCode' => $this->statusCode,
             //'data' => $category
         ], Response::HTTP_OK);
+    }
+
+    public function getAllAllergies(){
+        $responseData= array();
+        try {
+            $userId = $this->user->id;
+            $responseAllergies = $this->objAllergy->getAllAllergies();
+            if($responseAllergies){
+                $responseData['allAllergies'] = $responseAllergies;
+            }else{
+                $this->status = false;
+                $this->message = __('api.common_empty',['module' => __('api.module_allergy')]);
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+                'data' => $responseData
+            ], $this->statusCode);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => __('api.common_error_500'),
+            ], 500);
+        }
     }
 }

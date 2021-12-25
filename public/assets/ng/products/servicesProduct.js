@@ -9,10 +9,29 @@ bbAppServices.factory('productService', ['Restangular', 'userService', function(
         });
     }
 
+    function create(data, onSuccess, onError){
+        Restangular.all('api/products').post(data).then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+    }
+
+    function update(id, data, onSuccess, onError){
+        Restangular.one("api/products").customPUT(data, id).then(function(response) {
+                onSuccess(response);
+            }, function(response){
+                onError(response);
+            }
+        );
+    }
+
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 
     return {
         getUserSelectedCategoriesProducts: getUserSelectedCategoriesProducts,
+        create: create,
+        update: update,
     }
 
 }]);

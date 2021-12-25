@@ -1261,3 +1261,8 @@ ul.right-nav {
 .validationMessageClass {
     color: #ff0000;
 }
+
+.langFlag {
+    width: 20px;
+    height: 20px;
+}

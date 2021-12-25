@@ -29,11 +29,24 @@
                                 </div>
                             </div> -->
                             <div class="dropdown">
-                                <button class="btn text-white dropdown-toggle bg-none" type="button"  data-toggle="dropdown">English
+                                <button class="btn text-white dropdown-toggle bg-none" type="button"  data-toggle="dropdown">
+                                    @if(Session::has('locale'))
+                                        @if( Session('locale') == "en" )
+                                            <img src="{{ url('assets/images/united-kingdom.png') }}" class="langFlag"> English
+                                        @elseif( Session('locale') == "es" )
+                                            <img src="{{ url('assets/images/spain.png') }}" class="langFlag"> Spanish
+                                        @endif
+                                    @else
+                                        @if( Config::get('app.locale') == "en" )
+                                            <img src="{{ url('assets/images/united-kingdom.png') }}" class="langFlag"> English
+                                        @elseif( Config::get('app.locale') == "es" )
+                                            <img src="{{ url('assets/images/spain.png') }}" class="langFlag"> Spanish
+                                        @endif
+                                    @endif
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">English</a>
-                                    <a class="dropdown-item" href="#">Spanish</a>
+                                    <a class="dropdown-item" href="{{ route('change-lang', ['lang' => 'en']) }}"> <img src="{{ url('assets/images/united-kingdom.png') }}" class="langFlag"> English</a>
+                                    <a class="dropdown-item" href="{{ route('change-lang', ['lang' => 'es']) }}"> <img src="{{ url('assets/images/spain.png') }}" class="langFlag"> Spanish</a>
                                 </div>
                             </div>
                         </li>

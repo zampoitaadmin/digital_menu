@@ -76,7 +76,6 @@
         });
     });
 
-
     /*$(function () {
         $('.selectpicker').selectpicker();
         $('pick__lang').selectpicker();
@@ -88,8 +87,6 @@
         if ($('pick__lang').length) {
             $('pick__lang').selectpicker();
         }
-
-
     });
 
     function go__bahasa() {
@@ -249,6 +246,11 @@
             });
         }
     }());*/
+
+    $(document).on('click', '[data-dismiss="modal"]', function(event){
+        let bsModalId = $(event.currentTarget).parent().parent().parent().parent().attr("id");
+        $(`#${bsModalId}`).modal('hide');
+    });
 </script>
 {{--<script src="{{ asset("assets/ng/libs/angular-v1-6/angular.min.js") }}"></script>
 <script src="{{ asset("assets/ng/libs/angular-v1-6/angular-route.min.js") }}"></script>

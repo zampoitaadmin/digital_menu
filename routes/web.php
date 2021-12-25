@@ -25,10 +25,18 @@ Route::get('/', 'HomeController@index')->name('/');
 Route::get('sso/{token?}', 'HomeController@sso')->name('sso');
 Route::get('menu/{slug}', 'MenuController@menu')->name('menu');
 Route::get("logout", "HomeController@logout")->name("logout");
-Route::group(['middleware' => ['auth', 'prevent-back-history']], function() {
-    Route::get('custom-menu/{type?}', 'Front\CustomMenuController@manageCustomMenu')->name('custom-menu');
-    #Route::get('my-profile', 'Front\UserController@myProfile')->name('my-profile');
-    #Route::get('dashboard', 'Front\UserController@dashboard')->name('dashboard');
+
+Route::group(['middleware' => ['prevent-back-history', 'language']], function(){
+    Route::get('language/{lang}', function($lang){
+        \Session::put('locale', $lang);
+        return redirect()->back();
+    })->name("change-lang");
+
+    Route::group(['middleware' => ['auth', 'prevent-back-history']], function() {
+        Route::get('custom-menu/{type?}', 'Front\CustomMenuController@manageCustomMenu')->name('custom-menu');
+        #Route::get('my-profile', 'Front\UserController@myProfile')->name('my-profile');
+        #Route::get('dashboard', 'Front\UserController@dashboard')->name('dashboard');
+    });
 });
 //Front Folder and Front NameSpaces Controller
 /*Route::group([

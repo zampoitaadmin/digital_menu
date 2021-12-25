@@ -23,6 +23,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('categories', [CategoryController::class, 'getAllWithUser']);
     Route::get('categories-user', [CategoryController::class, 'getAllOnlyByUser']);
     Route::get('user-selected-categories', [CategoryController::class, 'getUserSelectedCategories']);
+    Route::get('all-allergies', [CategoryController::class, 'getAllAllergies']);
     Route::post('categories', [CategoryController::class, 'store']);
     Route::delete('categories/{category}',  [CategoryController::class, 'destroy']);
     Route::put('categories/{category}',  [CategoryController::class, 'update']);
@@ -31,6 +32,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     #Route::resource('categories', [CategoryController::class]);
 
     Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
+    Route::post('products', [ProductController::class, 'store']);
+    Route::put('products/{product_id}',  [ProductController::class, 'update']);
 
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
     Route::put('branding-by-user/{menuBranding}', [BrandingController::class, 'update']);

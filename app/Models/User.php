@@ -5,7 +5,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
+use DB;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -50,5 +50,17 @@ class User extends Authenticatable implements JWTSubject
     public function products()
     {
         return $this->hasMany(Test::class);
+    }
+
+    public function getSettingByUserId($id){
+        $select = DB::raw('*');
+        $dataBase = DB::table('user')->select($select);
+        $responseData= $dataBase->where('id', $id)->get()->first();
+        return $responseData;
+    }
+    public function updateUserSettingRecord($crud,$where)
+    {
+        $update = DB::table('user')->where($where)->update($crud);
+        return $update;
     }
 }

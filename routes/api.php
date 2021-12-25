@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\BrandingController;
+use App\Http\Controllers\Api\UserController;
 
 Route::post('login', [AuthController::class, 'authenticate']);
 Route::post('auth/connect-sso', [AuthController::class, 'authenticate']);
@@ -34,6 +35,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
     Route::put('branding-by-user/{menuBranding}', [BrandingController::class, 'update']);
     Route::put('branding-revert-default/{menuBranding}', [BrandingController::class, 'revertToDefault']);
+
+    Route::get('setting-by-user', [UserController::class, 'getSettingByUser']);
+    Route::post('setting-by-user', [UserController::class, 'updateSetting']);
 
     Route::get('logout', [ApiController::class, 'logout']);
     Route::get('get_user', [ApiController::class, 'get_user']);

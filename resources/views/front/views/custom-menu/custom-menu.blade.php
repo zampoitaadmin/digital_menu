@@ -83,6 +83,9 @@
 
     <script src='{{ asset("assets/ng/custom-menu/brandingCtrl.js?t=".time()) }}'></script>
     <script src='{{ asset("assets/ng/custom-menu/servicesBranding.js?t=".time()) }}'></script>
+
+    <script src='{{ asset("assets/ng/custom-menu/settingCtrl.js?t=".time()) }}'></script>
+    <script src='{{ asset("assets/ng/custom-menu/serviceSetting.js?t=".time()) }}'></script>
 @endsection
 
 {{--<script type='text/javascript' src='{{ asset("assets/ng/sso/index.js".'?t='.time()) }}'></script>--}}

@@ -8,6 +8,7 @@ return [
     'module_category' => "Category",
     'module_user_category' => "User Category",
     'module_branding' => "Branding",
+    'module_setting' => "Setting",
 
     'common_empty' => "Record(s) not available",
     'common_empty_records' => ":module not available",

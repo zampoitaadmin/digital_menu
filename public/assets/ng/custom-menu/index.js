@@ -1,10 +1,12 @@
 bbApp.config(function ($locationProvider,$stateProvider, $urlRouterProvider) {
    // $locationProvider.html5Mode(true);
+
     $urlRouterProvider.otherwise('/categories');
     $stateProvider.state('categories', {
         url: '/categories',
         templateUrl: 'categories.html',
         controller: 'categoriesCtrl',
+        activeTab: 'categories',
         resolve: {
             loggedIn: function(){
                 //do your checking here
@@ -22,7 +24,8 @@ bbApp.config(function ($locationProvider,$stateProvider, $urlRouterProvider) {
     }).state('setting', {
         url: '/setting',
         templateUrl: 'setting.html',
-        controller: 'productsCtrl',
+        controller: 'settingCtrl',
+        activeTab: 'setting'
     });/*.state('detail', {
      url: '/detail/:taxId',
      templateUrl: 'detail.html',

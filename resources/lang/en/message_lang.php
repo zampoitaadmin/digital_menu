@@ -29,5 +29,12 @@ return [
     'branding_logo' => "Brand Logo",
     'branding_revert_to_Default' => "Revert To Default",
 
+    'setting_website_template' => "Active Menu In Website Template",
+    'setting_url_externally' => "use the below URL to link your menu externally",
+    'setting_delivery_info_text' => "Enter Your Delivery Information Below",
+    'setting_standard_delivery_charge' => "Standard Delivery Charge",
+    'setting_minimum_delivery_charge' => "Minimum Order For Delivery",
+    'setting_free_delivery_charge' => "Free Delivery Charge on Order Over",
+
 ];
 ?>

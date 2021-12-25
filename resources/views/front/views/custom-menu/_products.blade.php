@@ -3,23 +3,6 @@
         <div class="row  ">
             <div class="col-lg-2 col-md-12 right-box">
                 @include('front.views.custom-menu._left_side_categories')
-                {{--<div class="card bg-transparent d-sm-none d-md-block d-none d-sm-block">
-                    <div class="body widget text-center py-1 px-1 ">
-                        <ul class="list-unstyled categories-clouds mb-0">
-                            <li class="w-100"><a href="javascript:void(0);" class="btn_custom_for_only_color">eCommerce</a></li>
-                            <li class="w-100"><a href="javascript:void(0);" class="btn_custom_for_only_color">Creative UX</a></li>
-                            <li class="w-100"><a href="javascript:void(0);" class="btn_custom_for_only_color">Wordpress</a></li>
-                            <li class="w-100"><a href="javascript:void(0);" class="btn_custom_for_only_color">Angular JS</a></li>
-                            <li class="w-100"><a href="javascript:void(0);" class="btn_custom_for_only_color">HTML5</a></li>
-                            <li class="w-100"><a href="javascript:void(0);" class="btn_custom_for_only_color">Infographics </a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="justify-content-center d-flex m-4 d-block d-sm-none">
-                    <button type="button" class="btn btn_custom_for_only_color" data-toggle="modal" data-target="#exampleModal">
-                        Select Your Cetegory
-                    </button>
-                </div>--}}
             </div>
             <div class="col-lg-10 col-md-12 left-box">
                 <div class="row">
@@ -76,13 +59,13 @@
                                                                             <img src="{{ _betagitZampoitaWebUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
                                                                         </button>
                                                                     </div>
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Fixed Price">@{{ productInfo.product_price | currency : "€" }}</a>
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Fixed Price">{{ config('constants.currency') }}@{{ productInfo.product_price }}</a>
 
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1 R">@{{ productInfo.product_1r | currency : "€" }}</a>
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1 R">{{ config('constants.currency') }}@{{ productInfo.product_1r }}</a>
 
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1/2 R">@{{ productInfo.product_12r | currency : "€" }}</a>
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1/2 R">{{ config('constants.currency') }}@{{ productInfo.product_12r }}</a>
 
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Tapa">@{{ productInfo.product_topa | currency : "€" }}</a>
+                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Tapa">{{ config('constants.currency') }}@{{ productInfo.product_topa }}</a>
                                                                     </p>
                                                                 </div>
                                                             </div>

@@ -488,6 +488,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
             
             if(isArrayDifferent){
                 let jsObject = {'newUserCategoryOrder':newUserCategoryOrder};
+                $scope.currentUserCategoryOrder = newUserCategoryOrder;
                 categoryService.updateUserCategoryOrder(jsObject, function(response){
                     if(response.status){
                         Notification.success(response.message);

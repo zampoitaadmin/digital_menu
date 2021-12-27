@@ -263,6 +263,22 @@ class ProductController extends ApiController
                         }else{
                         }
                     }
+                    $responseProduct = $this->objProduct->getProductInfo($product->product_id);
+                    if($responseProduct){
+                        $responseProduct->product_price = _number_format($responseProduct->product_price);
+                        $responseProduct->product_topa = _number_format($responseProduct->product_topa);
+                        $responseProduct->product_1r = _number_format($responseProduct->product_1r);
+                        $responseProduct->product_12r = _number_format($responseProduct->product_12r);
+                        $responseAllergies = $this->objAllergy->getProductAllergies($responseProduct->product_id);
+                        $allergyIdArray = array();
+                        if($responseAllergies){
+                            foreach ($responseAllergies as $allergyKey => $allergyInfo){
+                                array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+                            }
+                        }
+                        $responseProduct->responseAllergies = $responseAllergies;
+                        $responseProduct->allergyIdArray = $allergyIdArray;
+                    }
                     $this->message = __('api.common_update',['module'=> __('api.module_product')]);
                 }else{
                     $this->status = false;
@@ -281,6 +297,7 @@ class ProductController extends ApiController
             'status' => $this->status,
             'message' => $this->message,
             'statusCode' => $this->statusCode,
+            'data' => $responseProduct,
         ], $this->statusCode);
     }
     public function destroy(Product $product)
@@ -288,8 +305,28 @@ class ProductController extends ApiController
         if($product){
             $userId = $this->user->id;
             if($product->user_id == $userId){
+                $categoryId = $product->category_id;
                 $responseDelete = $product->delete();
                 $this->objProduct->deleteRecordByProductId($product->product_id);
+                $responseProducts = $this->objProduct->getProductData($categoryId, $userId);
+                if($responseProducts){
+                    foreach ($responseProducts as $productKey => $productInfo)
+                    {
+                        $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
+                        $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
+                        $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);
+                        $responseProducts[$productKey]->product_12r = _number_format($productInfo->product_12r);
+                        $responseAllergies = $this->objAllergy->getProductAllergies($productInfo->product_id);
+                        $allergyIdArray = array();
+                        if($responseAllergies){
+                            foreach ($responseAllergies as $allergyKey => $allergyInfo){
+                                array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+                            }
+                        }
+                        $responseProducts[$productKey]->responseAllergies = $responseAllergies;
+                        $responseProducts[$productKey]->allergyIdArray = $allergyIdArray;
+                    }
+                }
                 $this->message = __('api.common_delete',['module'=> __('api.module_product')]);
             }else{
                 $this->status = false;
@@ -304,7 +341,7 @@ class ProductController extends ApiController
             'status' => $this->status,
             'message' => $this->message,
             'statusCode' => $this->statusCode,
-            //'data' => $category
+            'data' => $responseProducts
         ], $this->statusCode);
         //$product->delete();
 

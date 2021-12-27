@@ -8,18 +8,28 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="main">
-                            <div class="pull-right">
-                                <div class="btn btn_custom_for_only_color my-2" ng-click="openAddProductModal()">Add Product</div>
+                            <div class="productTabHeaderDiv">
+                                <div ng-repeat="category in userSelectedCategories" ng-if="category.category_type=='Fixed'">
+                                    <div class="btn btn_custom_for_only_color productTabHeaderButtons">
+                                        <div ng-if="category.change_category_name">
+                                            @{{ category.change_category_name }} (@{{ category.name }})
+                                        </div>
+                                        <div ng-if="!category.change_category_name">
+                                            @{{ category.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn btn_custom_for_only_color productTabHeaderAddProduct" ng-click="openAddProductModal()">Add Product</div>
                             </div>
                             <span class="loaderProduct bb-loader" ng-bind-html="loaderProduct" ng-if="loaderProduct.length>0"></span>
                             <div class="accordion" id="faq">
-                                <div class="card" style="background: none" ng-repeat="categoryProduct in userSelectedCategoriesProducts">
+                                <div class="card" style="background: none;" ng-repeat="(categoryKey, categoryProduct) in userSelectedCategoriesProducts">
                                     <div class="card-header">
-                                        <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }}</a>
+                                        <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }} </a>
                                     </div>
                                     <div id="@{{ categoryProduct.slug }}" class="collapse" data-parent="#faq">
                                         <div class="card-body px-3 py-1">
-                                            <div class="row bootstrap snippets bootdeys" id="store-list" ng-repeat="productInfo in categoryProduct.responseProducts">
+                                            <div class="row bootstrap snippets bootdeys" id="store-list" ng-repeat="(productKey, productInfo) in categoryProduct.responseProducts">
                                                 <div class="col-md-12 col-xs-12">
                                                     <div class="panel">
                                                         <div class="panel-body">
@@ -41,13 +51,13 @@
                                                                         </strong>
                                                                     </h4>
                                                                     <div class="pull-right">
-                                                                        <button type="button" class="btn btn-sm btn-primary mb-1" ng-click="openEditProductModal(productInfo)">
+                                                                        <button type="button" class="btn btn-sm btn-primary mb-1" ng-click="openEditProductModal(productInfo,categoryKey,productKey)">
                                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                                         </button>
                                                                         <button type="button" class="btn btn-sm btn-warning mb-1">
                                                                             <i class="fa fa-archive" aria-hidden="true"></i>
                                                                         </button>
-                                                                        <button type="button" class="btn btn-sm btn-danger mb-1" ng-click="deleteRecordFun(productInfo)">
+                                                                        <button type="button" class="btn btn-sm btn-danger mb-1" ng-click="deleteRecordFun(productInfo,categoryKey)">
                                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
@@ -57,10 +67,12 @@
                                                                     </p>
                                                                     <p>
                                                                     <p class="my-2" ng-if="productInfo.responseAllergies.length"><b>Allergy items selected</b></p>
-                                                                    <div ng-repeat="allergyInfo in productInfo.responseAllergies">
-                                                                        <button type="button" class="p-0 btn btn-outline-info">
-                                                                            <img src="{{ _betagitZampoitaWebUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
-                                                                        </button>
+                                                                    <div class="productAllergiesDiv">
+                                                                        <div ng-repeat="allergyInfo in productInfo.responseAllergies">
+                                                                            <button type="button" class="p-0 mr-1 btn btn-outline-info">
+                                                                                <img src="{{ _betagitZampoitaWebUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                     <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Fixed Price">{{ config('constants.currency') }}@{{ productInfo.product_price }}</a>
 

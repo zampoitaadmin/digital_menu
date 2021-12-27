@@ -1258,11 +1258,27 @@ ul.right-nav {
 }
 }
 
-.validationMessageClass {
+/* Start Css: By KR */
+.validationMessageClass{
     color: #ff0000;
 }
-
-.langFlag {
+.langFlag{
     width: 20px;
     height: 20px;
 }
+.productTabHeaderDiv{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0;
+    padding-right: 0;
+}
+.productTabHeaderButtons{
+    margin: 0.25rem 0.25rem 1rem 0.25rem;
+}
+.productTabHeaderAddProduct{
+    margin: 0.25rem 0rem 1rem 0.25rem;
+}
+.productAllergiesDiv{
+    display: flex;
+}
+/* End Css: By KR */

@@ -178,12 +178,13 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
     };
 
     $scope.productRecordFun = function(isValidForm){
+        let updateItemCategoryKey = $scope.updateItem.categoryKey;
+        let updateItemProductKey = $scope.updateItem.productKey;
         $scope.formCrudRequestErrors = {};
         console.log($scope.requestDataProduct);
         if(isValidForm){
             if($scope.requestDataProduct.id>0){ // Update
                 console.log("IN UPDATE");
-                debugger;
                 productService.update(
                     $scope.requestDataProduct.id,
                     {
@@ -204,7 +205,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                             $scope.formCrudRequestErrors = {};
                             //alert(response.message);
                             Notification.success(response.message);
-                            $scope.onLoadFun();
+                            // $scope.onLoadFun();
+                            $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
                         }else{
                             Notification.error(response.message);
                             $scope.formCrudRequestErrors.message =  response.message;
@@ -264,8 +266,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         }
     };
 
-    $scope.deleteRecordFun = function(record){
-
+    $scope.deleteRecordFun = function(record,categoryKey){
         swal.fire({
             title: 'Are you sure you want to delete "'+record.product_name+'" product?',
             //text: "You won't be able to revert this("+record.name+")!",
@@ -283,7 +284,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                         console.log(response);
                         if(response.status){
                             Notification.success(response.message);
-                            $scope.onLoadFun();
+                            // $scope.onLoadFun();
+                            $scope.userSelectedCategoriesProducts[categoryKey].responseProducts = response.data;
                         }else{
                             Notification.error(response.message);
                             $scope.formCrudRequestErrors.message =  response.message;
@@ -321,8 +323,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.updateModalTitle = false;
     };
 
-    $scope.openEditProductModal = function(record){
-
+    $scope.openEditProductModal = function(record,categoryKey,productKey){
+        $scope.updateItem = {categoryKey, productKey};
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
 

@@ -24,6 +24,17 @@ class Product extends Model
         'created_at',
         'updated_at'
     ];
+    public function getProductInfo($productId)
+    {
+        $select = DB::raw('products.*, category.name');
+        $dataBase = DB::table('products')->select($select);
+        $dataBase->join('category', function ($join) {
+            $join->on('products.category_id', '=', 'category.id');
+        });
+        $dataBase->where('products.product_id', $productId);
+        $responseData= $dataBase->first();
+        return $responseData;
+    }
     public function getProductData($categoryId, $userId)
     {
         // SELECT products.*, category.name FROM products JOIN category ON products.category_id = category.id WHERE products.category_id = '11' AND products.user_id = '2930' ORDER BY category.id ASC, products.product_order ASC

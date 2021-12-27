@@ -26,12 +26,21 @@ bbAppServices.factory('productService', ['Restangular', 'userService', function(
         );
     }
 
+    function remove(id, onSuccess, onError){
+        Restangular.one('api/products/', id).remove().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+    }
+
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 
     return {
         getUserSelectedCategoriesProducts: getUserSelectedCategoriesProducts,
         create: create,
         update: update,
+        remove: remove
     }
 
 }]);

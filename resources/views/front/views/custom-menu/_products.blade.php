@@ -47,7 +47,7 @@
                                                                         <button type="button" class="btn btn-sm btn-warning mb-1">
                                                                             <i class="fa fa-archive" aria-hidden="true"></i>
                                                                         </button>
-                                                                        <button type="button" class="btn btn-sm btn-danger mb-1">
+                                                                        <button type="button" class="btn btn-sm btn-danger mb-1" ng-click="deleteRecordFun(productInfo)">
                                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>

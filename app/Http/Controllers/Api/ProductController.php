@@ -283,4 +283,34 @@ class ProductController extends ApiController
             'statusCode' => $this->statusCode,
         ], $this->statusCode);
     }
+    public function destroy(Product $product)
+    {
+        if($product){
+            $userId = $this->user->id;
+            if($product->user_id == $userId){
+                $responseDelete = $product->delete();
+                $this->objProduct->deleteRecordByProductId($product->product_id);
+                $this->message = __('api.common_delete',['module'=> __('api.module_product')]);
+            }else{
+                $this->status = false;
+                $this->message = __('api.common_error_access_denied');
+            }
+        }else{
+            #$this->statusCode = Response::HTTP_NOT_FOUND;
+            $this->status = false;
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+        }
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+            //'data' => $category
+        ], $this->statusCode);
+        //$product->delete();
+
+        /*return response()->json([
+            'success' => true,
+            'message' => 'Product deleted successfully'
+        ], Response::HTTP_OK);*/
+    }
 }

@@ -34,6 +34,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
     Route::post('products', [ProductController::class, 'store']);
     Route::put('products/{product}',  [ProductController::class, 'update']);
+    Route::delete('products/{product}',  [ProductController::class, 'destroy']);
 
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
     Route::put('branding-by-user/{menuBranding}', [BrandingController::class, 'update']);

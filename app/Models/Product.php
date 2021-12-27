@@ -75,4 +75,11 @@ class Product extends Model
             ->delete();
         return true;
     }
+    public function deleteRecordByProductId($productId)
+    {
+        $dataBase =  DB::table('product_allergies');
+        $dataBase->where('product_id', $productId);
+        $dataBase->delete();
+        return true;
+    }
 }

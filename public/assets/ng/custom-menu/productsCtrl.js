@@ -264,6 +264,55 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         }
     };
 
+    $scope.deleteRecordFun = function(record){
+
+        swal.fire({
+            title: 'Are you sure you want to delete "'+record.product_name+'" product?',
+            //text: "You won't be able to revert this("+record.name+")!",
+            icon: 'warning',
+            showCancelButton: true,
+            //confirmButtonColor: '#3085d6',
+            //cancelButtonColor: '#d33',
+            //confirmButtonColor: '#2EB973',
+           // cancelButtonColor: '#FA4559',
+            confirmButtonText: 'Yes, delete it!'
+        }).
+            then((result) => {
+                if(result.value){
+                    productService.remove(record.product_id, function(response){
+                        console.log(response);
+                        if(response.status){
+                            Notification.success(response.message);
+                            $scope.onLoadFun();
+                        }else{
+                            Notification.error(response.message);
+                            $scope.formCrudRequestErrors.message =  response.message;
+                        }
+                    }, function(response){
+                        //alert('Some errors occurred while communicating with the service. Try again later.');
+                        var responseData = response.data;
+                        if(response.status != 200){
+                            if(angular.isObject(responseData.message)){
+                                //$scope.requestFormDataError = response.data.message;
+                                console.warn(responseData.message);
+                            }else{
+                                // bbNotification.error(response.data.message);
+                                if(responseData.message.length==0){
+                                    $scope.loaderUserSelectedCategory = $window.msgError;
+                                }else {
+                                    //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                    Notification.error(responseData.message);
+                                    //$scope.formCrudRequestErrors.message = responseData.message ;
+                                    //TODO Error Msg with Refresh
+                                    //alert("in "+responseData.message);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+    };
+
     $scope.openAddProductModal = function(){
         $('#productModel').modal('show');
         $scope.resetProductData();

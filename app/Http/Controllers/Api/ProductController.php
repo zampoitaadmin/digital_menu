@@ -93,7 +93,14 @@ class ProductController extends ApiController
             'product1r' => 'required',
             'product12r' => 'required',
             'productPrice' => 'required',
-            'allergyId' => 'required',
+            'allergyId' => [
+                'required','array',function ($attribute, $value, $fail){
+                    $value = array_filter($value);
+                    if(empty($value)){
+                        $fail($attribute. ' is required.');
+                    }
+                },
+            ],
             'status' => 'required',
         ]);
         //Send failed response if request is not valid
@@ -169,17 +176,31 @@ class ProductController extends ApiController
         ], Response::HTTP_OK);
     }
     public function update(Product $product,Request $request){
-        _pre($product, 0);
-        _pre($request->all());
-        exit;
+        // _pre($product);
+        // _pre($request->all());
+        // exit;
         // _pre($product->user_id);
         if($product){
             $userId = $this->user->id;
             if($product->user_id == $userId){
-                $data = $request->only('categoryNameSp', 'categoryNameEn');
+                $data = $request->only('categoryId', 'productName', 'productDescription', 'productTopa', 'product1r', 'product12r', 'productPrice', 'allergyId', 'status');
                 $validator = Validator::make($data, [
-                    'categoryNameSp' => 'required',
-                    'categoryNameEn' => 'required',
+                    'categoryId' => 'required',
+                    'productName' => 'required',
+                    'productDescription' => 'required',
+                    'productTopa' => 'required',
+                    'product1r' => 'required',
+                    'product12r' => 'required',
+                    'productPrice' => 'required',
+                    'allergyId' => [
+                        'required','array',function ($attribute, $value, $fail){
+                            $value = array_filter($value);
+                            if(empty($value)){
+                                $fail($attribute. ' is required.');
+                            }
+                        },
+                    ],
+                    'status' => 'required',
                 ]);
                 //Send failed response if request is not valid
                 if ($validator->fails()) {
@@ -189,18 +210,59 @@ class ProductController extends ApiController
                     $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
                     return response()->json($responseData,$this->statusCode);
                 }
-                $categoryNameEn = trim($request->categoryNameEn);
-                $categoryNameSp = trim($request->categoryNameSp);
+                //Request is valid, create new category
+                $categoryId = trim($request->categoryId);
+                $productName = trim($request->productName);
+                $productDescription = trim($request->productDescription);
+                $productTopa = trim($request->productTopa);
+                $product1r = trim($request->product1r);
+                $product12r = trim($request->product12r);
+                $productPrice = trim($request->productPrice);
+                $allergyId = ($request->allergyId);
+                $status = trim($request->status);
+                $currentDateTime = getCurrentDateTime();
                 $crudData = array(
-                    'name' => $categoryNameEn ,
-                    'spanish' => $categoryNameSp,
-                    'updated_by' => $userId,
-                    //'created_on' => getCurrentDateTime(),
-                    'updated_on' => getCurrentDateTime(),
+                    'category_id' => $categoryId,
+                    'user_id' => $userId,
+                    'product_type' => NULL,
+                    'product_name' => $productName,
+                    'product_description' => $productDescription,
+                    'product_main_image' => NULL,
+                    'product_price' => $productPrice,
+                    'product_topa' => $productTopa,
+                    'product_1r' => $product1r,
+                    'product_12r' => $product12r,
+                    'product_multiple_image' => NULL,
+                    'product_order' => NULL,
+                    'status' => $status,
+                    'updated_at' => $currentDateTime,
                 );
-                $where = array('id' => $category->id);
-                $responseUpdate = $this->objCategory->updateRecord($crudData,$where);
+                $where = array('product_id' => $product->product_id);
+                $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                 if($responseUpdate){
+                    $currAllergyIdArr = $this->objProduct->getProductAllergyIds($product->product_id);
+                    $newAllergyIdArr = array_map('intval', $allergyId);
+                    $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
+                    $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
+                    if(!empty($needDeleteArr)){
+                        $needDeleteArr = array_values($needDeleteArr);
+                        $this->objProduct->deleteProductAllergy($product->product_id, $needDeleteArr); // Delete
+                    }
+                    if(!empty($needInsertArr)){
+                        $needInsertArr = array_values($needInsertArr);
+                        $insertRecords = array();
+                        for($i=0; $i < count($needInsertArr); $i++){
+                            $insertRecords[] = array(
+                                'product_id' => $product->product_id,
+                                'allergy_id' => $needInsertArr[$i],
+                                'created_at' => $currentDateTime
+                            );
+                        }
+                        $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords); // Insert
+                        if($responseBulkInsert){
+                        }else{
+                        }
+                    }
                     $this->message = __('api.common_update',['module'=> __('api.module_product')]);
                 }else{
                     $this->status = false;

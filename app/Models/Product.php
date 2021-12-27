@@ -53,4 +53,26 @@ class Product extends Model
         $lastId = DB::table('product_allergies')->insert($crud);
         return $lastId;
     }
+    public function getProductAllergyIds($productId)
+    {
+        $info = DB::table('product_allergies')
+            ->select(DB::raw("group_concat(product_allergies.allergy_id) as allergyIds"))
+            ->where('product_allergies.product_id',$productId)
+            ->orderBy('product_allergies.product_allergy_id','desc')
+            ->first();
+        if($info->allergyIds){
+            $arr = explode(",", $info->allergyIds);
+            return array_map('intval', $arr);
+        }else{
+            return array();
+        }
+    }
+    public function deleteProductAllergy($productId, $needDeleteArr)
+    {
+        DB::table('product_allergies')
+            ->where('product_id', $productId)
+            ->whereIn('allergy_id', $needDeleteArr)
+            ->delete();
+        return true;
+    }
 }

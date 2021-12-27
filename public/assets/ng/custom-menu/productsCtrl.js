@@ -248,9 +248,11 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                         if(response.status != 200){
                             if(angular.isObject(responseData.message)){
                                 console.warn(responseData.message);
+                                $scope.formCrudRequestErrors =  responseData.message;
                             }else{
                                 if(responseData.message.length==0){
                                     // $scope.loaderUserSelectedCategory = $window.msgError;
+                                    $scope.formCrudRequestErrors.message = $window.msgError;
                                 }else {
                                     Notification.error(responseData.message);
                                 }
@@ -266,6 +268,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $('#productModel').modal('show');
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
+        $scope.addModalTitle = true;
+        $scope.updateModalTitle = false;
     };
 
     $scope.openEditProductModal = function(record){
@@ -276,6 +280,9 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  'allergyId':record.allergyIdArray,  'status':record.status,  'id':record.product_id};
 
         $('#productModel').modal('show');
+
+        $scope.addModalTitle = false;
+        $scope.updateModalTitle = true;
     };
 
     $scope.onLoadFun = function(){

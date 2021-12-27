@@ -36,8 +36,21 @@ return [
     'setting_minimum_delivery_charge' => "Minimum Order For Delivery",
     'setting_free_delivery_charge' => "Free Delivery Charge on Order Over",
 
+    /* Product */
     'product_menu_item_no' => "MENU ITEM NO",
     'product_add_product' => "Add Product",
     'product_update_product' => "Update Product",
+
+    'lbl_category' => "Category",
+    'lbl_product_name' => "Product Name",
+    'lbl_product_description' => "Product Description",
+    'lbl_upload_file' => "Upload File",
+    'lbl_product_price' => "Product Price",
+    'lbl_tapa' => "Tapa",
+    'lbl_12r' => "1/2 R",
+    'lbl_1r' => "1 R",
+    'lbl_fixed' => "Fixed",
+    'lbl_allergy' => "Allergy",
+    'lbl_status' => "Status",
 ];
 ?>

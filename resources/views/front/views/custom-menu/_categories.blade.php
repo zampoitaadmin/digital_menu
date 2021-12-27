@@ -92,13 +92,13 @@
                                         <div class="col-md-6">
                                             <input type="text" class="form-control my-1" name="categoryNameSp" ng-model="formCrudRequestData.categoryNameSp" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_categorySP')]); ?>" required>
                                             <span ng-show="frmAddCategory.$submitted || frmAddCategory.categoryNameSp.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameSp.$error.required">This field is required.</span>
+                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameSp.$error.required"><?= __('common.validation_message_required'); ?></span>
                                             </span>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" class="form-control my-1" name="categoryNameEn" ng-model="formCrudRequestData.categoryNameEn" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_category')]); ?>" required>
                                             <span ng-show="frmAddCategory.$submitted || frmAddCategory.categoryNameEn.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameEn.$error.required">This field is required.</span>
+                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameEn.$error.required"><?= __('common.validation_message_required'); ?></span>
                                             </span>
                                         </div>
                                     </div>
@@ -131,14 +131,14 @@
                         <label for="email1"><?= ucfirst(__('message_lang.form_input_categorySP')); ?></label>
                         <input type="text" class="form-control my-1" name="categoryNameSp" ng-model="formCrudRequestData.categoryNameSp" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_categorySP')]); ?>" required>
                         <span ng-show="frmUpdateCategory.$submitted || frmUpdateCategory.categoryNameSp.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmUpdateCategory.categoryNameSp.$error.required || formCrudRequestErrors.categoryNameSp">This field is required.</span>
+                                                <span class="validationMessageClass" ng-show="frmUpdateCategory.categoryNameSp.$error.required || formCrudRequestErrors.categoryNameSp"><?= __('common.validation_message_required'); ?></span>
                         </span>
                     </div>
                     <div class="form-group">
                         <label for="email1"><?= ucfirst(__('message_lang.form_input_category')); ?></label>
                         <input type="text" class="form-control my-1" name="categoryNameEn" ng-model="formCrudRequestData.categoryNameEn" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_category')]); ?>" required>
                         <span ng-show="frmUpdateCategory.$submitted || frmUpdateCategory.categoryNameEn.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmUpdateCategory.categoryNameEn.$error.required  || formCrudRequestErrors.categoryNameEn">This field is required.</span>
+                                                <span class="validationMessageClass" ng-show="frmUpdateCategory.categoryNameEn.$error.required  || formCrudRequestErrors.categoryNameEn"><?= __('common.validation_message_required'); ?></span>
                         </span>
                     </div>
                     <p class="validationMessageClass" ng-if="formCrudRequestErrors.message" > @{{ formCrudRequestErrors.message}}</p>

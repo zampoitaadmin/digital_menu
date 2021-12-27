@@ -192,41 +192,42 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="exampleModalLabel"><?= __('message_lang.product_add_product'); ?></h5>
+                <h5 class="modal-title" id="exampleModalLabel" ng-if="addModalTitle"><?= __('message_lang.product_add_product'); ?></h5>
+                <h5 class="modal-title" id="exampleModalLabel" ng-if="updateModalTitle"><?= __('message_lang.product_update_product'); ?></h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <form name="frmProduct" id="frmProduct" novalidate autocomplete="off">
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label>Category</label>
+                            <label><?= ucfirst(__('message_lang.lbl_category')); ?></label>
                             <select class="form-control" name="categoryId" ng-model="requestDataProduct.categoryId" required>
                                 <option value="">Select Your Category</option>
                                 <option ng-repeat="category in userSelectedCategories" ng-if="category.category_type=='Normal'" value="@{{ category.id }}">@{{ category.name }}</option>
                             </select>
                             <span ng-show="frmProduct.$submitted || frmProduct.categoryId.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.categoryId.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.categoryId.$error.required || formCrudRequestErrors.categoryId"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Product Name</label>
+                            <label><?= ucfirst(__('message_lang.lbl_product_name')); ?></label>
                             <input type="text" class="form-control" name="productName" ng-model="requestDataProduct.productName" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.productName.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.productName.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.productName.$error.required || formCrudRequestErrors.productName"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label>Product Description</label>
+                            <label><?= ucfirst(__('message_lang.lbl_product_description')); ?></label>
                             <textarea class="form-control" name="productDescription" ng-model="requestDataProduct.productDescription" required></textarea>
                             <span ng-show="frmProduct.$submitted || frmProduct.productDescription.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.productDescription.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.productDescription.$error.required || formCrudRequestErrors.productDescription"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Upload File</label>
+                        <label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
                         <!-- <div class="preview-zone hidden">
                         </div>
                         <div class="dropzone-wrapper">
@@ -243,56 +244,56 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-12">
-                            <label for="inputState">Product Price  </label>
+                            <label for="inputState"><?= ucfirst(__('message_lang.lbl_product_price')); ?>  </label>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Tapa</label>
+                            <label><?= ucfirst(__('message_lang.lbl_tapa')); ?></label>
                             <input type="text" class="form-control" name="productTopa" ng-model="requestDataProduct.productTopa" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.productTopa.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.productTopa.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.productTopa.$error.required || formCrudRequestErrors.productPrice"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>1/2 R</label>
+                            <label><?= ucfirst(__('message_lang.lbl_1r')); ?></label>
                             <input type="text" class="form-control" name="product1r" ng-model="requestDataProduct.product1r" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.product1r.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.product1r.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.product1r.$error.required || formCrudRequestErrors.product1r"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>1 R</label>
+                            <label><?= ucfirst(__('message_lang.lbl_12r')); ?></label>
                             <input type="text" class="form-control" name="product12r" ng-model="requestDataProduct.product12r" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.product12r.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.product12r.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.product12r.$error.required || formCrudRequestErrors.product12r"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>Fixed</label>
+                            <label><?= ucfirst(__('message_lang.lbl_fixed')); ?></label>
                             <input type="text" class="form-control" name="productPrice" ng-model="requestDataProduct.productPrice" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.productPrice.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.productPrice.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.productPrice.$error.required || formCrudRequestErrors.productPrice"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label>Allergy</label>
+                            <label><?= ucfirst(__('message_lang.lbl_allergy')); ?></label>
                             <select class="form-control" name="allergyId" ng-model="requestDataProduct.allergyId" multiple required>
                                 <option value="">Select Allergy</option>
                                 <option ng-repeat="allergy in allAllergies" value="@{{ allergy.id }}">@{{ allergy.name }}</option>
                             </select>
                             <span ng-show="frmProduct.$submitted || frmProduct.allergyId.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.allergyId.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.allergyId.$error.required || formCrudRequestErrors.allergyId"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Status</label>
+                            <label><?= ucfirst(__('message_lang.lbl_status')); ?></label>
                             <select class="form-control" name="status" ng-model="requestDataProduct.status" required>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
                             </select>
                             <span ng-show="frmProduct.$submitted || frmProduct.status.$dirty">
-                                <span class="validationMessageClass" ng-show="frmProduct.status.$error.required">This field is required.</span>
+                                <span class="validationMessageClass" ng-show="frmProduct.status.$error.required || formCrudRequestErrors.status"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                     </div>

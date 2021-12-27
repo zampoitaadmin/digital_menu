@@ -1,4 +1,4 @@
-
+Dropzone.autoDiscover = false;
 bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService', 'categoryService', 'productService','$window','Notification',  function ($scope, $location, userService, categoryService, productService,$window,Notification) {
     console.info("in productsCtrl");
     $('a[href="custom-menu#products"]').click();

@@ -16,6 +16,8 @@
 <script type="text/javascript" src="{{ url('xPlugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ url('xPlugins/sweetalert2/sweetalert2.min.css') }}">
 
+<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropzone/css/dropzone.min.css') }}">
+<script src="{{ url('xPlugins/dropzone/js/dropzone.min.js') }}"></script>
 
 <script type="text/javascript">
     function readFile(input) {

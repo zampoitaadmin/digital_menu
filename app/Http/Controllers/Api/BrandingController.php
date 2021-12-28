@@ -242,4 +242,48 @@ class BrandingController extends ApiController
             'statusCode' => $this->statusCode,
         ], $this->statusCode);
     }
+    public function getBrandingLogo(){
+        $responseData= array();
+        try {
+            $userId = $this->user->id;
+            $responseBranding = $this->objMenuBranding->getOneByUserId($userId);
+            if($responseBranding){
+                unset($responseBranding->user_id);
+                $responseData['branding'] = $responseBranding;
+            }else{
+                $responseBranding = $this->createDefault();
+                $responseData['branding'] = $responseBranding;
+            }
+            $fileList = [];
+            $targetDir = public_path('uploads/menu_branding/');
+            $dir = $targetDir;
+            if (is_dir($dir)){
+                if ($dh = opendir($dir))
+                {
+                    while (($file = readdir($dh)) !== false){
+                        if($file != '' && $file != '.' && $file != '..')
+                        {
+                            $filePath = $targetDir.$file;
+                            if(!is_dir($filePath)){
+                                $size = filesize($filePath);
+                                $fileUrl = url('uploads/menu_branding/').'/'.$file;
+                                $fileList[] = ['name'=>$file, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl];
+                            }
+                        }
+                    }
+                    closedir($dh);
+                }
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+                'data' => $fileList
+            ], $this->statusCode);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => __('api.common_error_500'),
+            ], 500);
+        }
+    }
 }

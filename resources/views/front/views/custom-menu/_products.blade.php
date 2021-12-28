@@ -29,8 +29,8 @@
                                     </div>
                                     <div id="@{{ categoryProduct.slug }}" class="collapse" data-parent="#faq">
                                         <div class="card-body px-3 py-1" ui-sortable="sortableOptions">
-                                            <div class="row bootstrap snippets bootdeys" id="store-list" ng-repeat="(productKey, productInfo) in categoryProduct.responseProducts">
-                                                <div class="col-md-12 col-xs-12" style="border: 1px solid #000;">
+                                            <div class="row bootstrap snippets bootdeys productRow" id="store-list" ng-repeat="(productKey, productInfo) in categoryProduct.responseProducts">
+                                                <div class="col-md-12 col-xs-12">
                                                     <div class="panel">
                                                         <div class="panel-body">
                                                             <div class="row">

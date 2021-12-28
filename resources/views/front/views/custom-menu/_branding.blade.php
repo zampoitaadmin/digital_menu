@@ -1,3 +1,10 @@
+<style type="text/css">
+    .dz-preview .dz-image img{
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+</style>
 <div role="tabpanel" class="tab-pane  active show1 " id="branding">
     <div class="container ">
         <div class="row ">
@@ -50,9 +57,9 @@
     Dropzone.autoDiscover = false;
     var brandingDropzone;
     $(function () {
-        initBrandingDropzone();
+        // initBrandingDropzone();
     });
-    function initBrandingDropzone(){
+    /*function initBrandingDropzone(){
         brandingDropzone = new Dropzone("div#brandingDropzoneDragArea", {
             paramName: "brandLogo",
             url: "{{ url('/api/branding-logo') }}",
@@ -65,6 +72,26 @@
             params: {
             },
             init: function () {
+                brandingDropzoneThis = this;
+                $.ajax({
+                    url: "{{ url('/api/branding-logo') }}",
+                    type: 'get',
+                    dataType: 'json',
+                    headers: {"Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbC56YW1wb2l0YS5jb21cL2FwaVwvYXV0aFwvY29ubmVjdC1zc28iLCJpYXQiOjE2NDA2NjgzMDcsImV4cCI6MTY0MDc1NDcwNywibmJmIjoxNjQwNjY4MzA3LCJqdGkiOiJjdWVMQUd0N0dwYk44WFlVIiwic3ViIjoyOTYxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fxSYvIgz8RCjMN34UoGU1htVdleaRNYR7GNg7oX0itY"},
+                    success: function (response) {
+                        if(response.status){
+                            $.each(response.data, function (key, value) {
+                                var mockFile = {
+                                    name: value.name,
+                                    size: value.size
+                                };
+                                brandingDropzoneThis.emit("addedfile", mockFile);
+                                brandingDropzoneThis.emit("thumbnail", mockFile, value.url);
+                                brandingDropzoneThis.emit("complete", mockFile);
+                            });
+                        }
+                    }
+                });
                 this.on("success", function (file, response) {
                     if(response.status){
                         $('.branding-dropzone-previews').empty();
@@ -84,5 +111,5 @@
                 })
             }
         });
-    }
+    }*/
 </script>

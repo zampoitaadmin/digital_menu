@@ -891,9 +891,9 @@ display: block;
 
 text-align: left;
 
-background: #fff;
+background: #bc874a;
 
-color: #222;
+color: #fff;
 
 padding: 10px;
 
@@ -1280,5 +1280,11 @@ ul.right-nav {
 }
 .productAllergiesDiv{
     display: flex;
+}
+.productRow{
+    border: 2px dashed #000;
+    margin: 10px 0px !important;
+    padding: 10px;
+    border-radius: 20px;
 }
 /* End Css: By KR */

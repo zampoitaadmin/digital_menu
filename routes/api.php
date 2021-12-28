@@ -39,6 +39,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::delete('product-image/{product}',  [ProductController::class, 'removeProductImage']);
 
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
+    Route::get('branding-logo', [BrandingController::class, 'getBrandingLogo']);
     Route::put('branding-by-user/{menuBranding}', [BrandingController::class, 'update']);
     Route::put('branding-revert-default/{menuBranding}', [BrandingController::class, 'revertToDefault']);
     Route::post('branding-logo', [BrandingController::class, 'storeBrandingLogo']);

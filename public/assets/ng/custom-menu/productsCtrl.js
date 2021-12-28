@@ -178,12 +178,12 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
     };
 
     $scope.productRecordFun = function(isValidForm){
-        let updateItemCategoryKey = $scope.updateItem.categoryKey;
-        let updateItemProductKey = $scope.updateItem.productKey;
         $scope.formCrudRequestErrors = {};
         console.log($scope.requestDataProduct);
         if(isValidForm){
             if($scope.requestDataProduct.id>0){ // Update
+                let updateItemCategoryKey = $scope.updateItem.categoryKey;
+                let updateItemProductKey = $scope.updateItem.productKey;
                 console.log("IN UPDATE");
                 productService.update(
                     $scope.requestDataProduct.id,
@@ -238,7 +238,59 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
                             //alert(response.message);
-                            Notification.success(response.message);
+                            // Notification.success(response.message);
+
+                            $('input:hidden[name=hdnProductId]').val(response.createdID);
+                            myDropzone.options.headers = {
+                                'Authorization': 'Bearer ' + productService.getCurrentToken()
+                            };
+                            myDropzone.processQueue();
+
+                            //Gets triggered when we submit the image.
+                            // Not Working Here
+                            /*myDropzone.on('sending', function (file, xhr, formData) {
+                                let productId = 5555;
+                                formData.append('productId', productId);
+                            });*/
+
+                            myDropzone.on("success", function (file, response) {
+                                if(response.status){
+                                    //reset the form
+                                    $scope.frmProduct.$setPristine();
+                                    $('#productModel').modal('hide');
+                                    $scope.requestDataProduct = {};
+                                    $scope.formCrudRequestErrors = {};
+                                    Notification.success(response.message);
+
+                                    //reset dropzone
+                                    $('.dropzone-previews').empty();
+                                }
+                                else{
+                                    Notification.error(response.message);
+                                    $scope.formCrudRequestErrors.message =  response.message;
+                                }
+                            });
+
+                            /*myDropzone.on("queuecomplete", function () {
+                            });
+
+                            // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+                            // of the sending event because uploadMultiple is set to true.
+                            myDropzone.on("sendingmultiple", function () {
+                                // Gets triggered when the form is actually being sent.
+                                // Hide the success button or the complete form.
+                            });
+
+                            myDropzone.on("successmultiple", function (files, response) {
+                                // Gets triggered when the files have successfully been sent.
+                                // Redirect user or notify of success.
+                            });
+
+                            myDropzone.on("errormultiple", function (files, response) {
+                                // Gets triggered when there was an error sending the files.
+                                // Maybe show form again, and notify user of error
+                            });*/
+                            
                             $scope.onLoadFun();
                         }else{
                             Notification.error(response.message);

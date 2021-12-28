@@ -1,4 +1,4 @@
-bbAppServices.factory('productService', ['Restangular', 'userService', function(Restangular, userService) {
+bbAppServices.factory('productService', ['Restangular', 'userService', 'localStorageService', function(Restangular, userService, localStorageService) {
 
     function getUserSelectedCategoriesProducts(onSuccess, onError){
         Restangular.all('api/products').customGET().then(function(response){
@@ -34,13 +34,18 @@ bbAppServices.factory('productService', ['Restangular', 'userService', function(
         });
     }
 
+    function getCurrentToken(){
+        return localStorageService.get('token');
+    }
+
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 
     return {
         getUserSelectedCategoriesProducts: getUserSelectedCategoriesProducts,
         create: create,
         update: update,
-        remove: remove
+        remove: remove,
+        getCurrentToken: getCurrentToken
     }
 
 }]);

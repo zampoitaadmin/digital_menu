@@ -142,7 +142,7 @@ class ProductController extends ApiController
         );
         $createdID = $this->objProduct->createRecord($crudData);
         if($createdID){
-            $crudData = array( 'product_order' => $createdID, 'updated_at' => $userId );
+            $crudData = array( 'product_order' => $createdID, 'updated_at' => $currentDateTime );
             $where = array('product_id' => $createdID);
             $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
             if($responseUpdate){
@@ -172,6 +172,7 @@ class ProductController extends ApiController
             'status' => $this->status,
             'message' => $this->message,
             'statusCode' => $this->statusCode,
+            'createdID' => $createdID
             //'data' => $category
         ], Response::HTTP_OK);
     }
@@ -349,5 +350,74 @@ class ProductController extends ApiController
             'success' => true,
             'message' => 'Product deleted successfully'
         ], Response::HTTP_OK);*/
+    }
+    public function storeProductImage(Request $request){
+        $data = $request->only('productId', 'productMainImage');
+
+        $validator = Validator::make($data, [
+            'productId' => 'required',
+            'productMainImage' => 'required',
+        ]);
+
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            $this->status = false;
+            $this->statusCode = Response::HTTP_BAD_REQUEST;
+            $this->message = _lvValidations($validator->messages()->get('*'));
+            $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
+            return response()->json($responseData,$this->statusCode);
+        }
+
+        $productId = $request->productId;
+        $product = $this->objProduct->getById($productId);
+        if($product){
+            $userId = $this->user->id;
+            
+            if($product->user_id == $userId){
+                $productMainImage = $request->file('productMainImage');
+        
+                if (!$productMainImage->isValid()) {
+                    $this->status = false;
+                    $this->statusCode = Response::HTTP_BAD_REQUEST;
+                    $this->message = 'Error on upload file: '.$image->getErrorMessage();
+                    $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
+                    return response()->json($responseData,$this->statusCode);
+                }
+
+                $fileName = $productMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                $fileExtension = $productMainImage->getClientOriginalExtension(); // jpg
+                $fileRealPath = $productMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                $fileSize = $productMainImage->getSize(); // 951640
+                $fileMimeType = $productMainImage->getMimeType(); // image/jpeg
+                $storeFileName = time().'-'.$fileName;
+                $destinationPath = 'uploads/product';
+                $productMainImage->move($destinationPath,$storeFileName);
+
+                $currentDateTime = getCurrentDateTime();
+                $crudData = array( 'product_main_image' => $storeFileName, 'updated_at' => $currentDateTime );
+                $where = array('product_id' => $productId);
+                $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
+                if($responseUpdate){
+                    $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+                }else{
+                    $this->status = false;
+                    $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                }
+            }
+            else{
+                $this->status = false;
+                $this->message = __('api.common_error_access_denied');
+            }
+        }
+        else{
+            $this->status = false;
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+        }
+
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+        ], $this->statusCode);
     }
 }

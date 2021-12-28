@@ -210,6 +210,7 @@
             </div>
             <form name="frmProduct" id="frmProduct" novalidate autocomplete="off" class="dropzone" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <input type="hidden" name="hdnProductId">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label><?= ucfirst(__('message_lang.lbl_category')); ?></label>
@@ -322,13 +323,14 @@
     </div>
 </div>
 <script type="text/javascript">
-    /*Dropzone.autoDiscover = false;
+    Dropzone.autoDiscover = false;
+    var myDropzone;
     // Dropzone.options.demoform = false;   
-    let token = $('meta[name="csrf-token"]').attr('content');
+    // let token = $('meta[name="csrf-token"]').attr('content');
     $(function () {
-        var myDropzone = new Dropzone("div#dropzoneDragArea", {
-            paramName: "file",
-            url: "{{ url('/storeimgae') }}",
+        myDropzone = new Dropzone("div#dropzoneDragArea", {
+            paramName: "productMainImage",
+            url: "{{ url('/api/product-image') }}",
             previewsContainer: 'div.dropzone-previews',
             addRemoveLinks: true,
             autoProcessQueue: false,
@@ -336,13 +338,13 @@
             parallelUploads: 1,
             maxFiles: 1,
             params: {
-                _token: token
+                // _token: token
             },
             // The setting up of the dropzone
             init: function () {
-                var myDropzone = this;
+                // var myDropzone = this;
                 //form submission code goes here
-                $("form[name='demoform']").submit(function (event) {
+                /*$("form[name='demoform']").submit(function (event) {
                     //Make sure that the form isn't actully being sent.
                     event.preventDefault();
 
@@ -364,24 +366,24 @@
                             }
                         }
                     });
-                });
+                });*/
 
                 //Gets triggered when we submit the image.
                 this.on('sending', function (file, xhr, formData) {
-                    //fetch the user id from hidden input field and send that userid with our image
-                    let userid = document.getElementById('userid').value;
-                    formData.append('userid', userid);
+                    let createdID = $('input:hidden[name=hdnProductId]').val();
+                    $('input:hidden[name=hdnProductId]').val('');
+                    formData.append('productId', createdID);
                 });
 
-                this.on("success", function (file, response) {
+                /*this.on("success", function (file, response) {
+                    // debugger;
                     //reset the form
-                    $('#demoform')[0].reset();
+                    // $('#demoform')[0].reset();
                     //reset dropzone
                     $('.dropzone-previews').empty();
                 });
 
                 this.on("queuecomplete", function () {
-
                 });
 
                 // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
@@ -399,8 +401,8 @@
                 this.on("errormultiple", function (files, response) {
                     // Gets triggered when there was an error sending the files.
                     // Maybe show form again, and notify user of error
-                });
+                });*/
             }
         });
-    });*/
+    });
 </script>

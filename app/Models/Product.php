@@ -93,4 +93,9 @@ class Product extends Model
         $dataBase->delete();
         return true;
     }
+    public function getById($id)
+    {
+        $product = DB::table('products')->where('product_id',$id)->first();
+        return $product;
+    }
 }

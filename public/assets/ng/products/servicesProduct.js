@@ -34,6 +34,14 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
         });
     }
 
+    function removeProductImage(){
+        Restangular.one('api/product-image/', id).remove().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+    }
+
     function getCurrentToken(){
         return localStorageService.get('token');
     }
@@ -45,7 +53,8 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
         create: create,
         update: update,
         remove: remove,
-        getCurrentToken: getCurrentToken
+        getCurrentToken: getCurrentToken,
+        removeProductImage: removeProductImage
     }
 
 }]);

@@ -36,10 +36,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('product-image', [ProductController::class, 'storeProductImage']);
     Route::put('products/{product}',  [ProductController::class, 'update']);
     Route::delete('products/{product}',  [ProductController::class, 'destroy']);
+    Route::delete('product-image/{product}',  [ProductController::class, 'removeProductImage']);
 
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
     Route::put('branding-by-user/{menuBranding}', [BrandingController::class, 'update']);
     Route::put('branding-revert-default/{menuBranding}', [BrandingController::class, 'revertToDefault']);
+    Route::post('branding-logo', [BrandingController::class, 'storeBrandingLogo']);
 
     Route::get('setting-by-user', [UserController::class, 'getSettingByUser']);
     Route::post('setting-by-user', [UserController::class, 'updateSetting']);

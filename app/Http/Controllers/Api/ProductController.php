@@ -45,6 +45,7 @@ class ProductController extends ApiController
                     if($responseProducts){
                         foreach ($responseProducts as $productKey => $productInfo)
                         {
+                            $responseProducts[$productKey]->productMainImageUrl = url('uploads/product/').'/'.$productInfo->product_main_image;
                             $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
                             $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
                             $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);
@@ -228,7 +229,6 @@ class ProductController extends ApiController
                     'product_type' => NULL,
                     'product_name' => $productName,
                     'product_description' => $productDescription,
-                    'product_main_image' => NULL,
                     'product_price' => $productPrice,
                     'product_topa' => $productTopa,
                     'product_1r' => $product1r,
@@ -384,6 +384,12 @@ class ProductController extends ApiController
                     return response()->json($responseData,$this->statusCode);
                 }
 
+                if(!empty($product->product_main_image)){
+                    $currentProductMainImage = $product->product_main_image;
+                    $productFolderPath = public_path('uploads/product/');
+                    @unlink($productFolderPath.$currentProductMainImage);
+                }
+
                 $fileName = $productMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
                 $fileExtension = $productMainImage->getClientOriginalExtension(); // jpg
                 $fileRealPath = $productMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
@@ -398,10 +404,10 @@ class ProductController extends ApiController
                 $where = array('product_id' => $productId);
                 $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                 if($responseUpdate){
-                    $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+                    $this->message = __('api.common_add',['module'=>__('api.module_product')]);
                 }else{
                     $this->status = false;
-                    $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                    $this->message = __('api.common_add_error',['module'=> __('api.module_product')]);
                 }
             }
             else{
@@ -419,5 +425,56 @@ class ProductController extends ApiController
             'message' => $this->message,
             'statusCode' => $this->statusCode,
         ], $this->statusCode);
+    }
+    public function removeProductImage(Product $product)
+    {
+        if($product){
+            _pre($product);
+            $userId = $this->user->id;
+            if($product->user_id == $userId){
+                $categoryId = $product->category_id;
+                $responseDelete = $product->delete();
+                $this->objProduct->deleteRecordByProductId($product->product_id);
+                $responseProducts = $this->objProduct->getProductData($categoryId, $userId);
+                if($responseProducts){
+                    foreach ($responseProducts as $productKey => $productInfo)
+                    {
+                        $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
+                        $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
+                        $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);
+                        $responseProducts[$productKey]->product_12r = _number_format($productInfo->product_12r);
+                        $responseAllergies = $this->objAllergy->getProductAllergies($productInfo->product_id);
+                        $allergyIdArray = array();
+                        if($responseAllergies){
+                            foreach ($responseAllergies as $allergyKey => $allergyInfo){
+                                array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+                            }
+                        }
+                        $responseProducts[$productKey]->responseAllergies = $responseAllergies;
+                        $responseProducts[$productKey]->allergyIdArray = $allergyIdArray;
+                    }
+                }
+                $this->message = __('api.common_delete',['module'=> __('api.module_product')]);
+            }else{
+                $this->status = false;
+                $this->message = __('api.common_error_access_denied');
+            }
+        }else{
+            #$this->statusCode = Response::HTTP_NOT_FOUND;
+            $this->status = false;
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+        }
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+            'data' => $responseProducts
+        ], $this->statusCode);
+        //$product->delete();
+
+        /*return response()->json([
+            'success' => true,
+            'message' => 'Product deleted successfully'
+        ], Response::HTTP_OK);*/
     }
 }

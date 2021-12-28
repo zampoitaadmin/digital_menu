@@ -1,12 +1,3 @@
-
-<style type="text/css">
-    /*.error{
-        color: red;
-    }*/
-    /*[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
-        display: unset !important;
-    }*/
-</style>
 <div role="tabpanel" class="tab-pane active" id="categories">
     <div class="container">
         <div class="row  ">
@@ -37,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 left-box" ng-if="categorySubSection=='chooseCategory'">
+                    <div class="col-lg-12 col-md-12 left-box" ng-show="categorySubSection=='chooseCategory'">
                         <div class="card text-center">
                             <div class="card-header">
                                 <h5 class="card-title mb-0"><?= __('message_lang.category_text_4'); ?></h5> {{--Select Your Category--}}
@@ -61,7 +52,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 col-md-12 left-box" ng-if="categorySubSection=='chooseCategory'">
+                    <div class="col-lg-12 col-md-12 left-box" ng-show="categorySubSection=='chooseCategory'">
                         <div class="card text-center">
                             <div class="card-header">
                                 <h5 class="card-title mb-0"><?= __('message_lang.category_text_5'); ?></h5> {{--Your Selected Category--}}
@@ -80,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 left-box" ng-if="categorySubSection=='createOwnCategory'">
+                    <div class="col-lg-12 col-md-12 left-box" ng-show="categorySubSection=='createOwnCategory'">
                         <div class="card text-center">
                             <div class="card-header">
                                 <h5 class="card-title mb-0"><?= __('message_lang.category_text_6'); ?></h5>
@@ -90,15 +81,15 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control my-1" name="categoryNameSp" ng-model="formCrudRequestData.categoryNameSp" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_categorySP')]); ?>" required>
+                                            <input type="text" class="form-control my-1" name="categoryNameSp" ng-model="requestDataCategory.categoryNameSp" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_categorySP')]); ?>" required>
                                             <span ng-show="frmAddCategory.$submitted || frmAddCategory.categoryNameSp.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameSp.$error.required"><?= __('common.validation_message_required'); ?></span>
+                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameSp.$error.required || formCrudRequestErrors.categoryNameSp"><?= __('common.validation_message_required'); ?></span>
                                             </span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control my-1" name="categoryNameEn" ng-model="formCrudRequestData.categoryNameEn" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_category')]); ?>" required>
+                                            <input type="text" class="form-control my-1" name="categoryNameEn" ng-model="requestDataCategory.categoryNameEn" placeholder="<?= __('message_lang.form_input_placeholder',['formInput'=>__('message_lang.form_input_category')]); ?>" required>
                                             <span ng-show="frmAddCategory.$submitted || frmAddCategory.categoryNameEn.$dirty">
-                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameEn.$error.required"><?= __('common.validation_message_required'); ?></span>
+                                                <span class="validationMessageClass" ng-show="frmAddCategory.categoryNameEn.$error.required || formCrudRequestErrors.categoryNameEn"><?= __('common.validation_message_required'); ?></span>
                                             </span>
                                         </div>
                                     </div>

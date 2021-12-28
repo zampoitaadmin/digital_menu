@@ -1,5 +1,5 @@
 Dropzone.autoDiscover = false;
-bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService', 'categoryService', 'productService','$window','Notification',  function ($scope, $location, userService, categoryService, productService,$window,Notification) {
+bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService', 'categoryService', 'productService','$window','Notification','$sce',  function ($scope, $location, userService, categoryService, productService,$window,Notification,$sce) {
     console.info("in productsCtrl");
     $('a[href="custom-menu#products"]').click();
 
@@ -201,9 +201,20 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                     function(response){
                         if(response.status){
                             $('#productModel').modal('hide');
+                            let productId = $scope.requestDataProduct.id;
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
-                            //alert(response.message);
+
+                            if(myDropzone.files.length > 0){
+                                $('input:hidden[name=hdnProductId]').val(productId);
+                                myDropzone.options.headers = {
+                                    'Authorization': 'Bearer ' + productService.getCurrentToken()
+                                };
+                                myDropzone.processQueue();
+                            }
+                            else{
+                            }
+
                             Notification.success(response.message);
                             // $scope.onLoadFun();
                             $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
@@ -237,59 +248,18 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                             $('#productModel').modal('hide');
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
-                            //alert(response.message);
-                            // Notification.success(response.message);
 
-                            $('input:hidden[name=hdnProductId]').val(response.createdID);
-                            myDropzone.options.headers = {
-                                'Authorization': 'Bearer ' + productService.getCurrentToken()
-                            };
-                            myDropzone.processQueue();
-
-                            //Gets triggered when we submit the image.
-                            // Not Working Here
-                            /*myDropzone.on('sending', function (file, xhr, formData) {
-                                let productId = 5555;
-                                formData.append('productId', productId);
-                            });*/
-
-                            myDropzone.on("success", function (file, response) {
-                                if(response.status){
-                                    //reset the form
-                                    $scope.frmProduct.$setPristine();
-                                    $('#productModel').modal('hide');
-                                    $scope.requestDataProduct = {};
-                                    $scope.formCrudRequestErrors = {};
-                                    Notification.success(response.message);
-
-                                    //reset dropzone
-                                    $('.dropzone-previews').empty();
-                                }
-                                else{
-                                    Notification.error(response.message);
-                                    $scope.formCrudRequestErrors.message =  response.message;
-                                }
-                            });
-
-                            /*myDropzone.on("queuecomplete", function () {
-                            });
-
-                            // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-                            // of the sending event because uploadMultiple is set to true.
-                            myDropzone.on("sendingmultiple", function () {
-                                // Gets triggered when the form is actually being sent.
-                                // Hide the success button or the complete form.
-                            });
-
-                            myDropzone.on("successmultiple", function (files, response) {
-                                // Gets triggered when the files have successfully been sent.
-                                // Redirect user or notify of success.
-                            });
-
-                            myDropzone.on("errormultiple", function (files, response) {
-                                // Gets triggered when there was an error sending the files.
-                                // Maybe show form again, and notify user of error
-                            });*/
+                            if(myDropzone.files.length > 0){
+                                $('input:hidden[name=hdnProductId]').val(response.createdID);
+                                myDropzone.options.headers = {
+                                    'Authorization': 'Bearer ' + productService.getCurrentToken()
+                                };
+                                myDropzone.processQueue();
+                            }
+                            else{
+                            }
+                            
+                            Notification.success(response.message);
                             
                             $scope.onLoadFun();
                         }else{
@@ -375,6 +345,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.updateModalTitle = false;
     };
 
+    $scope.productMainImagePreview = '';
+
     $scope.openEditProductModal = function(record,categoryKey,productKey){
         $scope.updateItem = {categoryKey, productKey};
         $scope.resetProductData();
@@ -382,10 +354,51 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
 
         $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  'allergyId':record.allergyIdArray,  'status':record.status,  'id':record.product_id};
 
+        if (record.product_main_image != null || record.product_main_image != "") {
+            let previewHtml = `<img src="${record.productMainImageUrl}" width="225" height="150"/><br><button type="button" class="btn btn-dark" ng-click="removeProductImage('${record.product_id}');">Delete</button>`;
+            previewHtml = $sce.trustAsHtml(previewHtml);
+            $scope.productMainImagePreview = previewHtml;
+        }
+
         $('#productModel').modal('show');
 
         $scope.addModalTitle = false;
         $scope.updateModalTitle = true;
+    };
+
+    $scope.removeProductImage = function(productId){
+        debugger;
+        productService.removeProductImage(record.product_id, function(response){
+            console.log(response);
+            if(response.status){
+                Notification.success(response.message);
+                // $scope.onLoadFun();
+                $scope.userSelectedCategoriesProducts[categoryKey].responseProducts = response.data;
+            }else{
+                Notification.error(response.message);
+                $scope.formCrudRequestErrors.message =  response.message;
+            }
+        }, function(response){
+            //alert('Some errors occurred while communicating with the service. Try again later.');
+            var responseData = response.data;
+            if(response.status != 200){
+                if(angular.isObject(responseData.message)){
+                    //$scope.requestFormDataError = response.data.message;
+                    console.warn(responseData.message);
+                }else{
+                    // bbNotification.error(response.data.message);
+                    if(responseData.message.length==0){
+                        $scope.loaderUserSelectedCategory = $window.msgError;
+                    }else {
+                        //$scope.loaderUserSelectedCategorys = $window.msgError;
+                        Notification.error(responseData.message);
+                        //$scope.formCrudRequestErrors.message = responseData.message ;
+                        //TODO Error Msg with Refresh
+                        //alert("in "+responseData.message);
+                    }
+                }
+            }
+        });
     };
 
     $scope.onLoadFun = function(){
@@ -397,5 +410,60 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
 
     $scope.userSelectedCategories = [];
     $scope.onLoadFun();
+
+    $scope.currentUserCategoryOrder = [];
+    $scope.sortableOptions = {
+        update: function (e, ui) {
+            $scope.currentUserCategoryOrder = [];
+            var currentUserCategoryOrder = $scope.userSelectedCategories.map(function(element){
+                return element.id;
+            });
+            $scope.currentUserCategoryOrder = currentUserCategoryOrder;
+        },
+        stop: function (e, ui) {
+            var newUserCategoryOrder = $scope.userSelectedCategories.map(function(element){
+                return element.id;
+            });
+            
+            let isArrayDifferent = $scope.isArrayDifferentFun($scope.currentUserCategoryOrder, newUserCategoryOrder);
+            
+            if(isArrayDifferent){
+                let jsObject = {'newUserCategoryOrder':newUserCategoryOrder};
+                $scope.currentUserCategoryOrder = newUserCategoryOrder;
+                categoryService.updateUserCategoryOrder(jsObject, function(response){
+                    if(response.status){
+                        Notification.success(response.message);
+                        $scope.onLoadFun();
+                    }else{
+                        Notification.error(response.message);
+                        //$scope.formCrudRequestErrors.message =  response.message;
+                    }
+                }, function(response){
+                    //alert('Some errors occurred while communicating with the service. Try again later.');
+                    console.error(" In assignCategoryToUserFun ERROR");
+                    //console.error(response);
+                    var responseData = response.data;
+                    if(response.status != 200){
+                        if(angular.isObject(responseData.message)){
+                            //$scope.requestFormDataError = response.data.message;
+                            console.warn(responseData.message);
+                        }else{
+                            // bbNotification.error(response.data.message);
+                            if(responseData.message.length==0){
+                                $scope.loaderUserSelectedCategory = $window.msgError;
+                            }else {
+                                //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                Notification.error(responseData.message);
+                                //$scope.formCrudRequestErrors.message = responseData.message ;
+                                //TODO Error Msg with Refresh
+                                //alert("in "+responseData.message);
+                            }
+                        }
+                    }
+                });
+            }
+
+        }
+    };
     
 }]);

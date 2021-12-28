@@ -1,4 +1,4 @@
-bbAppServices.factory('brandingService', ['Restangular', 'userService', function(Restangular, userService) {
+bbAppServices.factory('brandingService', ['Restangular', 'userService', 'localStorageService', function(Restangular, userService, localStorageService) {
 
     function getById(bookId, onSuccess, onError){
         Restangular.one('api/books', bookId).get().then(function(response){
@@ -63,6 +63,9 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', function
         });
     }
 
+    function getCurrentToken(){
+        return localStorageService.get('token');
+    }
 
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 
@@ -73,6 +76,7 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', function
         update: update,
         revertToDefault: revertToDefault,
         remove: remove,
+        getCurrentToken: getCurrentToken,
     }
 
 }]);

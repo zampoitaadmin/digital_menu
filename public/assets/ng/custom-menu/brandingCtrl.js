@@ -39,6 +39,17 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
         brandingService.update($scope.requestDataBranding.id,
             $scope.requestDataBranding , function(response){
             if(response.status){
+
+                if(brandingDropzone.files.length > 0){
+                    $('input:hidden[name=hdnMenuBrandingId]').val($scope.requestDataBranding.id);
+                    brandingDropzone.options.headers = {
+                        'Authorization': 'Bearer ' + brandingService.getCurrentToken()
+                    };
+                    brandingDropzone.processQueue();
+                }
+                else{
+                }
+
                 Notification.success(response.message);
                 $scope.onLoadFun();
             }else{

@@ -7,7 +7,8 @@
                         <div class="d-flex flex-row-reverse mb-2">
                             <button class="btn btn_custom_for_only_color d-flex flex-row-reverse"  ng-click="revertToDefaultFun()"><?= __('message_lang.branding_revert_to_Default'); ?></button>
                         </div>
-                        <form>
+                        <form novalidate autocomplete="off" class="dropzone" enctype="multipart/form-data">
+                            <input type="hidden" name="hdnMenuBrandingId">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4"><b><?= __('message_lang.branding_color_main'); ?></b></label>
@@ -29,10 +30,10 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="inputEmail4"><b><?= __('message_lang.branding_logo'); ?></b></label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" placeholder="Choose File" id="customFileLang" lang="en">
-                                        <label class="custom-file-label" for="customFileLang"><?= __('common.input_file_choose'); ?></label>
+                                    <div id="brandingDropzoneDragArea" class="dz-default dz-message dropzoneDragArea">
+                                        <span>Upload file</span>
                                     </div>
+                                    <div class="branding-dropzone-previews"></div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
@@ -45,3 +46,43 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    Dropzone.autoDiscover = false;
+    var brandingDropzone;
+    $(function () {
+        initBrandingDropzone();
+    });
+    function initBrandingDropzone(){
+        brandingDropzone = new Dropzone("div#brandingDropzoneDragArea", {
+            paramName: "brandLogo",
+            url: "{{ url('/api/branding-logo') }}",
+            previewsContainer: 'div.branding-dropzone-previews',
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            maxFiles: 1,
+            params: {
+            },
+            init: function () {
+                this.on("success", function (file, response) {
+                    if(response.status){
+                        $('.branding-dropzone-previews').empty();
+                    }
+                    else{
+                        alert(response.message);
+                    }
+                });
+                this.on('sending', function (file, xhr, formData) {
+                    let createdID = $('input:hidden[name=hdnMenuBrandingId]').val();
+                    $('input:hidden[name=hdnMenuBrandingId]').val('');
+                    formData.append('menuBrandingId', createdID);
+                });
+                this.on("complete", function(file) { 
+                    this.removeAllFiles(true);
+                    console.log("Reset done");
+                })
+            }
+        });
+    }
+</script>

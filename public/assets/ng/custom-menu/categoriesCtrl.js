@@ -118,6 +118,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
     //    window.location = '/';//$location.path('/sso/');
 
     $scope.categorySubSectionChange = function(categorySubSection){
+        $scope.requestDataCategory = {'categoryNameSp':'','categoryNameEn':''};
         $scope.formCrudRequestData = {'categoryNameSp':'','categoryNameEn':'','id':''};
         $scope.formCrudRequestErrors.message =  '';
         if(categorySubSection == "chooseCategory"){
@@ -135,6 +136,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
     $scope.userSelectedCategories = [];
     $scope.userCreatedCategories = [];
     $scope.categorySubSection = '';
+    $scope.requestDataCategory = {'categoryNameSp':'','categoryNameEn':''};
     $scope.formCrudRequestData = {'categoryNameSp':'','categoryNameEn':''};
     $scope.formCrudRequestErrors = {};
 
@@ -152,10 +154,11 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
         //$scope.categorySubSectionChange('chooseCategory');
         //$scope.categorySubSectionChange('createOwnCategory');
         if(isValidForm){
-            categoryService.create($scope.formCrudRequestData, function(response){
+            categoryService.create($scope.requestDataCategory, function(response){
                 if(response.status){
-                    $scope.formCrudRequestData = {};
+                    $scope.requestDataCategory = {};
                     $scope.formCrudRequestErrors = {};
+                    $scope.frmAddCategory.$setPristine();
                     //alert(response.message);
                     Notification.success(response.message);
                     $scope.onLoadFun();
@@ -264,6 +267,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
                         $scope.formCrudRequestData = {};
                         $scope.formCrudRequestErrors = {};
                         //alert(response.message);
+                        $scope.frmUpdateCategory.$setPristine();
                         Notification.success(response.message);
                         $scope.onLoadFun();
                     }else{

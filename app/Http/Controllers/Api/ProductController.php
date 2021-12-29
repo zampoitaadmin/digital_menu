@@ -29,13 +29,13 @@ class ProductController extends ApiController
         $this->objProduct = new Product();
         $this->objAllergy = new Allergy();
         $this->user = JWTAuth::parseToken()->authenticate();
+        $this->productMainImagePath = public_path('uploads/product/');
     }
 
     public function getUserSelectedCategoriesProducts(){
         $responseData= array();
         try {
             $userId = $this->user->id;
-            $productMainImagePath = public_path('uploads/product/');
             $responseCategories = $this->objUserCategory->getUserSelectedCategories($userId);
             if($responseCategories){
                 foreach($responseCategories as $key => $categoryInfo)
@@ -49,7 +49,7 @@ class ProductController extends ApiController
                             $productMainImageList = [];
                             $productMainImage = $productInfo->product_main_image;
                             if(!empty($productMainImage)){
-                                $filePath = $productMainImagePath.$productMainImage;
+                                $filePath = $this->productMainImagePath.$productMainImage;
                                 if(file_exists($filePath)){
                                     $size = filesize($filePath);
                                     $fileUrl = url('uploads/product/').'/'.$productMainImage;
@@ -278,6 +278,19 @@ class ProductController extends ApiController
                     }
                     $responseProduct = $this->objProduct->getProductInfo($product->product_id);
                     if($responseProduct){
+
+                        $productMainImageList = [];
+                        $productMainImage = $responseProduct->product_main_image;
+                        if(!empty($productMainImage)){
+                            $filePath = $this->productMainImagePath.$productMainImage;
+                            if(file_exists($filePath)){
+                                $size = filesize($filePath);
+                                $fileUrl = url('uploads/product/').'/'.$productMainImage;
+                                $productMainImageList[] = ['name'=>$productMainImage, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl, 'id'=>$responseProduct->product_id];
+                            }
+                        }
+
+                        $responseProduct->productMainImageList = $productMainImageList;
                         $responseProduct->product_price = _number_format($responseProduct->product_price);
                         $responseProduct->product_topa = _number_format($responseProduct->product_topa);
                         $responseProduct->product_1r = _number_format($responseProduct->product_1r);
@@ -398,7 +411,7 @@ class ProductController extends ApiController
 
                 if(!empty($product->product_main_image)){
                     $currentProductMainImage = $product->product_main_image;
-                    $productFolderPath = public_path('uploads/product/');
+                    $productFolderPath = $this->productMainImagePath;
                     @unlink($productFolderPath.$currentProductMainImage);
                 }
 
@@ -538,7 +551,7 @@ class ProductController extends ApiController
                 $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                 if($responseUpdate){
                     $productMainImage = $product->product_main_image;
-                    $path = public_path('uploads/product/');
+                    $path = $this->productMainImagePath;
                     @unlink($path.$productMainImage);
                     $this->message = __('api.common_update',['module'=> __('api.module_product')]);
                 }else{

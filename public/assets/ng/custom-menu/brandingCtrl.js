@@ -1,10 +1,10 @@
 
-bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService', 'brandingService','$window','Notification',  function ($scope, $location, userService, brandingService,$window,Notification) {
+bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService', 'brandingService','$window','Notification','$timeout',  function ($scope, $location, userService, brandingService,$window,Notification,$timeout) {
     console.info("in brandingCtrl");
     $('a[href="custom-menu#branding"]').click();
     $scope.requestDataBranding = {'mainColor':'','secondaryColor':'','thirdColor':'','fontColor':'','brandLogo':'','id':0};
     $scope.messageBrand = '';
-    $scope.refreshBranding = function(){
+    $scope._refreshBranding = function(){
         brandingService.getAll(function(response){
             $scope.branding  = response.data.branding;
             $scope.requestDataBranding.mainColor = $scope.branding.brand_color;
@@ -13,6 +13,16 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
             $scope.requestDataBranding.fontColor = $scope.branding.font_color;
             $scope.requestDataBranding.id = $scope.branding.menu_branding_id;
             console.log($scope.requestDataBranding);
+            $.each(response.data.fileList, function (key, value) {
+                var mockFile = {
+                    name: value.name,
+                    size: value.size,
+                    id: value.id
+                };
+                brandingDropzone.emit("addedfile", mockFile);
+                brandingDropzone.emit("thumbnail", mockFile, value.url);
+                brandingDropzone.emit("complete", mockFile);
+            });
         }, function(response){
             if(response.status!=200){
                 if(angular.isObject(response.data.message)){
@@ -28,6 +38,11 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
             }
             //alert('Some errors occurred while communicating with the service. Try again later.');
         });
+    };
+    $scope.refreshBranding = function(){
+        $timeout(function(){
+            $scope._refreshBranding();
+        }, 200);
     };
     $scope.onLoadFun = function(){
         $scope.refreshBranding();
@@ -116,4 +131,23 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
             }
         });
     }
+    $timeout(function(){
+        brandingDropzone.on("removedfile", function (file) {
+            let fileName = file.name;
+            let id = file.id;
+            /*$.ajax({
+                type: 'POST',
+                url: 'upload.php',
+                data: {
+                    name: fileName,
+                    request: 'delete'
+                },
+                sucess: function (data) {
+                    console.log('success: ' + data);
+                }
+            });
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;*/
+        });
+    }, 200);
 }]);

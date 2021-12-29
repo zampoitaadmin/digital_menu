@@ -46,6 +46,15 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
         return localStorageService.get('token');
     }
 
+    function updateUserCategoryProductOrder(data, onSuccess, onError){
+        Restangular.all("api/products/update-user-category-product-order").post(data).then(function(response) {
+                onSuccess(response);
+            }, function(response){
+                onError(response);
+            }
+        );
+    }
+
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 
     return {
@@ -54,7 +63,8 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
         update: update,
         remove: remove,
         getCurrentToken: getCurrentToken,
-        removeProductImage: removeProductImage
+        removeProductImage: removeProductImage,
+        updateUserCategoryProductOrder: updateUserCategoryProductOrder
     }
 
 }]);

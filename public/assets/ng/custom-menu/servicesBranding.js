@@ -63,6 +63,14 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', 'localSt
         });
     }
 
+    /*function removeBrandingLogo(id, onSuccess, onError){
+        Restangular.one('api/branding-by-user/', id).remove().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+    }*/
+
     function getCurrentToken(){
         return localStorageService.get('token');
     }

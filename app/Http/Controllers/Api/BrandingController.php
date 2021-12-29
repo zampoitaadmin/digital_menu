@@ -45,6 +45,37 @@ class BrandingController extends ApiController
                 #$this->status = false;
                 #$this->message = __('api.common_empty',['module' => __('api.module_branding')]);
             }
+            $brandLogo = $responseBranding->brand_logo;
+            $menuBrandingId = $responseBranding->menu_branding_id;
+            $fileList = [];
+            $targetDir = public_path('uploads/menu_branding/');
+            if(!empty($brandLogo)){
+                $filePath = $targetDir.$brandLogo;
+                if(!is_dir($filePath)){
+                    $size = filesize($filePath);
+                    $fileUrl = url('uploads/menu_branding/').'/'.$brandLogo;
+                    $fileList[] = ['name'=>$brandLogo, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl, 'id'=>$menuBrandingId];
+                }
+            }
+            /*$dir = $targetDir;
+            if (is_dir($dir)){
+                if ($dh = opendir($dir))
+                {
+                    while (($file = readdir($dh)) !== false){
+                        if($file != '' && $file != '.' && $file != '..')
+                        {
+                            $filePath = $targetDir.$file;
+                            if(!is_dir($filePath)){
+                                $size = filesize($filePath);
+                                $fileUrl = url('uploads/menu_branding/').'/'.$file;
+                                $fileList[] = ['name'=>$file, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl];
+                            }
+                        }
+                    }
+                    closedir($dh);
+                }
+            }*/
+            $responseData['fileList'] = $fileList;
             return response()->json([
                 'status' => $this->status,
                 'message' => $this->message,

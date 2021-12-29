@@ -477,4 +477,40 @@ class ProductController extends ApiController
             'message' => 'Product deleted successfully'
         ], Response::HTTP_OK);*/
     }
+    public function updateUserCategoryProductOrder(Request $request){
+        /*Array
+        (
+            [categoryId] => 11
+            [newProductOrder] => Array
+                (
+                    [0] => 511
+                    [1] => 513
+                    [2] => 512
+                )
+
+        )*/
+        $data = $request->only('categoryId','newProductOrder');
+        // TODO: Validation
+        $userId = $this->user->id;
+        $categoryId = $request->categoryId;
+        $newProductOrder = $request->newProductOrder;
+        if(isset($newProductOrder) && !empty($newProductOrder)){
+            foreach ($newProductOrder as $key => $productId) {
+                $productOrder = ($key+1);
+                $crudData = array(
+                    'product_order' => $productOrder,
+                    'updated_at' => getCurrentDateTime()
+                );
+                $where = array( 'user_id' => $userId, 'category_id' => $categoryId, 'product_id' => $productId );
+                $this->objProduct->updateRecord($crudData,$where);
+            }
+            $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+        }
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+            //'data' => $category
+        ], Response::HTTP_OK);
+    }
 }

@@ -411,26 +411,50 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
     $scope.userSelectedCategories = [];
     $scope.onLoadFun();
 
-    $scope.currentUserCategoryOrder = [];
-    $scope.sortableOptions = {
+    $scope.currentProductOrder= [];
+    $scope.newProductOrder = [];
+
+    $scope.sortableOptionsProducts = {
         update: function (e, ui) {
-            $scope.currentUserCategoryOrder = [];
-            var currentUserCategoryOrder = $scope.userSelectedCategories.map(function(element){
-                return element.id;
-            });
-            $scope.currentUserCategoryOrder = currentUserCategoryOrder;
+            let categoryId = $(e.target).data("data_category_id");
+            let currentProductOrder = [];
+            for(var i = 0; i < $scope.userSelectedCategoriesProducts.length; i++)
+            {
+                if(categoryId == $scope.userSelectedCategoriesProducts[i].id){
+                    if($scope.userSelectedCategoriesProducts[i].responseProducts.length > 0){
+                        for(var j = 0; j < $scope.userSelectedCategoriesProducts[i].responseProducts.length; j++)
+                        {
+                            currentProductOrder.push($scope.userSelectedCategoriesProducts[i].responseProducts[j].product_id);
+                        }
+                    }
+                }
+            }
+            $scope.currentProductOrder= currentProductOrder;
+            console.log("$scope.currentProductOrder " + $scope.currentProductOrder);
         },
         stop: function (e, ui) {
-            var newUserCategoryOrder = $scope.userSelectedCategories.map(function(element){
-                return element.id;
-            });
-            
-            let isArrayDifferent = $scope.isArrayDifferentFun($scope.currentUserCategoryOrder, newUserCategoryOrder);
+            let categoryId = $(e.target).data("data_category_id");
+            let newProductOrder = [];
+            for(var i = 0; i < $scope.userSelectedCategoriesProducts.length; i++)
+            {
+                if(categoryId == $scope.userSelectedCategoriesProducts[i].id){
+                    if($scope.userSelectedCategoriesProducts[i].responseProducts.length > 0){
+                        for(var j = 0; j < $scope.userSelectedCategoriesProducts[i].responseProducts.length; j++)
+                        {
+                            newProductOrder.push($scope.userSelectedCategoriesProducts[i].responseProducts[j].product_id);
+                        }
+                    }
+                }
+            }
+            $scope.newProductOrder = newProductOrder;
+            console.log($scope.newProductOrder);
+            console.log("$scope.newProductOrder " + $scope.newProductOrder);
+
+            let isArrayDifferent = $scope.isArrayDifferentFun($scope.currentProductOrder, $scope.newProductOrder);
             
             if(isArrayDifferent){
-                let jsObject = {'newUserCategoryOrder':newUserCategoryOrder};
-                $scope.currentUserCategoryOrder = newUserCategoryOrder;
-                categoryService.updateUserCategoryOrder(jsObject, function(response){
+                let jsObject = {'categoryId':categoryId,'newProductOrder':newProductOrder};
+                productService.updateUserCategoryProductOrder(jsObject, function(response){
                     if(response.status){
                         Notification.success(response.message);
                         $scope.onLoadFun();

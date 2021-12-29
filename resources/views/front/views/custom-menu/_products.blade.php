@@ -28,7 +28,7 @@
                                         <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }} </a>
                                     </div>
                                     <div id="@{{ categoryProduct.slug }}" class="collapse" data-parent="#faq">
-                                        <div class="card-body px-3 py-1" ui-sortable="sortableOptions">
+                                        <div class="card-body px-3 py-1" ui-sortable="sortableOptionsProducts" data-data_category_id="@{{ categoryProduct.id }}" ng-model="categoryProduct.responseProducts">
                                             <div class="row bootstrap snippets bootdeys productRow" id="store-list" ng-repeat="(productKey, productInfo) in categoryProduct.responseProducts">
                                                 <div class="col-md-12 col-xs-12">
                                                     <div class="panel">

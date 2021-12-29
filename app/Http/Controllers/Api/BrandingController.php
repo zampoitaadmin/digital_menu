@@ -273,48 +273,39 @@ class BrandingController extends ApiController
             'statusCode' => $this->statusCode,
         ], $this->statusCode);
     }
-    public function getBrandingLogo(){
-        $responseData= array();
-        try {
+    public function removeBrandingLogo(Request $request,$id=0){
+        if($id){
             $userId = $this->user->id;
-            $responseBranding = $this->objMenuBranding->getOneByUserId($userId);
-            if($responseBranding){
-                unset($responseBranding->user_id);
-                $responseData['branding'] = $responseBranding;
-            }else{
-                $responseBranding = $this->createDefault();
-                $responseData['branding'] = $responseBranding;
-            }
-            $fileList = [];
-            $targetDir = public_path('uploads/menu_branding/');
-            $dir = $targetDir;
-            if (is_dir($dir)){
-                if ($dh = opendir($dir))
-                {
-                    while (($file = readdir($dh)) !== false){
-                        if($file != '' && $file != '.' && $file != '..')
-                        {
-                            $filePath = $targetDir.$file;
-                            if(!is_dir($filePath)){
-                                $size = filesize($filePath);
-                                $fileUrl = url('uploads/menu_branding/').'/'.$file;
-                                $fileList[] = ['name'=>$file, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl];
-                            }
-                        }
-                    }
-                    closedir($dh);
+            $menuBranding = $this->objMenuBranding->getById($id);
+            if($menuBranding ->user_id == $userId){
+                $crudData = array(
+                    'brand_logo' => NULL,
+                    'updated_at' => getCurrentDateTime(),
+                );
+                $where = array('menu_branding_id' => $menuBranding->menu_branding_id);
+                $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
+                if($responseUpdate){
+                    $brandLogo = $menuBranding->brand_logo;
+                    $path = public_path('uploads/menu_branding/');
+                    @unlink($path.$brandLogo);
+                    $this->message = __('api.common_update',['module'=> __('api.module_branding')]);
+                }else{
+                    $this->status = false;
+                    $this->message = __('api.common_update_error',['module'=> __('api.module_branding')]);
                 }
+            }else{
+                $this->status = false;
+                $this->message = __('api.common_error_access_denied');
             }
-            return response()->json([
-                'status' => $this->status,
-                'message' => $this->message,
-                'data' => $fileList
-            ], $this->statusCode);
-        } catch (JWTException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => __('api.common_error_500'),
-            ], 500);
+        }else{
+            #$this->statusCode = Response::HTTP_NOT_FOUND;
+            $this->status = false;
+            $this->message = __('api.common_not_found',['module'=> __('api.module_branding')]);
         }
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+        ], $this->statusCode);
     }
 }

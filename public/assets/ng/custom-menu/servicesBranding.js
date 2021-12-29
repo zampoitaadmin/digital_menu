@@ -63,13 +63,14 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', 'localSt
         });
     }
 
-    /*function removeBrandingLogo(id, onSuccess, onError){
-        Restangular.one('api/branding-by-user/', id).remove().then(function(response){
-            onSuccess(response);
-        }, function(response){
-            onError(response);
-        });
-    }*/
+    function removeBrandingLogo(id, data, onSuccess, onError){
+        Restangular.one("api/remove-branding-logo").customPUT(data, id).then(function(response) {
+                onSuccess(response);
+            }, function(response){
+                onError(response);
+            }
+        );
+    }
 
     function getCurrentToken(){
         return localStorageService.get('token');
@@ -85,6 +86,7 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', 'localSt
         revertToDefault: revertToDefault,
         remove: remove,
         getCurrentToken: getCurrentToken,
+        removeBrandingLogo: removeBrandingLogo,
     }
 
 }]);

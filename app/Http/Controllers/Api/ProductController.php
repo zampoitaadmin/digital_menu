@@ -35,6 +35,7 @@ class ProductController extends ApiController
         $responseData= array();
         try {
             $userId = $this->user->id;
+            $productMainImagePath = public_path('uploads/product/');
             $responseCategories = $this->objUserCategory->getUserSelectedCategories($userId);
             if($responseCategories){
                 foreach($responseCategories as $key => $categoryInfo)
@@ -45,6 +46,17 @@ class ProductController extends ApiController
                     if($responseProducts){
                         foreach ($responseProducts as $productKey => $productInfo)
                         {
+                            $productMainImageList = [];
+                            $productMainImage = $productInfo->product_main_image;
+                            if(!empty($productMainImage)){
+                                $filePath = $productMainImagePath.$productMainImage;
+                                if(file_exists($filePath)){
+                                    $size = filesize($filePath);
+                                    $fileUrl = url('uploads/product/').'/'.$productMainImage;
+                                    $productMainImageList[] = ['name'=>$productMainImage, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl, 'id'=>$productInfo->product_id];
+                                }
+                            }
+                            $responseProducts[$productKey]->productMainImageList = $productMainImageList;
                             $responseProducts[$productKey]->productMainImageUrl = url('uploads/product/').'/'.$productInfo->product_main_image;
                             $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
                             $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
@@ -512,5 +524,40 @@ class ProductController extends ApiController
             'statusCode' => $this->statusCode,
             //'data' => $category
         ], Response::HTTP_OK);
+    }
+    public function removeProductMainImage(Request $request,$id=0){
+        if($id){
+            $userId = $this->user->id;
+            $product = $this->objProduct->getById($id);
+            if($product->user_id == $userId){
+                $crudData = array(
+                    'product_main_image' => NULL,
+                    'updated_at' => getCurrentDateTime(),
+                );
+                $where = array('product_id' => $product->product_id);
+                $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
+                if($responseUpdate){
+                    $productMainImage = $product->product_main_image;
+                    $path = public_path('uploads/product/');
+                    @unlink($path.$productMainImage);
+                    $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+                }else{
+                    $this->status = false;
+                    $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                }
+            }else{
+                $this->status = false;
+                $this->message = __('api.common_error_access_denied');
+            }
+        }else{
+            #$this->statusCode = Response::HTTP_NOT_FOUND;
+            $this->status = false;
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+        }
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+        ], $this->statusCode);
     }
 }

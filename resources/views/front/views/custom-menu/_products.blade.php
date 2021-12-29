@@ -259,8 +259,6 @@
                         </div>
                         <div class="dropzone-previews"></div>
                     </div>
-                    <div class="form-group" ng-bind-html="productMainImagePreview">
-                    </div>
                     <div class="form-row">
                         <div class="col-md-12">
                             <label for="inputState"><?= ucfirst(__('message_lang.lbl_product_price')); ?>  </label>

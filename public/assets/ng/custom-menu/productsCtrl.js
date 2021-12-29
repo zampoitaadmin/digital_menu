@@ -1,5 +1,5 @@
 Dropzone.autoDiscover = false;
-bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService', 'categoryService', 'productService','$window','Notification','$sce',  function ($scope, $location, userService, categoryService, productService,$window,Notification,$sce) {
+bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService', 'categoryService', 'productService','$window','Notification','$sce','$timeout',  function ($scope, $location, userService, categoryService, productService,$window,Notification,$sce,$timeout) {
     console.info("in productsCtrl");
     $('a[href="custom-menu#products"]').click();
 
@@ -345,23 +345,28 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.updateModalTitle = false;
     };
 
-    $scope.productMainImagePreview = '';
-
     $scope.openEditProductModal = function(record,categoryKey,productKey){
         $scope.updateItem = {categoryKey, productKey};
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
-
         $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  'allergyId':record.allergyIdArray,  'status':record.status,  'id':record.product_id};
-
-        if (record.product_main_image != null || record.product_main_image != "") {
-            let previewHtml = `<img src="${record.productMainImageUrl}" width="225" height="150"/><br><button type="button" class="btn btn-dark" ng-click="removeProductImage('${record.product_id}');">Delete</button>`;
-            previewHtml = $sce.trustAsHtml(previewHtml);
-            $scope.productMainImagePreview = previewHtml;
+        if(record.productMainImageList.length > 0){
+            $.each(record.productMainImageList, function (key, value) {
+                let mockFile = {
+                    name: value.name,
+                    size: value.size,
+                    id: value.id
+                };
+                myDropzone.emit("addedfile", mockFile);
+                myDropzone.emit("thumbnail", mockFile, value.url);
+                myDropzone.emit("complete", mockFile);
+                myDropzone.files.push( mockFile );
+            });
         }
-
+        else{
+            myDropzone.removeAllFiles( true );
+        }
         $('#productModel').modal('show');
-
         $scope.addModalTitle = false;
         $scope.updateModalTitle = true;
     };
@@ -489,5 +494,44 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
 
         }
     };
-    
+    $timeout(function(){
+        myDropzone.on("removedfile", function (file) {
+            let fileName = file.name;
+            let id = file.id;
+            if(id){
+                productService.removeProductMainImage(id,
+                    {fileName} , function(response){
+                    if(response.status){
+                        Notification.success(response.message);
+                        $scope.onLoadFun();
+                    }else{
+                        Notification.error(response.message);
+                        $scope.messageBrand =  response.message;
+                    }
+                }, function(response){
+                    //alert('Some errors occurred while communicating with the service. Try again later.');
+                    //console.error(response);
+                    var responseData = response.data;
+                    if(response.status != 200){
+                        if(angular.isObject(responseData.message)){
+                            //$scope.requestFormDataError = response.data.message;
+                            console.warn(responseData.message);
+                        }else{
+                            // bbNotification.error(response.data.message);
+                            if(responseData.message.length==0){
+                                //$scope.loaderUserSelectedCategory = $window.msgError;
+                                $scope.messageBrand = '<span class="text-danger">Some errors occurred while communicating with the service. Try again later.</span>';
+                            }else {
+                                //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                Notification.error(responseData.message);
+                                //$scope.formCrudRequestErrors.message = responseData.message ;
+                                //TODO Error Msg with Refresh
+                                //alert("in "+responseData.message);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }, 200);
 }]);

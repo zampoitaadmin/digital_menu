@@ -18,6 +18,10 @@
 
 <link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropzone/css/dropzone.min.css') }}">
 <script src="{{ url('xPlugins/dropzone/js/dropzone.min.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropify-master/css/dropify.min.css') }}">
+<script src="{{ url('xPlugins/dropify-master/js/dropify.min.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/select2/css/select2.min.css') }}">
+<script src="{{ url('xPlugins/select2/js/select2.min.js') }}"></script>
 
 <script type="text/javascript">
     function readFile(input) {

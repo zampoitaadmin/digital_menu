@@ -155,6 +155,14 @@ class CategoryController extends ApiController
                 'created_at' => getCurrentDateTime(),
             );
             $responseCreate = $this->objUserCategory->createRecord($crudDataUC);*/
+            $userCategoryOrder = $this->objUserCategory->getMaxUserCategoryOrder($userId);
+            $crudDataUC = array(
+                'user_id' => $userId,
+                'user_category_order' => $userCategoryOrder,
+                'category_id' => $createdID,
+                'created_at' => getCurrentDateTime(),
+            );
+            $responseCreate = $this->objUserCategory->createRecord($crudDataUC);
             $this->message = __('api.common_add',['module'=>__('api.module_category')]);
         }else{
             //$this->statusCode = http_response_code(500);

@@ -155,7 +155,8 @@ class ProductController extends ApiController
         );
         $createdID = $this->objProduct->createRecord($crudData);
         if($createdID){
-            $crudData = array( 'product_order' => $createdID, 'updated_at' => $currentDateTime );
+            $productOrder = $this->objProduct->getMaxProductOrder($categoryId, $userId);
+            $crudData = array( 'product_order' => $productOrder, 'updated_at' => $currentDateTime );
             $where = array('product_id' => $createdID);
             $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
             if($responseUpdate){
@@ -246,7 +247,6 @@ class ProductController extends ApiController
                     'product_1r' => $product1r,
                     'product_12r' => $product12r,
                     'product_multiple_image' => NULL,
-                    'product_order' => NULL,
                     'status' => $status,
                     'updated_at' => $currentDateTime,
                 );
@@ -429,6 +429,37 @@ class ProductController extends ApiController
                 $where = array('product_id' => $productId);
                 $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                 if($responseUpdate){
+
+                    $responseProduct = $this->objProduct->getProductInfo($product->product_id);
+                    if($responseProduct){
+
+                        $productMainImageList = [];
+                        $productMainImage = $responseProduct->product_main_image;
+                        if(!empty($productMainImage)){
+                            $filePath = $this->productMainImagePath.$productMainImage;
+                            if(file_exists($filePath)){
+                                $size = filesize($filePath);
+                                $fileUrl = url('uploads/product/').'/'.$productMainImage;
+                                $productMainImageList[] = ['name'=>$productMainImage, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl, 'id'=>$responseProduct->product_id];
+                            }
+                        }
+
+                        $responseProduct->productMainImageList = $productMainImageList;
+                        $responseProduct->product_price = _number_format($responseProduct->product_price);
+                        $responseProduct->product_topa = _number_format($responseProduct->product_topa);
+                        $responseProduct->product_1r = _number_format($responseProduct->product_1r);
+                        $responseProduct->product_12r = _number_format($responseProduct->product_12r);
+                        $responseAllergies = $this->objAllergy->getProductAllergies($responseProduct->product_id);
+                        $allergyIdArray = array();
+                        if($responseAllergies){
+                            foreach ($responseAllergies as $allergyKey => $allergyInfo){
+                                array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+                            }
+                        }
+                        $responseProduct->responseAllergies = $responseAllergies;
+                        $responseProduct->allergyIdArray = $allergyIdArray;
+                    }
+
                     $this->message = __('api.common_add',['module'=>__('api.module_product')]);
                 }else{
                     $this->status = false;
@@ -449,6 +480,7 @@ class ProductController extends ApiController
             'status' => $this->status,
             'message' => $this->message,
             'statusCode' => $this->statusCode,
+            'data' => $responseProduct,
         ], $this->statusCode);
     }
     public function removeProductImage(Product $product)

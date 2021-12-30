@@ -181,7 +181,9 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.formCrudRequestErrors = {};
         console.log($scope.requestDataProduct);
         if(isValidForm){
+            
             if($scope.requestDataProduct.id>0){ // Update
+                
                 let updateItemCategoryKey = $scope.updateItem.categoryKey;
                 let updateItemProductKey = $scope.updateItem.productKey;
                 console.log("IN UPDATE");
@@ -205,7 +207,10 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
 
+                            
+
                             if(myDropzone.files.length > 0){
+                                
                                 $('input:hidden[name=hdnProductId]').val(productId);
                                 myDropzone.options.headers = {
                                     'Authorization': 'Bearer ' + productService.getCurrentToken()
@@ -217,6 +222,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
 
                             Notification.success(response.message);
                             // $scope.onLoadFun();
+                            // 
                             $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
                         }else{
                             Notification.error(response.message);
@@ -343,6 +349,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.frmProduct.$setPristine();
         $scope.addModalTitle = true;
         $scope.updateModalTitle = false;
+        myDropzone.files = [];
+        $('.dropzone-previews').empty();
     };
 
     $scope.openEditProductModal = function(record,categoryKey,productKey){
@@ -350,7 +358,11 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
         $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  'allergyId':record.allergyIdArray,  'status':record.status,  'id':record.product_id};
+        // 
+        myDropzone.files = [];
         if(record.productMainImageList.length > 0){
+            // 
+            $('.dropzone-previews').empty();
             $.each(record.productMainImageList, function (key, value) {
                 let mockFile = {
                     name: value.name,
@@ -360,11 +372,13 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                 myDropzone.emit("addedfile", mockFile);
                 myDropzone.emit("thumbnail", mockFile, value.url);
                 myDropzone.emit("complete", mockFile);
-                myDropzone.files.push( mockFile );
+                // myDropzone.files.push( mockFile );
             });
         }
         else{
-            myDropzone.removeAllFiles( true );
+            // 
+            $('.dropzone-previews').empty();
+            // myDropzone.removeAllFiles( true );
         }
         $('#productModel').modal('show');
         $scope.addModalTitle = false;
@@ -372,7 +386,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
     };
 
     $scope.removeProductImage = function(productId){
-        debugger;
+        // 
         productService.removeProductImage(record.product_id, function(response){
             console.log(response);
             if(response.status){
@@ -495,18 +509,34 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         }
     };
     $timeout(function(){
+        myDropzone.on("success", function (file, response, progressEvent) {
+            
+            if(response.status){
+                $('.dropzone-previews').empty();
+                let updateItemCategoryKey = $scope.updateItem.categoryKey;
+                let updateItemProductKey = $scope.updateItem.productKey;
+                // 
+                $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
+                // 
+            }
+            else{
+                // alert(response.message);
+            }
+        });
         myDropzone.on("removedfile", function (file) {
+            // 
             let fileName = file.name;
             let id = file.id;
             if(id){
                 productService.removeProductMainImage(id,
                     {fileName} , function(response){
                     if(response.status){
+                        myDropzone.files = [];
                         Notification.success(response.message);
-                        $scope.onLoadFun();
+                        // $scope.onLoadFun();
                     }else{
                         Notification.error(response.message);
-                        $scope.messageBrand =  response.message;
+                        // $scope.messageBrand =  response.message;
                     }
                 }, function(response){
                     //alert('Some errors occurred while communicating with the service. Try again later.');

@@ -17,6 +17,10 @@ bbApp.config(function ($locationProvider,$stateProvider, $urlRouterProvider) {
         url: '/products',
         templateUrl: 'products.html',
         controller: 'productsCtrl',
+    }).state('fixed-menu', {
+        url: '/fixed-menu/:categoryId',
+        templateUrl: 'fixed-menu.html',
+        controller: 'fixedMenuCtrl',
     }).state('branding', {
         url: '/branding',
         templateUrl: 'branding.html',

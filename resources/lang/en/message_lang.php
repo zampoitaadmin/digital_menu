@@ -52,5 +52,15 @@ return [
     'lbl_fixed' => "Fixed",
     'lbl_allergy' => "Allergy",
     'lbl_status' => "Status",
+
+    /* Fixed Menu */
+    'lbl_fixed_menu' => "Fixed Menu",
+    'lbl_change_category_name' => "Change Category Name",
+    'lbl_menu_description_conditions' => "Menu Description And Conditions",
+    'lbl_starters' => "Starters",
+    'lbl_main_course' => "Main Course",
+    'lbl_deserts' => "Deserts",
+    'lbl_select_allergy' => "Select Allergy",
+    'lbl_fixed_menu_price' => "Fixed Menu Price",
 ];
 ?>

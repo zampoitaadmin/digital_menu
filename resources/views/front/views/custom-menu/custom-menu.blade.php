@@ -43,6 +43,9 @@
             <script type="text/ng-template" id="products.html" >
                 @include('front.views.custom-menu._products')
             </script>
+            <script type="text/ng-template" id="fixed-menu.html" >
+                @include('front.views.custom-menu._fixed_menu')
+            </script>
             <script type="text/ng-template" id="branding.html" ng-cloak>
                 @include('front.views.custom-menu._branding')
             </script>
@@ -100,6 +103,9 @@
 
     <script src='{{ asset("assets/ng/custom-menu/productsCtrl.js?t=".time()) }}'></script>
     <script src='{{ asset("assets/ng/products/servicesProduct.js?t=".time()) }}'></script>
+
+    <script src='{{ asset("assets/ng/custom-menu/fixedMenuCtrl.js?t=".time()) }}'></script>
+    <script src='{{ asset("assets/ng/fixed-menu/servicesFixedMenu.js?t=".time()) }}'></script>
 
     <script src='{{ asset("assets/ng/custom-menu/brandingCtrl.js?t=".time()) }}'></script>
     <script src='{{ asset("assets/ng/custom-menu/servicesBranding.js?t=".time()) }}'></script>

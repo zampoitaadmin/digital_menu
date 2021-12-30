@@ -10,14 +10,16 @@
                         <div id="main">
                             <div class="productTabHeaderDiv">
                                 <div ng-repeat="category in userSelectedCategories" ng-if="category.category_type=='Fixed'">
-                                    <div class="btn btn_custom_for_only_color productTabHeaderButtons">
-                                        <div ng-if="category.change_category_name">
-                                            @{{ category.change_category_name }} (@{{ category.name }})
+                                    <a class="" href="custom-menu#fixed-menu/@{{ category.category_id }}">
+                                        <div class="btn btn_custom_for_only_color productTabHeaderButtons">
+                                            <div ng-if="category.change_category_name">
+                                                @{{ category.change_category_name }} (@{{ category.name }})
+                                            </div>
+                                            <div ng-if="!category.change_category_name">
+                                                @{{ category.name }}
+                                            </div>
                                         </div>
-                                        <div ng-if="!category.change_category_name">
-                                            @{{ category.name }}
-                                        </div>
-                                    </div>
+                                    </a>
                                 </div>
                                 <div class="btn btn_custom_for_only_color productTabHeaderAddProduct" ng-click="openAddProductModal()">Add Product</div>
                             </div>
@@ -36,7 +38,8 @@
                                                             <div class="row">
                                                                 <div class="col-sm-3 pb-3">
                                                                     <a href="#">
-                                                                        <img src="{{ _betagitZampoitaWebUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
+                                                                        {{-- <img src="{{ _betagitZampoitaWebUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';"> --}}
+                                                                        <img src="{{ url('uploads/product/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
                                                                     </a>
                                                                 </div>
                                                                 <div class="col-sm-9">
@@ -295,7 +298,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label><?= ucfirst(__('message_lang.lbl_allergy')); ?></label>
-                            <select class="form-control" name="allergyId" ng-model="requestDataProduct.allergyId" multiple required>
+                            <select class="form-control select2" name="allergyId" ng-model="requestDataProduct.allergyId" multiple required>
                                 <option value="">Select Allergy</option>
                                 <option ng-repeat="allergy in allAllergies" value="@{{ allergy.id }}">@{{ allergy.name }}</option>
                             </select>
@@ -327,7 +330,11 @@
     var myDropzone;
     $(function () {
         initDropzone();
+        initAllergySelect2();
     });
+    function initAllergySelect2(){
+        $('.select2').select2();
+    }
     function initDropzone(){
         myDropzone = new Dropzone("div#dropzoneDragArea", {
             paramName: "productMainImage",
@@ -341,22 +348,24 @@
             params: {
             },
             init: function () {
-                this.on("success", function (file, response) {
+                /*this.on("success", function (file, response) {
                     if(response.status){
                         $('.dropzone-previews').empty();
+                        $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
                     }
                     else{
                         alert(response.message);
                     }
-                });
+                });*/
                 this.on('sending', function (file, xhr, formData) {
+                    debugger;
                     let createdID = $('input:hidden[name=hdnProductId]').val();
                     $('input:hidden[name=hdnProductId]').val('');
                     formData.append('productId', createdID);
                 });
                 this.on("complete", function(file) { 
-                    this.removeAllFiles(true);
-                    console.log("Reset done");
+                    // this.removeAllFiles(true);
+                    // console.log("Reset done");
                 })
             }
         });

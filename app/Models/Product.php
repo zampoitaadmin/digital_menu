@@ -98,4 +98,20 @@ class Product extends Model
         $product = DB::table('products')->where('product_id',$id)->first();
         return $product;
     }
+    public function getMaxProductOrder($categoryId, $userId)
+    {
+        $maxProductOrder = DB::table('products')
+            // ->where('status', 'Active')
+            ->where('category_id', $categoryId)
+            ->where('user_id', $userId)
+            ->max('product_order');
+        if($maxProductOrder === NULL){
+            $maxProductOrder = 1;
+        }else if($maxProductOrder > 0){
+            $maxProductOrder++;
+        }else{
+            $maxProductOrder = 1;
+        }
+        return $maxProductOrder;
+    }
 }

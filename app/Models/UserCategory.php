@@ -159,4 +159,18 @@ class UserCategory extends Model
         $update = DB::table('user_category')->where($where)->update($crud);
         return $update;
     }
+    public function getMaxUserCategoryOrder($userId)
+    {
+        $maxUserCategoryOrder = DB::table('user_category')
+            ->where('user_id', $userId)
+            ->max('user_category_order');
+        if($maxUserCategoryOrder === NULL){
+            $maxUserCategoryOrder = 1;
+        }else if($maxUserCategoryOrder > 0){
+            $maxUserCategoryOrder++;
+        }else{
+            $maxUserCategoryOrder = 1;
+        }
+        return $maxUserCategoryOrder;
+    }
 }

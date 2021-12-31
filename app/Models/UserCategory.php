@@ -17,6 +17,16 @@ class UserCategory extends Model
         'updated_at'
     ];
 
+    public function getUserCategoryByCategoryIdUserId($userId, $categoryId)
+    {
+        $select = DB::raw('user_category.*');
+        $dataBase = DB::table('user_category')->select($select);
+        $dataBase->where('user_category.user_id', '=', $userId);
+        $dataBase->where('user_category.category_id', '=', $categoryId);
+        $responseData= $dataBase->first();
+        return $responseData;
+    }
+
     public function getUserSelectedCategories($userId)
     {
         //$select = DB::raw('category.*,user_category.*');

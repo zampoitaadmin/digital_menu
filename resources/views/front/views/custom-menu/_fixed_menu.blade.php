@@ -49,11 +49,11 @@
 		                            <span>{{ __('message_lang.lbl_upload_file') }}</span>
 		                        </div>
 		                        <div class="dropzone-previews"></div> -->
-		                        <input type="file" file-input="files" name="starterProductMainImage" class="dropify" />
+		                        <!-- <input type="file" file-input="files" name="starterProductMainImage" class="dropify" /> -->
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_product_description') }}</label>
-								<textarea class="form-control" name="productDescription" ng-model="starter.productMainDescription"></textarea>
+								<textarea class="form-control" name="productDescription" ng-model="starter.productDescription"></textarea>
 							</div>
 						</div>
 						<button type="button" class="btn btn btn_custom_for_only_color" style="float: right;" ng-if="starters.length>1 && !$last" ng-click="removeStarter(starter)">{{ __('common.lbl_remove') }}</button>
@@ -78,36 +78,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	/*Dropzone.autoDiscover = false;
-    var starterDropzone;
-    $(function () {
-        initStarterDropzone();
-    });
-    function initStarterDropzone(){
-        starterDropzone = new Dropzone("div.dropzoneDragAreaStarter", {
-            paramName: "productMainImage",
-            url: "{{ url('/api/product-image') }}",
-            previewsContainer: 'div.dropzone-previews',
-            addRemoveLinks: true,
-            autoProcessQueue: false,
-            uploadMultiple: false,
-            parallelUploads: 1,
-            maxFiles: 1,
-            params: {
-            },
-            init: function () {
-                this.on('sending', function (file, xhr, formData) {
-                    debugger;
-                    let createdID = $('input:hidden[name=hdnProductId]').val();
-                    $('input:hidden[name=hdnProductId]').val('');
-                    formData.append('productId', createdID);
-                });
-                this.on("complete", function(file) { 
-                    // this.removeAllFiles(true);
-                    // console.log("Reset done");
-                })
-            }
-        });
-    }*/
-</script>

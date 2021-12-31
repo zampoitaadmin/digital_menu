@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\BrandingController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\MerchantFixedMenuController;
 
 Route::post('login', [AuthController::class, 'authenticate']);
 Route::post('auth/connect-sso', [AuthController::class, 'authenticate']);
@@ -30,6 +31,10 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('categories/update-user-category-order',  [CategoryController::class, 'updateUserCategoryOrder']);
     Route::post('categories/assign', [CategoryController::class, 'assignCategory']);
     #Route::resource('categories', [CategoryController::class]);
+
+    Route::post('merchant-fixed-menu', [MerchantFixedMenuController::class, 'store']);
+    Route::get('merchant-fixed-menu/{category}', [MerchantFixedMenuController::class, 'getMerchantFixedMenu']);
+    Route::put('merchant-fixed-menu/{merchantFixedMenuData}',  [MerchantFixedMenuController::class, 'update']);
 
     Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
     Route::post('products', [ProductController::class, 'store']);

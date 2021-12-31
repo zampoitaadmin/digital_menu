@@ -24,6 +24,16 @@ class Product extends Model
         'created_at',
         'updated_at'
     ];
+    public function getProductByProductType($userId, $categoryId, $productType)
+    {
+        $select = DB::raw('products.*');
+        $dataBase = DB::table('products')->select($select);
+        $dataBase->where('products.user_id', '=', $userId);
+        $dataBase->where('products.category_id', '=', $categoryId);
+        $dataBase->where('products.product_type', '=', $productType);
+        $responseData= $dataBase->orderByRaw("products.product_id ASC")->get();
+        return $responseData;
+    }
     public function getProductInfo($productId)
     {
         $select = DB::raw('products.*, category.name');
@@ -64,6 +74,14 @@ class Product extends Model
         $lastId = DB::table('product_allergies')->insert($crud);
         return $lastId;
     }
+    public function getProductAllergies($productId)
+    {
+        return DB::table('product_allergies')
+            ->select("product_allergies.*")
+            ->where('product_allergies.product_id',$productId)
+            ->orderBy('product_allergies.product_allergy_id','desc')
+            ->get();
+    }
     public function getProductAllergyIds($productId)
     {
         $info = DB::table('product_allergies')
@@ -77,6 +95,22 @@ class Product extends Model
         }else{
             return array();
         }
+    }
+    public function deleteProduct($categoryId, $userId, $needDeleteArr)
+    {
+        DB::table('products')
+            ->where('category_id', $categoryId)
+            ->where('user_id', $userId)
+            ->whereIn('product_id', $needDeleteArr)
+            ->delete();
+        return true;
+    }
+    public function deleteProductAllergyByProductId($productId)
+    {
+        DB::table('product_allergies')
+            ->whereIn('product_id', $productId)
+            ->delete();
+        return true;
     }
     public function deleteProductAllergy($productId, $needDeleteArr)
     {

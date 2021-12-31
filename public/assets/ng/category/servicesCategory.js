@@ -89,19 +89,12 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
     /* OLD REF */
     function getById(bookId, onSuccess, onError){
-
         Restangular.one('api/books', bookId).get().then(function(response){
-
             onSuccess(response);
-
         }, function(response){
-
             onError(response);
-
         });
-
     }
-
 
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 

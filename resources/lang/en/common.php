@@ -6,6 +6,7 @@ return [
     'validation_message_required' => "This field is required.",
     'lbl_remove' => "Remove",
     'lbl_add' => "Add",
+    'lbl_back' => "Back",
 
 
 ];

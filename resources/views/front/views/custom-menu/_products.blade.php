@@ -26,8 +26,15 @@
                             <span class="loaderProduct bb-loader" ng-bind-html="loaderProduct" ng-if="loaderProduct.length>0"></span>
                             <div class="accordion" id="faq">
                                 <div class="card" style="background: none;" ng-repeat="(categoryKey, categoryProduct) in userSelectedCategoriesProducts">
-                                    <div class="card-header">
-                                        <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }} </a>
+                                    <div ng-if="categoryProduct.category_type=='Fixed'">
+                                        <div class="card-header">
+                                            <a href="custom-menu#fixed-menu/@{{ categoryProduct.category_id }}" class="btn btn-header-link">@{{ categoryProduct.name }} </a>
+                                        </div>
+                                    </div>
+                                    <div ng-if="categoryProduct.category_type=='Normal'">
+                                        <div class="card-header">
+                                            <a href="#@{{ categoryProduct.slug }}" class="btn btn-header-link collapsed" data-toggle="collapse">@{{ categoryProduct.name }} </a>
+                                        </div>
                                     </div>
                                     <div id="@{{ categoryProduct.slug }}" class="collapse" data-parent="#faq">
                                         <div class="card-body px-3 py-1" ui-sortable="sortableOptionsProducts" data-data_category_id="@{{ categoryProduct.id }}" ng-model="categoryProduct.responseProducts">
@@ -298,10 +305,18 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label><?= ucfirst(__('message_lang.lbl_allergy')); ?></label>
+                            {{--
                             <select class="form-control select2" name="allergyId" ng-model="requestDataProduct.allergyId" multiple required>
-                                <option value="">Select Allergy</option>
+                                <option value=""><?= ucfirst(__('message_lang.lbl_select_allergy')); ?></option>
                                 <option ng-repeat="allergy in allAllergies" value="@{{ allergy.id }}">@{{ allergy.name }}</option>
                             </select>
+                            --}}
+                            <ui-select multiple ng-model="requestDataProduct.allergyId" theme="select2" ng-disabled="disabled" style="width: inherit;">
+                                <ui-select-match placeholder="<?= ucfirst(__('message_lang.lbl_select_allergy')); ?>">@{{$item.name}}</ui-select-match>
+                                <ui-select-choices repeat="allergy in allAllergies">
+                                    <div ng-bind-html="allergy.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                             <span ng-show="frmProduct.$submitted || frmProduct.allergyId.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.allergyId.$error.required || formCrudRequestErrors.allergyId"><?= __('common.validation_message_required'); ?></span>
                             </span>
@@ -330,11 +345,11 @@
     var myDropzone;
     $(function () {
         initDropzone();
-        initAllergySelect2();
+        // initAllergySelect2();
     });
-    function initAllergySelect2(){
+    /*function initAllergySelect2(){
         $('.select2').select2();
-    }
+    }*/
     function initDropzone(){
         myDropzone = new Dropzone("div#dropzoneDragArea", {
             paramName: "productMainImage",
@@ -358,7 +373,6 @@
                     }
                 });*/
                 this.on('sending', function (file, xhr, formData) {
-                    debugger;
                     let createdID = $('input:hidden[name=hdnProductId]').val();
                     $('input:hidden[name=hdnProductId]').val('');
                     formData.append('productId', createdID);

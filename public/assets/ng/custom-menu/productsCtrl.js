@@ -48,7 +48,15 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.allAllergies = [];
         // $scope.loaderUserSelectedCategory = $window.loaderInner;
         categoryService.getAllAllergies(function(response){
-            $scope.allAllergies = response.data.allAllergies;
+            // $scope.allAllergies = response.data.allAllergies;
+            let allAllergies = [];
+            angular.forEach(response.data.allAllergies, function (value, key) {
+                this.push({
+                    'id': value.id,
+                    'name': value.name,
+                });
+            }, allAllergies);
+            $scope.allAllergies = allAllergies;
             // $scope.loaderUserSelectedCategory = '';
             if(!response.status){
                 // $scope.loaderUserSelectedCategory = '<span class="text-info">' + response.message + '</span>';
@@ -357,8 +365,24 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.updateItem = {categoryKey, productKey};
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
-        $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  'allergyId':record.allergyIdArray,  'status':record.status,  'id':record.product_id};
-        // 
+        $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  
+        // 'allergyId':record.allergyIdArray,  
+        'allergyId':[],  
+        'status':record.status,  'id':record.product_id};
+        
+        console.log($scope.allAllergies);
+        console.log(record.allergyIdArray);
+
+        if(record.allergyIdArray.length>0){
+            record.allergyIdArray.map(function(currentValue, index, arr){
+                for (var i = 0; i < $scope.allAllergies.length; i++) {
+                    if($scope.allAllergies[i].id==currentValue.id){
+                        $scope.requestDataProduct.allergyId.push($scope.allAllergies[i]);
+                    }
+                }
+            });
+        }
+
         myDropzone.files = [];
         if(record.productMainImageList.length > 0){
             // 
@@ -509,6 +533,9 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         }
     };
     $timeout(function(){
+
+        $('.ui-select-container').find('input[type="text"]').css('width', '100%');
+
         myDropzone.on("success", function (file, response, progressEvent) {
             
             if(response.status){

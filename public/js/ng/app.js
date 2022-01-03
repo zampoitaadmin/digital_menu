@@ -13,7 +13,8 @@ var bbApp = angular.module('bbApp', [
     'ui-notification',
     //'ngResource',
     'bbAppControllers',
-    'ui.sortable'
+    'ui.sortable',
+    'ui.select'
 ]);
 bbApp.config(function (localStorageServiceProvider) {
     localStorageServiceProvider
@@ -140,7 +141,7 @@ bbApp.directive('switch', function(){
     };
 });
 
-bbApp.directive("select2", function ($timeout, $parse) {
+/*bbApp.directive("select2", function ($timeout, $parse) {
     return {
         restrict: 'AC',
         require: 'ngModel',
@@ -174,7 +175,7 @@ bbApp.directive("select2", function ($timeout, $parse) {
             }
         }
     };
-});
+});*/
 
 //bbApp.value('currentTab', '');
 /*bbApp.factory('bbLoader', ['$window', function(X) {

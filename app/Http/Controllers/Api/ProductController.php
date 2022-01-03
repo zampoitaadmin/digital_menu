@@ -13,6 +13,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 
 class ProductController extends ApiController
 {
@@ -66,7 +67,11 @@ class ProductController extends ApiController
                             $allergyIdArray = array();
                             if($responseAllergies){
                                 foreach ($responseAllergies as $allergyKey => $allergyInfo){
-                                    array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+                                    $tempObj = new stdClass;
+                                    $tempObj->id = (int)$allergyInfo->allergy_id;
+                                    $tempObj->name = $allergyInfo->name;
+                                    array_push($allergyIdArray, $tempObj);
+                                    // array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
                                 }
                             }
                             $responseProducts[$productKey]->responseAllergies = $responseAllergies;
@@ -164,7 +169,7 @@ class ProductController extends ApiController
                 for($i=0; $i < count($allergyId); $i++){
                     $insertRecords[] = array(
                         'product_id' => $createdID,
-                        'allergy_id' => $allergyId[$i],
+                        'allergy_id' => $allergyId[$i]["id"],
                         'created_at' => $currentDateTime
                     );
                 }
@@ -233,7 +238,7 @@ class ProductController extends ApiController
                 $product1r = trim($request->product1r);
                 $product12r = trim($request->product12r);
                 $productPrice = trim($request->productPrice);
-                $allergyId = ($request->allergyId);
+                $allergyIdArr = ($request->allergyId);
                 $status = trim($request->status);
                 $currentDateTime = getCurrentDateTime();
                 $crudData = array(
@@ -254,6 +259,8 @@ class ProductController extends ApiController
                 $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                 if($responseUpdate){
                     $currAllergyIdArr = $this->objProduct->getProductAllergyIds($product->product_id);
+                    $allergyId=array();
+                    if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
                     $newAllergyIdArr = array_map('intval', $allergyId);
                     $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
                     $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
@@ -295,11 +302,16 @@ class ProductController extends ApiController
                         $responseProduct->product_topa = _number_format($responseProduct->product_topa);
                         $responseProduct->product_1r = _number_format($responseProduct->product_1r);
                         $responseProduct->product_12r = _number_format($responseProduct->product_12r);
+
                         $responseAllergies = $this->objAllergy->getProductAllergies($responseProduct->product_id);
                         $allergyIdArray = array();
                         if($responseAllergies){
                             foreach ($responseAllergies as $allergyKey => $allergyInfo){
-                                array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+                                $tempObj = new stdClass;
+                                $tempObj->id = (int)$allergyInfo->allergy_id;
+                                $tempObj->name = $allergyInfo->name;
+                                array_push($allergyIdArray, $tempObj);
+                                // array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
                             }
                         }
                         $responseProduct->responseAllergies = $responseAllergies;

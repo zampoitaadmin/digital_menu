@@ -7,6 +7,9 @@
 						<div class="col-md-6">
 							<h4>{{ __('message_lang.lbl_fixed_menu') }}</h4>
 						</div>
+						<div class="col-md-6 text-right">
+							<button type="button" class="btn btn btn_custom_for_only_color"><a href="custom-menu#products" class="text-white">{{ __('common.lbl_back') }}</a></button>
+						</div>
 					</div>
 					<hr>
 					<div class="form-row">
@@ -22,22 +25,28 @@
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label>{{ __('message_lang.lbl_menu_description_conditions') }}</label>
-							<textarea class="form-control" name="menuDescriptionConditions" ng-model="requestDataFixedMenu.menuDescriptionConditions"></textarea>
+							<textarea class="form-control" name="menuDescriptionConditions" ng-model="requestDataFixedMenu.menuDescriptionConditions" required></textarea>
+                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.menuDescriptionConditions.$dirty">
+                                <span class="validationMessageClass" ng-show="frmFixedMenu.menuDescriptionConditions.$error.required || formCrudRequestErrors.menuDescriptionConditions"><?= __('common.validation_message_required'); ?></span>
+                            </span>
 						</div>
 					</div>
 
 					<hr>
-					<h6>{{ __('message_lang.lbl_starters') }}<h6>
+					<h5>{{ __('message_lang.lbl_starters') }}</h5>
 					<hr>
 					<div data-ng-repeat="starter in starters">
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_product_name') }}</label>
-								<input type="text" name="productName" ng-model="starter.productName" class="form-control">
+								<input type="text" name="productName" ng-model="starter.productName" class="form-control" required>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.productName.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.productName.$error.required || formCrudRequestErrors.productName"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_allergy') }}</label>
-								<select class="form-control" select2="" name="allergyId" data-ng-model="starter.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple required>
+								<select class="form-control" select2="" name="allergyId" data-ng-model="starter.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
 	                                <option value="">{{ __('message_lang.lbl_select_allergy') }}</option>
 	                            </select>
 							</div>
@@ -53,18 +62,96 @@
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_product_description') }}</label>
-								<textarea class="form-control" name="productDescription" ng-model="starter.productDescription"></textarea>
+								<textarea class="form-control" name="productDescription" ng-model="starter.productDescription" required></textarea>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.productDescription.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.productDescription.$error.required || formCrudRequestErrors.productDescription"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
 							</div>
 						</div>
-						<button type="button" class="btn btn btn_custom_for_only_color" style="float: right;" ng-if="starters.length>1 && !$last" ng-click="removeStarter(starter)">{{ __('common.lbl_remove') }}</button>
+						<button type="button" class="btn btn btn_custom_for_only_color" style="float: right;" ng-if="starters.length>1 && !starters.length!=1" ng-click="removeStarter(starter)">{{ __('common.lbl_remove') }}</button>
 						<br><br>
 						<button type="button" class="btn btn btn_custom_for_only_color" ng-if="$last" ng-click="addNewStarter()">{{ __('common.lbl_add') }}</button>
+					</div>
+
+					<hr>
+					<h5>{{ __('message_lang.lbl_main_course') }}</h5>
+					<hr>
+					<div data-ng-repeat="mainCourse in mainCourses">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>{{ __('message_lang.lbl_product_name') }}</label>
+								<input type="text" name="productName" ng-model="mainCourse.productName" class="form-control" required>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.productName.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.productName.$error.required || formCrudRequestErrors.productName"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
+							</div>
+							<div class="form-group col-md-6">
+								<label>{{ __('message_lang.lbl_allergy') }}</label>
+								<select class="form-control" select2="" name="allergyId" data-ng-model="mainCourse.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
+	                                <option value="">{{ __('message_lang.lbl_select_allergy') }}</option>
+	                            </select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
+							</div>
+							<div class="form-group col-md-6">
+								<label>{{ __('message_lang.lbl_product_description') }}</label>
+								<textarea class="form-control" name="productDescription" ng-model="mainCourse.productDescription" required></textarea>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.productDescription.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.productDescription.$error.required || formCrudRequestErrors.productDescription"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
+							</div>
+						</div>
+						<button type="button" class="btn btn btn_custom_for_only_color" style="float: right;" ng-if="mainCourses.length>1 && !mainCourses.length!=1" ng-click="removeMainCourse(mainCourse)">{{ __('common.lbl_remove') }}</button>
+						<br><br>
+						<button type="button" class="btn btn btn_custom_for_only_color" ng-if="$last" ng-click="addNewMainCourse()">{{ __('common.lbl_add') }}</button>
+					</div>
+
+					<hr>
+					<h5>{{ __('message_lang.lbl_deserts') }}</h5>
+					<hr>
+					<div data-ng-repeat="desert in deserts">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>{{ __('message_lang.lbl_product_name') }}</label>
+								<input type="text" name="productName" ng-model="desert.productName" class="form-control" required>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.productName.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.productName.$error.required || formCrudRequestErrors.productName"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
+							</div>
+							<div class="form-group col-md-6">
+								<label>{{ __('message_lang.lbl_allergy') }}</label>
+								<select class="form-control" select2="" name="allergyId" data-ng-model="desert.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
+	                                <option value="">{{ __('message_lang.lbl_select_allergy') }}</option>
+	                            </select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
+							</div>
+							<div class="form-group col-md-6">
+								<label>{{ __('message_lang.lbl_product_description') }}</label>
+								<textarea class="form-control" name="productDescription" ng-model="desert.productDescription" required></textarea>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.productDescription.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.productDescription.$error.required || formCrudRequestErrors.productDescription"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
+							</div>
+						</div>
+						<button type="button" class="btn btn btn_custom_for_only_color" style="float: right;" ng-if="deserts.length>1 && !deserts.length!=1" ng-click="removeDesert(desert)">{{ __('common.lbl_remove') }}</button>
+						<br><br>
+						<button type="button" class="btn btn btn_custom_for_only_color" ng-if="$last" ng-click="addNewDesert()">{{ __('common.lbl_add') }}</button>
 					</div>
 
 					<div class="form-row">
 						<div class="form-group col-md-4 offset-4">
 							<label>{{ __('message_lang.lbl_fixed_menu_price') }}</label>
-							<input type="number" name="fixedMenuPrice" ng-model="requestDataFixedMenu.fixedMenuPrice" class="form-control">
+							<input type="number" name="fixedMenuPrice" ng-model="requestDataFixedMenu.fixedMenuPrice" class="form-control" required>
+                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.fixedMenuPrice.$dirty">
+                                <span class="validationMessageClass" ng-show="frmFixedMenu.fixedMenuPrice.$error.required || formCrudRequestErrors.fixedMenuPrice"><?= __('common.validation_message_required'); ?></span>
+                            </span>
 						</div>
 					</div>
 

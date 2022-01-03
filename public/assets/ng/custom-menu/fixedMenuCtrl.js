@@ -1,23 +1,6 @@
 // Dropzone.autoDiscover = false;
 // var starterDropzone;
 bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParams','userService', 'categoryService', 'productService', 'fixedMenuService','$window','Notification','$sce','$timeout',  function ($scope, $location, $stateParams, userService, categoryService, productService, fixedMenuService, $window,Notification,$sce,$timeout) {
-	
-	$scope.starters = [];
-	$scope.starters.push({
-		'productId': '',
-        'productName': '',
-		'allergyId': '',
-		'starterProductMainImage': '',
-		'productDescription': '',
-	});
-	$scope.requestDataFixedMenu = {'categoryId':$stateParams.categoryId,
-        'categoryName':'',
-        'changeCategoryName':'',
-        'menuDescriptionConditions':'',
-        'fixedMenuPrice':'',
-        'id':0,
-        'merchantFixedMenuDataId':0,
-    };
 
 	$scope.addNewStarter = function(){
 		$scope.starters.push({
@@ -27,12 +10,41 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
 			'starterProductMainImage': '',
 			'productDescription': '',
 		});
-        $scope.initStarterDropify();
+        $scope.initDropify();
     };
-
 	$scope.removeStarter = function(starter){
 		var index = $scope.starters.indexOf(starter);
 		$scope.starters.splice(index, 1);
+    };
+
+    $scope.addNewMainCourse = function(){
+        $scope.mainCourses.push({
+            'productId': '',
+            'productName': '',
+            'allergyId': '',
+            'mainCourseProductMainImage': '',
+            'productDescription': '',
+        });
+        $scope.initDropify();
+    };
+    $scope.removeMainCourse = function(mainCourse){
+        var index = $scope.mainCourses.indexOf(mainCourse);
+        $scope.mainCourses.splice(index, 1);
+    };
+
+    $scope.addNewDesert = function(){
+        $scope.deserts.push({
+            'productId': '',
+            'productName': '',
+            'allergyId': '',
+            'desertProductMainImage': '',
+            'productDescription': '',
+        });
+        $scope.initDropify();
+    };
+    $scope.removeDesert = function(desert){
+        var index = $scope.deserts.indexOf(desert);
+        $scope.deserts.splice(index, 1);
     };
 
     $scope.refreshAllAllergies = function(){
@@ -64,7 +76,7 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
         });
     };
 
-    $scope.initStarterDropify = function(){
+    $scope.initDropify = function(){
         $timeout(function(){
             $('.dropify').dropify();
         }, 200);
@@ -103,6 +115,48 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                         'productDescription': '',
                     });
                 }
+                $scope.mainCourses = [];
+                if(response.data.courseProductData.length>0){
+                    $.each(response.data.courseProductData, function (key, value) {
+                        $scope.mainCourses.push({
+                            'productId': value.product_id,
+                            'productName': value.product_name,
+                            'allergyId': value.allergyIdArr,
+                            // 'starterProductMainImage': '',
+                            'productDescription': value.product_description,
+                        });
+                    });
+                }
+                else{
+                    $scope.mainCourses.push({
+                        'productId': '',
+                        'productName': '',
+                        'allergyId': '',
+                        'starterProductMainImage': '',
+                        'productDescription': '',
+                    });
+                }
+                $scope.deserts = [];
+                if(response.data.desertProductData.length>0){
+                    $.each(response.data.desertProductData, function (key, value) {
+                        $scope.deserts.push({
+                            'productId': value.product_id,
+                            'productName': value.product_name,
+                            'allergyId': value.allergyIdArr,
+                            // 'starterProductMainImage': '',
+                            'productDescription': value.product_description,
+                        });
+                    });
+                }
+                else{
+                    $scope.deserts.push({
+                        'productId': '',
+                        'productName': '',
+                        'allergyId': '',
+                        'starterProductMainImage': '',
+                        'productDescription': '',
+                    });
+                }
             }
         }, function(response){
             if(response.status!=200){
@@ -119,30 +173,49 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
             }
             //alert('Some errors occurred while communicating with the service. Try again later.');
         });
-        //
-        /*categoryService.getById(categoryId, function(response){
-            $scope.requestDataFixedMenu.categoryName = response.data.name;
-        }, function(response){
-            console.error("IN CustomMenuCategoryController Ctrl Error");
-            var responseData = response.data;
-            console.log(response);
-            if(response.status != 200){
-                if(angular.isObject(responseData.message)){
-                    console.warn(responseData.message);
-                }else{
-                    if(responseData.message.length==0){
-                    }else {
-                    }
-                }
-            }
-        });*/
     };
 
     $scope.onLoadFun = function(){
         $scope.refreshAllAllergies();
         $scope.refreshFixedMenuData();
-        // initStarterDropzone();
-        $scope.initStarterDropify();
+
+        $scope.starters = [];
+        $scope.starters.push({
+            'productId': '',
+            'productName': '',
+            'allergyId': '',
+            'starterProductMainImage': '',
+            'productDescription': '',
+        });
+
+        $scope.mainCourses = [];
+        $scope.mainCourses.push({
+            'productId': '',
+            'productName': '',
+            'allergyId': '',
+            'mainCourseProductMainImage': '',
+            'productDescription': '',
+        });
+
+        $scope.deserts = [];
+        $scope.deserts.push({
+            'productId': '',
+            'productName': '',
+            'allergyId': '',
+            'desertProductMainImage': '',
+            'productDescription': '',
+        });
+
+        $scope.requestDataFixedMenu = {'categoryId':$stateParams.categoryId,
+            'categoryName':'',
+            'changeCategoryName':'',
+            'menuDescriptionConditions':'',
+            'fixedMenuPrice':'',
+            'id':0,
+            'merchantFixedMenuDataId':0,
+        };
+
+        $scope.initDropify();
     };
 
     $scope.onLoadFun();
@@ -152,8 +225,8 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
         $scope.formCrudRequestErrors = {};
         console.log($scope.requestDataFixedMenu);
 
-        // if(isValidForm){
-        if(1){
+        if(isValidForm){
+        // if(1){
             let responseStarter = [];
             angular.forEach($scope.starters, function (value, key) {
                 this.push({
@@ -165,6 +238,30 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 });
             }, responseStarter);
             $scope.requestDataFixedMenu.starterData = responseStarter;
+
+            let responseMainCourse = [];
+            angular.forEach($scope.mainCourses, function (value, key) {
+                this.push({
+                    'productId': value.productId,
+                    'allergyId': value.allergyId,
+                    'productDescription': value.productDescription,
+                    'productName': value.productName,
+                    'mainCourseProductMainImage': value.mainCourseProductMainImage
+                });
+            }, responseMainCourse);
+            $scope.requestDataFixedMenu.mainCourseData = responseMainCourse;
+
+            let responseDesert = [];
+            angular.forEach($scope.deserts, function (value, key) {
+                this.push({
+                    'productId': value.productId,
+                    'allergyId': value.allergyId,
+                    'productDescription': value.productDescription,
+                    'productName': value.productName,
+                    'desertProductMainImage': value.desertProductMainImage
+                });
+            }, responseDesert);
+            $scope.requestDataFixedMenu.desertData = responseDesert;
 
             if($scope.requestDataFixedMenu.merchantFixedMenuDataId>0){ // Update
                 console.log("IN UPDATE");
@@ -179,14 +276,14 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                         id: $scope.requestDataFixedMenu.id,
                         menuDescriptionConditions: $scope.requestDataFixedMenu.menuDescriptionConditions,
                         starterData: $scope.requestDataFixedMenu.starterData,
-                        courseData: $scope.requestDataFixedMenu.courseData,
+                        mainCourseData: $scope.requestDataFixedMenu.mainCourseData,
                         desertData: $scope.requestDataFixedMenu.desertData,
                     },
                     function(response){
-                        debugger;
-                        return;
                         if(response.status){
-                            $('#productModel').modal('hide');
+                            Notification.success(response.message);
+                            $scope.onLoadFun();
+                            /*$('#productModel').modal('hide');
                             let productId = $scope.requestDataProduct.id;
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
@@ -194,7 +291,7 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                             Notification.success(response.message);
                             // $scope.onLoadFun();
                             // 
-                            $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
+                            $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;*/
                         }else{
                             Notification.error(response.message);
                             $scope.formCrudRequestErrors.message =  response.message;
@@ -218,7 +315,6 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 );
             }
             else{ // Add
-                return;
                 console.log("IN ADD");
                 // console.log($scope.requestDataFixedMenu);
                 fixedMenuService.create($scope.requestDataFixedMenu, function(response){

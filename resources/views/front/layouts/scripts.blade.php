@@ -20,8 +20,11 @@
 <script src="{{ url('xPlugins/dropzone/js/dropzone.min.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropify-master/css/dropify.min.css') }}">
 <script src="{{ url('xPlugins/dropify-master/js/dropify.min.js') }}"></script>
-<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/select2/css/select2.min.css') }}">
-<script src="{{ url('xPlugins/select2/js/select2.min.js') }}"></script>
+<script src="{{-- url('xPlugins/select2/js/select2.min.js') --}}"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/angular-ui/select/select.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/select2/css/select2V3.4.5.css') }}">
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
 
 <script type="text/javascript">
     function readFile(input) {
@@ -284,6 +287,8 @@
 <script src='{{ asset("js/ng/app.js".'?t='.time()) }}'></script>
 <script src='{{ asset("js/ng/controllers.js".'?t='.time()) }}' ></script>
 <script src='{{ asset("js/ng/services.js".'?t='.time()) }}' ></script>
+<script src="{{ url('xPlugins/angular-ui/select/select.js') }}"></script>
+<script src="{{ url('xPlugins/angular-ui/select/select-patch.js') }}"></script>
 
 @yield('page_script')
 

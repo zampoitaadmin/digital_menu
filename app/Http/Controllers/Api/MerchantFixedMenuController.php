@@ -154,7 +154,7 @@ class MerchantFixedMenuController extends ApiController
 					$allergyId = $starterInfo['allergyId'];
 					$productDescription = trim($starterInfo['productDescription']);
 					$productName = trim($starterInfo['productName']);
-					$starterProductMainImage = $starterInfo['starterProductMainImage'];
+					$starterProductMainImage = @$starterInfo['starterProductMainImage'];
 					$crudData = array(
 						'category_id' => $categoryId,
 						'user_id' => $userId,
@@ -171,7 +171,7 @@ class MerchantFixedMenuController extends ApiController
     		                for($i=0; $i < count($allergyId); $i++){
     		                    $insertRecords[] = array(
     		                        'product_id' => $createdID,
-    		                        'allergy_id' => $allergyId[$i],
+    		                        'allergy_id' => $allergyId[$i]["id"],
     		                        'created_at' => $currentDateTime
     		                    );
     		                }
@@ -188,7 +188,7 @@ class MerchantFixedMenuController extends ApiController
                     $allergyId = $mainCourseInfo['allergyId'];
                     $productDescription = trim($mainCourseInfo['productDescription']);
                     $productName = trim($mainCourseInfo['productName']);
-                    $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
+                    $mainCourseProductMainImage = @$mainCourseInfo['mainCourseProductMainImage'];
                     $crudData = array(
                         'category_id' => $categoryId,
                         'user_id' => $userId,
@@ -205,7 +205,7 @@ class MerchantFixedMenuController extends ApiController
                             for($i=0; $i < count($allergyId); $i++){
                                 $insertRecords[] = array(
                                     'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i],
+                                    'allergy_id' => $allergyId[$i]["id"],
                                     'created_at' => $currentDateTime
                                 );
                             }
@@ -222,7 +222,7 @@ class MerchantFixedMenuController extends ApiController
                     $allergyId = $desertInfo['allergyId'];
                     $productDescription = trim($desertInfo['productDescription']);
                     $productName = trim($desertInfo['productName']);
-                    $desertProductMainImage = $desertInfo['desertProductMainImage'];
+                    $desertProductMainImage = @$desertInfo['desertProductMainImage'];
                     $crudData = array(
                         'category_id' => $categoryId,
                         'user_id' => $userId,
@@ -239,7 +239,7 @@ class MerchantFixedMenuController extends ApiController
                             for($i=0; $i < count($allergyId); $i++){
                                 $insertRecords[] = array(
                                     'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i],
+                                    'allergy_id' => $allergyId[$i]["id"],
                                     'created_at' => $currentDateTime
                                 );
                             }
@@ -406,7 +406,7 @@ class MerchantFixedMenuController extends ApiController
                             for($i=0; $i < count($allergyId); $i++){
                                 $insertRecords[] = array(
                                     'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i],
+                                    'allergy_id' => $allergyId[$i]["id"],
                                     'created_at' => $currentDateTime
                                 );
                             }
@@ -425,16 +425,18 @@ class MerchantFixedMenuController extends ApiController
             $needUpdateArr = array_values(array_filter($needUpdateArr));
             foreach ($starterData as $starterDataKey => $starterInfo) {
                 $productId = (int)$starterInfo['productId'];
-                $allergyId = $starterInfo['allergyId'];
-                if($allergyId && !empty($allergyId)){
-                    $allergyId = array_values(array_filter($allergyId));
+                $allergyIdArr = $starterInfo['allergyId'];
+                if($allergyIdArr && !empty($allergyIdArr)){
+                    $allergyIdArr = array_values(array_filter($allergyIdArr));
                 }else{
-                    $allergyId = array();
+                    $allergyIdArr = array();
                 }
                 $productDescription = trim($starterInfo['productDescription']);
                 $productName = trim($starterInfo['productName']);
                 // $starterProductMainImage = $starterInfo['starterProductMainImage'];
                 if(in_array($productId, $needUpdateArr)){
+                    $allergyId=array();
+                    if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
                     $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
                     $newAllergyIdArr = array_map('intval', $allergyId);
                     $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
@@ -535,7 +537,7 @@ class MerchantFixedMenuController extends ApiController
                             for($i=0; $i < count($allergyId); $i++){
                                 $insertRecords[] = array(
                                     'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i],
+                                    'allergy_id' => $allergyId[$i]["id"],
                                     'created_at' => $currentDateTime
                                 );
                             }
@@ -554,16 +556,18 @@ class MerchantFixedMenuController extends ApiController
             $needUpdateArr = array_values(array_filter($needUpdateArr));
             foreach ($mainCourseData as $mainCourseDataKey => $mainCourseInfo) {
                 $productId = (int)$mainCourseInfo['productId'];
-                $allergyId = $mainCourseInfo['allergyId'];
-                if($allergyId && !empty($allergyId)){
-                    $allergyId = array_values(array_filter($allergyId));
+                $allergyIdArr = $mainCourseInfo['allergyId'];
+                if($allergyIdArr && !empty($allergyIdArr)){
+                    $allergyIdArr = array_values(array_filter($allergyIdArr));
                 }else{
-                    $allergyId = array();
+                    $allergyIdArr = array();
                 }
                 $productDescription = trim($mainCourseInfo['productDescription']);
                 $productName = trim($mainCourseInfo['productName']);
                 // $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
                 if(in_array($productId, $needUpdateArr)){
+                    $allergyId=array();
+                    if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
                     $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
                     $newAllergyIdArr = array_map('intval', $allergyId);
                     $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
@@ -664,7 +668,7 @@ class MerchantFixedMenuController extends ApiController
                             for($i=0; $i < count($allergyId); $i++){
                                 $insertRecords[] = array(
                                     'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i],
+                                    'allergy_id' => $allergyId[$i]["id"],
                                     'created_at' => $currentDateTime
                                 );
                             }
@@ -683,16 +687,18 @@ class MerchantFixedMenuController extends ApiController
             $needUpdateArr = array_values(array_filter($needUpdateArr));
             foreach ($desertData as $desertDataKey => $desertInfo) {
                 $productId = (int)$desertInfo['productId'];
-                $allergyId = $desertInfo['allergyId'];
-                if($allergyId && !empty($allergyId)){
-                    $allergyId = array_values(array_filter($allergyId));
+                $allergyIdArr = $desertInfo['allergyId'];
+                if($allergyIdArr && !empty($allergyIdArr)){
+                    $allergyIdArr = array_values(array_filter($allergyIdArr));
                 }else{
-                    $allergyId = array();
+                    $allergyIdArr = array();
                 }
                 $productDescription = trim($desertInfo['productDescription']);
                 $productName = trim($desertInfo['productName']);
                 // $desertProductMainImage = $desertInfo['desertProductMainImage'];
                 if(in_array($productId, $needUpdateArr)){
+                    $allergyId=array();
+                    if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
                     $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
                     $newAllergyIdArr = array_map('intval', $allergyId);
                     $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);

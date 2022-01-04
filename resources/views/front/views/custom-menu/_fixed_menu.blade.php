@@ -46,9 +46,18 @@
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_allergy') }}</label>
-								<select class="form-control" select2="" name="allergyId" data-ng-model="starter.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
+								{{--<select class="form-control" select2="" name="allergyId" data-ng-model="starter.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
 	                                <option value="">{{ __('message_lang.lbl_select_allergy') }}</option>
-	                            </select>
+	                            </select>--}}
+	                            <ui-select multiple ng-model="starter.allergyId" theme="select2" style="width: inherit;">
+                                <ui-select-match placeholder="<?= ucfirst(__('message_lang.lbl_select_allergy')); ?>">@{{$item.name}}</ui-select-match>
+	                                <ui-select-choices repeat="allergy in allAllergies">
+	                                    <div ng-bind-html="allergy.name | highlight: $select.search"></div>
+	                                </ui-select-choices>
+	                            </ui-select>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.allergyId.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.allergyId.$error.required || formCrudRequestErrors.allergyId"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
 							</div>
 						</div>
 						<div class="form-row">
@@ -87,9 +96,18 @@
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_allergy') }}</label>
-								<select class="form-control" select2="" name="allergyId" data-ng-model="mainCourse.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
+								{{--<select class="form-control" select2="" name="allergyId" data-ng-model="mainCourse.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
 	                                <option value="">{{ __('message_lang.lbl_select_allergy') }}</option>
-	                            </select>
+	                            </select>--}}
+	                            <ui-select multiple ng-model="mainCourse.allergyId" theme="select2" style="width: inherit;">
+                                <ui-select-match placeholder="<?= ucfirst(__('message_lang.lbl_select_allergy')); ?>">@{{$item.name}}</ui-select-match>
+	                                <ui-select-choices repeat="allergy in allAllergies">
+	                                    <div ng-bind-html="allergy.name | highlight: $select.search"></div>
+	                                </ui-select-choices>
+	                            </ui-select>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.allergyId.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.allergyId.$error.required || formCrudRequestErrors.allergyId"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
 							</div>
 						</div>
 						<div class="form-row">
@@ -123,9 +141,18 @@
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_allergy') }}</label>
-								<select class="form-control" select2="" name="allergyId" data-ng-model="desert.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
+								{{--<select class="form-control" select2="" name="allergyId" data-ng-model="desert.allergyId" ng-options="allergy.id as allergy.name for allergy in allAllergies" multiple>
 	                                <option value="">{{ __('message_lang.lbl_select_allergy') }}</option>
-	                            </select>
+	                            </select>--}}
+	                            <ui-select multiple ng-model="desert.allergyId" theme="select2" style="width: inherit;">
+                                <ui-select-match placeholder="<?= ucfirst(__('message_lang.lbl_select_allergy')); ?>">@{{$item.name}}</ui-select-match>
+	                                <ui-select-choices repeat="allergy in allAllergies">
+	                                    <div ng-bind-html="allergy.name | highlight: $select.search"></div>
+	                                </ui-select-choices>
+	                            </ui-select>
+	                            <span ng-show="frmFixedMenu.$submitted || frmFixedMenu.allergyId.$dirty">
+	                                <span class="validationMessageClass" ng-show="frmFixedMenu.allergyId.$error.required || formCrudRequestErrors.allergyId"><?= __('common.validation_message_required'); ?></span>
+	                            </span>
 							</div>
 						</div>
 						<div class="form-row">

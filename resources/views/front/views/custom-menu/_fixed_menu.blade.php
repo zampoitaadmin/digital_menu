@@ -68,6 +68,7 @@
 		                        </div>
 		                        <div class="dropzone-previews"></div> -->
 		                        <!-- <input type="file" file-input="files" name="starterProductMainImage" class="dropify" /> -->
+		                        <input ng-model="starter.starterProductMainImage" data-ng_repeat_index_starter="@{{$index}}" type="file" class="dropify" accept="image/*" onchange="angular.element(this).scope().starterUploadedFile(this)" data-default-file="@{{starter.fileUrl}}">
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_product_description') }}</label>
@@ -113,6 +114,7 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
+								<input ng-model="mainCourse.mainCourseProductMainImage" data-ng_repeat_index_main_course="@{{$index}}" type="file" class="dropify" accept="image/*" onchange="angular.element(this).scope().mainCourseUploadedFile(this)" data-default-file="@{{mainCourse.fileUrl}}">
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_product_description') }}</label>
@@ -158,6 +160,7 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
+								<input ng-model="desert.desertProductMainImage" data-ng_repeat_index_desert="@{{$index}}" type="file" class="dropify" accept="image/*" onchange="angular.element(this).scope().desertUploadedFile(this)" data-default-file="@{{desert.fileUrl}}">
 							</div>
 							<div class="form-group col-md-6">
 								<label>{{ __('message_lang.lbl_product_description') }}</label>

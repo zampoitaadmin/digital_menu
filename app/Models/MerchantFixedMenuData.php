@@ -34,4 +34,9 @@ class MerchantFixedMenuData extends Model
         $update = DB::table('merchant_fixed_menu_data')->where($where)->update($crud);
         return $update;
     }
+    public function getById($id)
+    {
+        $product = DB::table('merchant_fixed_menu_data')->where('id',$id)->first();
+        return $product;
+    }
 }

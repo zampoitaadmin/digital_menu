@@ -34,7 +34,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::post('merchant-fixed-menu', [MerchantFixedMenuController::class, 'store']);
     Route::get('merchant-fixed-menu/{category}', [MerchantFixedMenuController::class, 'getMerchantFixedMenu']);
-    Route::put('merchant-fixed-menu/{merchantFixedMenuData}',  [MerchantFixedMenuController::class, 'update']);
+    Route::post('merchant-fixed-menu-update',  [MerchantFixedMenuController::class, 'update']);
+    // Route::put('merchant-fixed-menu/{merchantFixedMenuData}',  [MerchantFixedMenuController::class, 'update']);
 
     Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
     Route::post('products', [ProductController::class, 'store']);

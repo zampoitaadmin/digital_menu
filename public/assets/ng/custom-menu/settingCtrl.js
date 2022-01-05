@@ -46,6 +46,7 @@ bbAppControllers.controller('settingCtrl', ['$scope', '$location','userService',
 
     $scope.updateUserSettingFun = function(){
         //sconsole.log($scope.requestDataSetting); return false;
+        $scope.requestDataSetting.appLanguage = appLanguage;
         settingService.update($scope.requestDataSetting , function(response){
                 if(response.status){
                     Notification.success(response.message);

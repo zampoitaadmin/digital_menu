@@ -154,6 +154,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
         //$scope.categorySubSectionChange('chooseCategory');
         //$scope.categorySubSectionChange('createOwnCategory');
         if(isValidForm){
+            $scope.requestDataCategory.appLanguage = appLanguage;
             categoryService.create($scope.requestDataCategory, function(response){
                 if(response.status){
                     $scope.requestDataCategory = {};
@@ -206,7 +207,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
         }).
             then((result) => {
                 if(result.value){
-                    categoryService.remove(record.id, function(response){
+                    categoryService.remove(record.id, appLanguage, function(response){
                         console.log(response);
                         if(response.status){
                             Notification.success(response.message);
@@ -259,7 +260,8 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
                 $scope.formCrudRequestData.id,
                 {
                     categoryNameSp: $scope.formCrudRequestData.categoryNameSp,
-                    categoryNameEn: $scope.formCrudRequestData.categoryNameEn
+                    categoryNameEn: $scope.formCrudRequestData.categoryNameEn,
+                    appLanguage: appLanguage
                 },
                 function(response){
                     if(response.status){
@@ -321,7 +323,7 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
         //$scope.categorySubSectionChange('chooseCategory');
         //$scope.categorySubSectionChange('createOwnCategory');
 
-        $scope.requestAssignData = {'selectedCategory':$scope.userCategoryIdsArray};
+        $scope.requestAssignData = {'selectedCategory':$scope.userCategoryIdsArray,'appLanguage':appLanguage};
         categoryService.assignCategory($scope.requestAssignData, function(response){
             if(response.status){
                 Notification.success(response.message);

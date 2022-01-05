@@ -21,12 +21,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     // custom-menu/categories
     // http://local.zampoita.com/custom-menu/categories
     // custom-menu/products
-    Route::get('categories', [CategoryController::class, 'getAllWithUser']);
-    Route::get('categories-user', [CategoryController::class, 'getAllOnlyByUser']);
-    Route::get('user-selected-categories', [CategoryController::class, 'getUserSelectedCategories']);
-    Route::get('all-allergies', [CategoryController::class, 'getAllAllergies']);
+    Route::get('categories/{appLanguage}', [CategoryController::class, 'getAllWithUser']);
+    Route::get('categories-user/{appLanguage}', [CategoryController::class, 'getAllOnlyByUser']);
+    Route::get('user-selected-categories/{appLanguage}', [CategoryController::class, 'getUserSelectedCategories']);
+    Route::get('all-allergies/{appLanguage}', [CategoryController::class, 'getAllAllergies']);
     Route::post('categories', [CategoryController::class, 'store']);
-    Route::delete('categories/{category}',  [CategoryController::class, 'destroy']);
+    Route::delete('categories/{category}/{appLanguage}',  [CategoryController::class, 'destroy']);
     Route::put('categories/{category}',  [CategoryController::class, 'update']);
     Route::post('categories/update-user-category-order',  [CategoryController::class, 'updateUserCategoryOrder']);
     Route::post('categories/assign', [CategoryController::class, 'assignCategory']);
@@ -38,11 +38,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     // Route::put('merchant-fixed-menu/{merchantFixedMenuData}',  [MerchantFixedMenuController::class, 'update']);
     Route::delete('merchant-fixed-menu/{product}',  [MerchantFixedMenuController::class, 'removeProductImage']);
 
-    Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
+    Route::get('products/{appLanguage}', [ProductController::class, 'getUserSelectedCategoriesProducts']);
     Route::post('products', [ProductController::class, 'store']);
     Route::post('product-image', [ProductController::class, 'storeProductImage']);
     Route::put('products/{product}',  [ProductController::class, 'update']);
-    Route::delete('products/{product}',  [ProductController::class, 'destroy']);
+    Route::delete('products/{product}/{appLanguage}',  [ProductController::class, 'destroy']);
     Route::post('products/update-user-category-product-order',  [ProductController::class, 'updateUserCategoryProductOrder']);
     Route::put('remove-product-main-image/{product}', [ProductController::class, 'removeProductMainImage']);
 

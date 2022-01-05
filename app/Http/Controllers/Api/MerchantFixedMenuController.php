@@ -158,6 +158,7 @@ class MerchantFixedMenuController extends ApiController
             return response()->json($responseData,$this->statusCode);
         }
         $userId = $this->user->id;
+        $appLanguage = trim($request->appLanguage);
         $categoryId = trim($request->categoryId);
         $categoryName = trim($request->categoryName);
         $changeCategoryName = trim($request->changeCategoryName);
@@ -392,12 +393,12 @@ class MerchantFixedMenuController extends ApiController
                     }
                 }
             }
-            $this->message = __('api.common_add',['module'=>__('api.module_product')]);
+            $this->message = __('api.common_add',['module'=>__('api.module_product', [], $appLanguage)], $appLanguage);
         }else{
             //$this->statusCode = http_response_code(500);
             $this->statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
             $this->status = false;
-            $this->message = __('api.common_add_error',['module'=> __('api.module_product')]);
+            $this->message = __('api.common_add_error',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
         }
         return response()->json([
             'status' => $this->status,
@@ -442,6 +443,7 @@ class MerchantFixedMenuController extends ApiController
 
                     if($merchantFixedMenuData->user_id == $userId){
 
+                        $appLanguage = trim($request->appLanguage);
                         $categoryId = trim($request->categoryId);
                         $categoryName = trim($request->categoryName);
                         $changeCategoryName = trim($request->changeCategoryName);
@@ -524,31 +526,31 @@ class MerchantFixedMenuController extends ApiController
                             $this->updateStarter($request, $categoryId, $starterDataArr, $currentDateTime);
                             $this->updateMainCourse($request, $categoryId, $mainCourseDataArr, $currentDateTime);
                             $this->updateDesert($request, $categoryId, $desertDataArr, $currentDateTime);
-                            $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+                            $this->message = __('api.common_update',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
                         }else{
                             $this->status = false;
-                            $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                            $this->message = __('api.common_update_error',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
                         }
                         
                     }
                     else{
                         $this->status = false;
-                        $this->message = __('api.common_error_access_denied');
+                        $this->message = __('api.common_error_access_denied', [], $appLanguage);
                     }
                 }
                 else{
                     $this->status = false;
-                    $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+                    $this->message = __('api.common_not_found',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
                 }
 
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
         }
         return response()->json([
             'status' => $this->status,

@@ -96,6 +96,12 @@
 @endsection
 
 @section('script')
+    <script type="text/javascript">
+        var deleteConfirmationText = "{{ __('common.delete_confirmation_text') }}";
+        var btnYesDelete = "{{ __('common.btn_yes_delete') }}";
+        var btnCancelDelete = "{{ __('common.btn_cancel_delete') }}";
+        var serviceError = "{{ __('common.service_error') }}";
+    </script>
 
     <script src='{{ asset("assets/ng/custom-menu/index.js?t=".time()) }}'></script>
     <script src='{{ asset("assets/ng/custom-menu/categoriesCtrl.js?t=".time()) }}'></script>

@@ -206,7 +206,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                         productName: $scope.requestDataProduct.productName,
                         productPrice: $scope.requestDataProduct.productPrice,
                         productTopa: $scope.requestDataProduct.productTopa,
-                        status: $scope.requestDataProduct.status
+                        status: $scope.requestDataProduct.status,
+                        appLanguage: appLanguage
                     },
                     function(response){
                         if(response.status){
@@ -256,6 +257,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             }
             else{ // Add
                 console.log("IN ADD");
+                $scope.requestDataProduct.appLanguage = appLanguage;
                 productService.create($scope.requestDataProduct, function(response){
                         if(response.status){
                             $scope.frmProduct.$setPristine();
@@ -274,8 +276,11 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                             }
                             
                             Notification.success(response.message);
-                            
-                            $scope.onLoadFun();
+                            $timeout(function(){
+                                $scope.onLoadFun();
+                                // $('#faq .collapse').collapse('hide');
+                                // $('#salads').collapse('toggle');
+                            }, 200);
                         }else{
                             Notification.error(response.message);
                             $scope.formCrudRequestErrors.message =  response.message;
@@ -304,7 +309,8 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
 
     $scope.deleteRecordFun = function(record,categoryKey){
         swal.fire({
-            title: 'Are you sure you want to delete "'+record.product_name+'" product?',
+            // title: 'Are you sure you want to delete "'+record.product_name+'" product?',
+            title: deleteConfirmationText,
             //text: "You won't be able to revert this("+record.name+")!",
             icon: 'warning',
             showCancelButton: true,
@@ -312,11 +318,12 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             //cancelButtonColor: '#d33',
             //confirmButtonColor: '#2EB973',
            // cancelButtonColor: '#FA4559',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: btnYesDelete,
+            cancelButtonText: btnCancelDelete,
         }).
             then((result) => {
                 if(result.value){
-                    productService.remove(record.product_id, function(response){
+                    productService.remove(record.product_id, appLanguage, function(response){
                         console.log(response);
                         if(response.status){
                             Notification.success(response.message);
@@ -542,7 +549,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                             // bbNotification.error(response.data.message);
                             if(responseData.message.length==0){
                                 //$scope.loaderUserSelectedCategory = $window.msgError;
-                                $scope.messageBrand = '<span class="text-danger">Some errors occurred while communicating with the service. Try again later.</span>';
+                                $scope.messageBrand = '<span class="text-danger">'+serviceError+'</span>';
                             }else {
                                 //$scope.loaderUserSelectedCategorys = $window.msgError;
                                 Notification.error(responseData.message);

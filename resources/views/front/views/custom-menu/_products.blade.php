@@ -21,7 +21,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="btn btn_custom_for_only_color productTabHeaderAddProduct" ng-click="openAddProductModal()">Add Product</div>
+                                <div class="btn btn_custom_for_only_color productTabHeaderAddProduct" ng-click="openAddProductModal()">{{ __('message_lang.product_add_product') }}</div>
                             </div>
                             <span class="loaderProduct bb-loader" ng-bind-html="loaderProduct" ng-if="loaderProduct.length>0"></span>
                             <div class="accordion" id="faq">
@@ -45,8 +45,8 @@
                                                             <div class="row">
                                                                 <div class="col-sm-3 pb-3">
                                                                     <a href="#">
-                                                                        {{-- <img src="{{ _betagitZampoitaWebUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';"> --}}
-                                                                        <img src="{{ url('uploads/product/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
+                                                                        {{-- <img src="{{ _getHomeUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';"> --}}
+                                                                        <img src="{{ url('uploads/product/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
                                                                     </a>
                                                                 </div>
                                                                 <div class="col-sm-9">
@@ -76,11 +76,11 @@
                                                                         @{{ productInfo.product_description }}
                                                                     </p>
                                                                     <p>
-                                                                    <p class="my-2" ng-if="productInfo.responseAllergies.length"><b>Allergy items selected</b></p>
+                                                                    <p class="my-2" ng-if="productInfo.responseAllergies.length"><b>{{ __('message_lang.product_text_2') }}</b></p>
                                                                     <div class="productAllergiesDiv">
                                                                         <div ng-repeat="allergyInfo in productInfo.responseAllergies">
                                                                             <button type="button" class="p-0 mr-1 btn btn-outline-info">
-                                                                                <img src="{{ _betagitZampoitaWebUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _betagitZampoitaWebUrl('assets/default/100_no_img.jpg') }}';">
+                                                                                <img src="{{ _getHomeUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -265,7 +265,7 @@
                             <label class="custom-file-label" for="customFileLang"><?php //echo __('common.input_file_choose'); ?></label>
                         </div> -->
                         <div id="dropzoneDragArea" class="dz-default dz-message dropzoneDragArea">
-                            <span>Upload file</span>
+                            <span><?= ucfirst(__('common.lbl_upload_file')); ?></span>
                         </div>
                         <div class="dropzone-previews"></div>
                     </div>
@@ -324,8 +324,8 @@
                         <div class="form-group col-md-6">
                             <label><?= ucfirst(__('message_lang.lbl_status')); ?></label>
                             <select class="form-control" name="status" ng-model="requestDataProduct.status" required>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
+                                <option value="Active"><?= ucfirst(__('common.status_active')); ?></option>
+                                <option value="Inactive"><?= ucfirst(__('common.status_inactive')); ?></option>
                             </select>
                             <span ng-show="frmProduct.$submitted || frmProduct.status.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.status.$error.required || formCrudRequestErrors.status"><?= __('common.validation_message_required'); ?></span>

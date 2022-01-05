@@ -33,7 +33,7 @@ class ProductController extends ApiController
         $this->productMainImagePath = public_path('uploads/product/');
     }
 
-    public function getUserSelectedCategoriesProducts(){
+    public function getUserSelectedCategoriesProducts($appLanguage='en'){
         $responseData= array();
         try {
             $userId = $this->user->id;
@@ -41,6 +41,14 @@ class ProductController extends ApiController
             if($responseCategories){
                 foreach($responseCategories as $key => $categoryInfo)
                 {
+                    $responseCategories[$key]->originalName = $categoryInfo->name;
+                    if($appLanguage=="en"){
+                        $responseCategories[$key]->name = $categoryInfo->name;
+                    }
+                    else if($appLanguage=="es"){
+                        $responseCategories[$key]->name = $categoryInfo->spanish;
+                    }
+                    
                     $responseCategories[$key]->slug = _generateSeoURL($categoryInfo->name);
                     $responseProducts = $this->objProduct->getProductData($categoryInfo->category_id, $userId);
 
@@ -131,6 +139,7 @@ class ProductController extends ApiController
         }
         $userId = $this->user->id;
         //Request is valid, create new category
+        $appLanguage = trim($request->appLanguage);
         $categoryId = trim($request->categoryId);
         $productName = trim($request->productName);
         $productDescription = trim($request->productDescription);
@@ -179,12 +188,12 @@ class ProductController extends ApiController
                 }
             }else{
             }
-            $this->message = __('api.common_add',['module'=>__('api.module_product')]);
+            $this->message = __('api.common_add',['module'=>__('api.module_product', [], $appLanguage)], $appLanguage);
         }else{
             //$this->statusCode = http_response_code(500);
             $this->statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
             $this->status = false;
-            $this->message = __('api.common_add_error',['module'=> __('api.module_product')]);
+            $this->message = __('api.common_add_error',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
         }
 
         return response()->json([
@@ -231,6 +240,7 @@ class ProductController extends ApiController
                     return response()->json($responseData,$this->statusCode);
                 }
                 //Request is valid, create new category
+                $appLanguage = trim($request->appLanguage);
                 $categoryId = trim($request->categoryId);
                 $productName = trim($request->productName);
                 $productDescription = trim($request->productDescription);
@@ -317,19 +327,19 @@ class ProductController extends ApiController
                         $responseProduct->responseAllergies = $responseAllergies;
                         $responseProduct->allergyIdArray = $allergyIdArray;
                     }
-                    $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+                    $this->message = __('api.common_update',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
                 }else{
                     $this->status = false;
-                    $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                    $this->message = __('api.common_update_error',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
                 }
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
         }
         return response()->json([
             'status' => $this->status,
@@ -338,12 +348,16 @@ class ProductController extends ApiController
             'data' => $responseProduct,
         ], $this->statusCode);
     }
-    public function destroy(Product $product)
+    public function destroy(Product $product, $appLanguage='en')
     {
         if($product){
             $userId = $this->user->id;
             if($product->user_id == $userId){
                 $categoryId = $product->category_id;
+                if(!empty($product->product_main_image)){
+                    $currentProductMainImage = $product->product_main_image;
+                    @unlink($this->productMainImagePath.$currentProductMainImage);
+                }
                 $responseDelete = $product->delete();
                 $this->objProduct->deleteRecordByProductId($product->product_id);
                 $responseProducts = $this->objProduct->getProductData($categoryId, $userId);
@@ -365,15 +379,15 @@ class ProductController extends ApiController
                         $responseProducts[$productKey]->allergyIdArray = $allergyIdArray;
                     }
                 }
-                $this->message = __('api.common_delete',['module'=> __('api.module_product')]);
+                $this->message = __('api.common_delete',['module'=> __('api.module_product',[],$appLanguage)],$appLanguage);
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied',[],$appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product', [], $appLanguage)], $appLanguage);
         }
         return response()->json([
             'status' => $this->status,

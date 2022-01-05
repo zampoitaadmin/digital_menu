@@ -88,6 +88,7 @@ class BrandingController extends ApiController
                     $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
                     return response()->json($responseData,$this->statusCode);
                 }*/
+                $appLanguage = trim($request->appLanguage);
                 $brandLogo = trim($request->brandLogo);
                 $fontColor = trim($request->fontColor);
                 $mainColor = trim($request->mainColor);
@@ -103,19 +104,19 @@ class BrandingController extends ApiController
                 $where = array('menu_branding_id' => $menuBranding->menu_branding_id);
                 $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
                 if($responseUpdate){
-                    $this->message = __('api.common_update',['module'=> __('api.module_branding')]);
+                    $this->message = __('api.common_update',['module'=> __('api.module_branding', [], $appLanguage)], $appLanguage);
                 }else{
                     $this->status = false;
-                    $this->message = __('api.common_update_error',['module'=> __('api.module_branding')]);
+                    $this->message = __('api.common_update_error',['module'=> __('api.module_branding', [], $appLanguage)], $appLanguage);
                 }
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_branding')]);
+            $this->message = __('api.common_not_found',['module'=> __('api.module_branding', [], $appLanguage)], $appLanguage);
         }
         return response()->json([
             'status' => $this->status,
@@ -125,6 +126,7 @@ class BrandingController extends ApiController
     }
     public function revertToDefault(Request $request,$id=0){
 
+        $appLanguage = $request->appLanguage;
         if($id){
             $userId = $this->user->id;
             $menuBranding = $this->objMenuBranding->getById($id);
@@ -142,19 +144,19 @@ class BrandingController extends ApiController
                 $where = array('menu_branding_id' => $menuBranding->menu_branding_id);
                 $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
                 if($responseUpdate){
-                    $this->message = __('api.api_branding_revert_default');
+                    $this->message = __('api.api_branding_revert_default', [], $appLanguage);
                 }else{
                     $this->status = false;
-                    $this->message = __('api.api_branding_revert_default_error');
+                    $this->message = __('api.api_branding_revert_default_error', [], $appLanguage);
                 }
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_branding')]);
+            $this->message = __('api.common_not_found',['module'=> __('api.module_branding', [], $appLanguage)], $appLanguage);
         }
         return response()->json([
             'status' => $this->status,

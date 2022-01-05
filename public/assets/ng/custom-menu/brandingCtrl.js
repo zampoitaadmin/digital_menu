@@ -51,6 +51,7 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
     $scope.onLoadFun();
     $scope.updateUserBrandingFun = function(){
         //console.log($scope.requestDataBranding); return false;
+        $scope.requestDataBranding.appLanguage = appLanguage;
         brandingService.update($scope.requestDataBranding.id,
             $scope.requestDataBranding , function(response){
             if(response.status){
@@ -99,7 +100,7 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
         //console.log($scope.requestDataBranding); return false;
         //$scope.requestDataBranding = {'mainColor':'','secondaryColor':'','thirdColor':'','fontColor':'','brandLogo':'','id':0};
         brandingService.revertToDefault($scope.requestDataBranding.id,
-            {'mainColor':'','secondaryColor':'','thirdColor':'','fontColor':'','brandLogo':'','id':$scope.requestDataBranding.id} , function(response){
+            {'mainColor':'','secondaryColor':'','thirdColor':'','fontColor':'','brandLogo':'','id':$scope.requestDataBranding.id,'appLanguage':appLanguage} , function(response){
             if(response.status){
                 Notification.success(response.message);
                 $scope.onLoadFun();

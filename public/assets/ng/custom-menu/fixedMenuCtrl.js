@@ -121,7 +121,27 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
 
     $scope.initDropify = function(){
         $timeout(function(){
-            var drEvent = $('.dropify').dropify();
+            let drConfig = {};
+            if(appLanguage == "en"){
+                drConfig = {
+                    messages: {
+                        'default': 'Drag and drop a file here or click',
+                        'replace': 'Drag and drop or click to replace',
+                        'remove':  'Remove',
+                        'error':   'Ooops, something wrong happended.'
+                    }
+                };
+            }else if(appLanguage == "es"){
+                drConfig = {
+                    messages: {
+                        'default': 'es Drag and drop a file here or click',
+                        'replace': 'es Drag and drop or click to replace',
+                        'remove':  'es Remove',
+                        'error':   'es Ooops, something wrong happended.'
+                    }
+                };
+            }
+            var drEvent = $('.dropify').dropify(drConfig);
 
             drEvent.on('dropify.beforeClear', function(event, element){
                 let productId = element.element.dataset.product_id;
@@ -389,6 +409,7 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 formData.append('starterData', JSON.stringify($scope.requestDataFixedMenu.starterData));
                 formData.append('mainCourseData', JSON.stringify($scope.requestDataFixedMenu.mainCourseData));
                 formData.append('desertData', JSON.stringify($scope.requestDataFixedMenu.desertData));
+                formData.append('appLanguage', appLanguage);
                 angular.forEach($scope.requestDataFixedMenu.starterData, function (value, key) {
                     if(value.starterProductMainImage){
                         formData.append(`starter_${key}`,value.starterProductMainImage);
@@ -444,6 +465,7 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 formData.append('starterData', JSON.stringify($scope.requestDataFixedMenu.starterData));
                 formData.append('mainCourseData', JSON.stringify($scope.requestDataFixedMenu.mainCourseData));
                 formData.append('desertData', JSON.stringify($scope.requestDataFixedMenu.desertData));
+                formData.append('appLanguage', appLanguage);
                 angular.forEach($scope.requestDataFixedMenu.starterData, function (value, key) {
                     if(value.starterProductMainImage)
                         formData.append(`starter_${key}`,value.starterProductMainImage);

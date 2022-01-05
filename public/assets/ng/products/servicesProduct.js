@@ -1,7 +1,7 @@
 bbAppServices.factory('productService', ['Restangular', 'userService', 'localStorageService', function(Restangular, userService, localStorageService) {
 
     function getUserSelectedCategoriesProducts(onSuccess, onError){
-        Restangular.all('api/products').customGET().then(function(response){
+        Restangular.all('api/products').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);
@@ -26,8 +26,8 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
         );
     }
 
-    function remove(id, onSuccess, onError){
-        Restangular.one('api/products/', id).remove().then(function(response){
+    function remove(id, appLanguage, onSuccess, onError){
+        Restangular.one('api/products/'+id+'/'+appLanguage).remove().then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);

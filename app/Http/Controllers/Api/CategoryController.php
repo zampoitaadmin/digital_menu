@@ -28,7 +28,7 @@ class CategoryController extends ApiController
         $this->user = JWTAuth::parseToken()->authenticate();
     }
 
-    public function getAllWithUser(){
+    public function getAllWithUser($appLanguage='en'){
         //sleep(1);
         $responseData= array();
         try {
@@ -41,6 +41,15 @@ class CategoryController extends ApiController
             $userCategoryIdsArray = $this->objUserCategory->getUserSelectedCategoryIds($userId);
             $userCreatedCategoryIdsArray = $this->objCategory->getCategoryIdsCreatedByUser($userId);
             if($responseCategories){
+                foreach ($responseCategories as $key => $value) {
+                    $responseCategories[$key]->originalName = $value->name;
+                    if($appLanguage=="en"){
+                        $responseCategories[$key]->name = $value->name;
+                    }
+                    else if($appLanguage=="es"){
+                        $responseCategories[$key]->name = $value->spanish;
+                    }
+                }
                 $responseData['categories'] = $responseCategories;
                 $responseData['userCategoryIdsArray'] = $userCategoryIdsArray;
                 $responseData['userCreatedCategoryIdsArray'] = $userCreatedCategoryIdsArray;
@@ -56,11 +65,11 @@ class CategoryController extends ApiController
         } catch (JWTException $e) {
             return response()->json([
                 'status' => false,
-                'message' => __('api.common_error_500'),
+                'message' => __('api.common_error_500', [], $appLanguage),
             ], 500);
         }
     }
-    public function getAllOnlyByUser(){
+    public function getAllOnlyByUser($appLanguage='en'){
         $responseData= array();
         try {
             /*return response()->json([
@@ -70,10 +79,19 @@ class CategoryController extends ApiController
             $userId = $this->user->id;
             $responseCategories = $this->objCategory->getAllOnlyByUser($userId);
             if($responseCategories){
+                foreach ($responseCategories as $key => $value) {
+                    $responseCategories[$key]->originalName = $value->name;
+                    if($appLanguage=="en"){
+                        $responseCategories[$key]->name = $value->name;
+                    }
+                    else if($appLanguage=="es"){
+                        $responseCategories[$key]->name = $value->spanish;
+                    }
+                }
                 $responseData['categories'] = $responseCategories;
             }else{
                 $this->status = false;
-                $this->message = __('api.common_empty',['module' => __('api.module_category')]);
+                $this->message = __( 'api.common_empty', [ 'module' => __('api.module_category', [], $appLanguage) ], $appLanguage );
             }
             return response()->json([
                 'status' => $this->status,
@@ -83,20 +101,29 @@ class CategoryController extends ApiController
         } catch (JWTException $e) {
             return response()->json([
                 'status' => false,
-                'message' => __('api.common_error_500'),
+                'message' => __('api.common_error_500', [], $appLanguage),
             ], 500);
         }
     }
-    public function getUserSelectedCategories(){
+    public function getUserSelectedCategories($appLanguage='en'){
         $responseData= array();
         try {
             $userId = $this->user->id;
             $responseCategories = $this->objUserCategory->getUserSelectedCategories($userId);
             if($responseCategories){
+                foreach ($responseCategories as $key => $value) {
+                    $responseCategories[$key]->originalName = $value->name;
+                    if($appLanguage=="en"){
+                        $responseCategories[$key]->name = $value->name;
+                    }
+                    else if($appLanguage=="es"){
+                        $responseCategories[$key]->name = $value->spanish;
+                    }
+                }
                 $responseData['categories'] = $responseCategories;
             }else{
                 $this->status = false;
-                $this->message = __('api.common_empty',['module' => __('api.module_category')]);
+                $this->message = __('api.common_empty', ['module' => __('api.module_category', [], $appLanguage)], $appLanguage);
             }
             return response()->json([
                 'status' => $this->status,
@@ -106,7 +133,7 @@ class CategoryController extends ApiController
         } catch (JWTException $e) {
             return response()->json([
                 'status' => false,
-                'message' => __('api.common_error_500'),
+                'message' => __('api.common_error_500', [], $appLanguage),
             ], 500);
         }
     }
@@ -132,6 +159,7 @@ class CategoryController extends ApiController
         }
         $userId = $this->user->id;
         //Request is valid, create new category
+        $appLanguage = trim($request->appLanguage);
         $categoryNameEn = trim($request->categoryNameEn);
         $categoryNameSp = trim($request->categoryNameSp);
         $crudData = array(
@@ -163,12 +191,12 @@ class CategoryController extends ApiController
                 'created_at' => getCurrentDateTime(),
             );
             $responseCreate = $this->objUserCategory->createRecord($crudDataUC);
-            $this->message = __('api.common_add',['module'=>__('api.module_category')]);
+            $this->message = __( 'api.common_add', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
         }else{
             //$this->statusCode = http_response_code(500);
             $this->statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
             $this->status = false;
-            $this->message = __('api.common_add_error',['module'=> __('api.module_category')]);
+            $this->message = __( 'api.common_add_error', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
         }
 
         return response()->json([
@@ -184,22 +212,22 @@ class CategoryController extends ApiController
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category, $appLanguage='en')
     {
         if($category){
             $userId = $this->user->id;
             if($category->user_id == $userId){
                 $responseDelete = $category->delete();
                 $this->objUserCategory->deleteRecordByCategoryId($category->id,$userId);
-                $this->message = __('api.common_delete',['module'=> __('api.module_category')]);
+                $this->message = __( 'api.common_delete', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_category')]);
+            $this->message = __( 'api.common_not_found', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
         }
         return response()->json([
             'status' => $this->status,
@@ -231,6 +259,7 @@ class CategoryController extends ApiController
                     $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
                     return response()->json($responseData,$this->statusCode);
                 }
+                $appLanguage = trim($request->appLanguage);
                 $categoryNameEn = trim($request->categoryNameEn);
                 $categoryNameSp = trim($request->categoryNameSp);
                 $crudData = array(
@@ -243,19 +272,19 @@ class CategoryController extends ApiController
                 $where = array('id' => $category->id);
                 $responseUpdate = $this->objCategory->updateRecord($crudData,$where);
                 if($responseUpdate){
-                    $this->message = __('api.common_update',['module'=> __('api.module_category')]);
+                    $this->message = __( 'api.common_update', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
                 }else{
                     $this->status = false;
-                    $this->message = __('api.common_update_error',['module'=> __('api.module_category')]);
+                    $this->message = __( 'api.common_update_error', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
                 }
             }else{
                 $this->status = false;
-                $this->message = __('api.common_error_access_denied');
+                $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
         }else{
             #$this->statusCode = Response::HTTP_NOT_FOUND;
             $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_category')]);
+            $this->message = __( 'api.common_not_found', [ 'module'=>__( 'api.module_category', [], $appLanguage ) ], $appLanguage );
         }
         return response()->json([
             'status' => $this->status,
@@ -295,6 +324,7 @@ class CategoryController extends ApiController
         ]);*/
         $userId = $this->user->id;
         if(isset($data['selectedCategory']) && !empty($data['selectedCategory'])){
+            $appLanguage = trim($request->appLanguage);
             // Get Existing Selected Category FROM TABLE
             // FInd New selected category from selectedCategory Array
             // FInd category for delete FROM TABLE
@@ -317,12 +347,12 @@ class CategoryController extends ApiController
                 #_pre($data['selectedCategory']);
                 $responseBulkInsert = $this->objUserCategory->createBulkRecord($insertRecords);
                 if($responseBulkInsert){
-                    $this->message = __('api.api_category_assign');
+                    $this->message = __('api.api_category_assign', [], $appLanguage);
                 }else{
                     //$this->statusCode = http_response_code(500);
                     $this->statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
                     $this->status = false;
-                    $this->message = __('api.api_category_assign_error');
+                    $this->message = __('api.api_category_assign_error', [], $appLanguage);
                 }
             }else{
                 #TODO REORDER
@@ -359,9 +389,9 @@ class CategoryController extends ApiController
                     $this->objUserCategory->deleteBulkRecordByCategoryIds($deleteCategories,$userId);
                 }
                 if(empty($newCategories) && empty($deleteCategories)){
-                    $this->message = __('api.api_category_assign_already');
+                    $this->message = __('api.api_category_assign_already', [], $appLanguage);
                 }else{
-                    $this->message = __('api.api_category_assign');
+                    $this->message = __('api.api_category_assign', [], $appLanguage);
                 }
                 #_pre($newCategories  ,0);
                # _pre(" ==== DELETE ===",0);
@@ -382,16 +412,25 @@ class CategoryController extends ApiController
         ], Response::HTTP_OK);
     }
 
-    public function getAllAllergies(){
+    public function getAllAllergies($appLanguage='en'){
         $responseData= array();
         try {
             $userId = $this->user->id;
             $responseAllergies = $this->objAllergy->getAllAllergies();
             if($responseAllergies){
+                foreach ($responseAllergies as $key => $value) {
+                    $responseAllergies[$key]->originalName = $value->name;
+                    if($appLanguage=="en"){
+                        $responseAllergies[$key]->name = $value->name;
+                    }
+                    else if($appLanguage=="es"){
+                        $responseAllergies[$key]->name = $value->spanish;
+                    }
+                }
                 $responseData['allAllergies'] = $responseAllergies;
             }else{
                 $this->status = false;
-                $this->message = __('api.common_empty',['module' => __('api.module_allergy')]);
+                $this->message = __('api.common_empty',['module' => __('api.module_allergy',[],$appLanguage)],$appLanguage);
             }
             return response()->json([
                 'status' => $this->status,
@@ -401,7 +440,7 @@ class CategoryController extends ApiController
         } catch (JWTException $e) {
             return response()->json([
                 'status' => false,
-                'message' => __('api.common_error_500'),
+                'message' => __('api.common_error_500',[],$appLanguage),
             ], 500);
         }
     }

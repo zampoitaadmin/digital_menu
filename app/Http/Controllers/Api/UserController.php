@@ -66,6 +66,7 @@ class UserController extends ApiController
     public function updateSetting(Request $request){
         $userId = $this->user->id;
         $data = $request->only('isActiveWebsiteTemplate', 'fontColor', 'standardDeliveryCharge', 'minimumDeliveryCharge', 'freeDeliveryCharge');
+        $appLanguage = trim($request->appLanguage);
         $isActiveWebsiteTemplate = trim($request->isActiveWebsiteTemplate);
         $standardDeliveryCharge = trim($request->standardDeliveryCharge);
         $minimumDeliveryCharge = trim($request->minimumDeliveryCharge);
@@ -81,10 +82,10 @@ class UserController extends ApiController
         $where = array('id' => $userId);
         $responseUpdate = $this->objUser->updateUserSettingRecord($crudData,$where);
         if($responseUpdate){
-            $this->message = __('api.common_update',['module'=> __('api.module_setting')]);
+            $this->message = __('api.common_update',['module'=> __('api.module_setting', [], $appLanguage)], $appLanguage);
         }else{
             $this->status = false;
-            $this->message = __('api.common_update_error',['module'=> __('api.module_setting')]);
+            $this->message = __('api.common_update_error',['module'=> __('api.module_setting', [], $appLanguage)], $appLanguage);
         }
 
         return response()->json([

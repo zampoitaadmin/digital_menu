@@ -1,7 +1,7 @@
 bbAppServices.factory('categoryService', ['Restangular', 'userService', function(Restangular, userService) {
 
     function getAll(onSuccess, onError){
-        Restangular.all('api/categories').customGET().then(function(response){
+        Restangular.all('api/categories').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);
@@ -9,7 +9,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
         });
     }
     function getAllOnlyByUser(onSuccess, onError){
-        Restangular.all('api/categories-user').customGET().then(function(response){
+        Restangular.all('api/categories-user').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);
@@ -18,7 +18,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
     function getUserSelectedCategories(onSuccess, onError){
-        Restangular.all('api/user-selected-categories').customGET().then(function(response){
+        Restangular.all('api/user-selected-categories').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);
@@ -27,7 +27,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
     function getAllAllergies(onSuccess, onError){
-        Restangular.all('api/all-allergies').customGET().then(function(response){
+        Restangular.all('api/all-allergies').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);
@@ -47,8 +47,8 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
         });
     }
 
-    function remove(id, onSuccess, onError){
-        Restangular.one('api/categories/', id).remove().then(function(response){
+    function remove(id, appLanguage, onSuccess, onError){
+        Restangular.one('api/categories/'+id+'/'+appLanguage).remove().then(function(response){
 
             onSuccess(response);
 

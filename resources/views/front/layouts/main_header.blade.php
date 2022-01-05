@@ -30,13 +30,16 @@
                             </div> -->
                             <div class="dropdown">
                                 <button class="btn text-white dropdown-toggle bg-none" type="button"  data-toggle="dropdown">
+                                    @php $appLanguage = ""; @endphp
                                     @if(Session::has('locale'))
+                                        @php $appLanguage = Session('locale'); @endphp
                                         @if( Session('locale') == "en" )
                                             <img src="{{ url('assets/images/united-kingdom.png') }}" class="langFlag"> English
                                         @elseif( Session('locale') == "es" )
                                             <img src="{{ url('assets/images/spain.png') }}" class="langFlag"> Spanish
                                         @endif
                                     @else
+                                        @php $appLanguage = Config::get('app.locale'); @endphp
                                         @if( Config::get('app.locale') == "en" )
                                             <img src="{{ url('assets/images/united-kingdom.png') }}" class="langFlag"> English
                                         @elseif( Config::get('app.locale') == "es" )
@@ -56,10 +59,7 @@
                                 <i class="fas fa-sign-in-alt"></i> Eateries
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Edit Profile</a>
-                                    <a class="dropdown-item" href="#">Account Info</a>
-                                    <a class="dropdown-item" href="#">Change Password</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                                 </div>
                             </div>
                         </li>
@@ -90,4 +90,6 @@
         </div>
     </div>
 </header>
-
+<script type="text/javascript">
+    var appLanguage = "{{ $appLanguage }}";
+</script>

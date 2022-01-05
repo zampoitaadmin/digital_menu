@@ -38,7 +38,7 @@
                                 <div class="form-group col-md-12">
                                     <label for="inputEmail4"><b><?= __('message_lang.branding_logo'); ?></b></label>
                                     <div id="brandingDropzoneDragArea" class="dz-default dz-message dropzoneDragArea">
-                                        <span>Upload file</span>
+                                        <span><?= ucfirst(__('message_lang.lbl_upload_file')); ?></span>
                                     </div>
                                     <div class="branding-dropzone-previews"></div>
                                 </div>

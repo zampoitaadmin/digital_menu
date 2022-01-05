@@ -4,6 +4,9 @@ return [
     'common_error_505' => "Something went wrong.",
     'common_error_400' => "Something went wrong.",
 
+    'dashboard_text_1' => 'Dashboard',
+    'preview_text_1' => 'Preview',
+
     'module_category' => "Category",
     'form_input_category' => "category name (EN)",
     'form_input_categorySP' => "category name (SP)",
@@ -22,6 +25,7 @@ return [
     'category_text_6' => "Create Your Own Category",
     'category_text_7' => "Update Category",
 
+    'branding_text_1' => "Branding",
     'branding_color_main' => "Main Color",
     'branding_color_secondary' => "Secondary Color",
     'branding_color_third' => "Third Color",
@@ -29,6 +33,7 @@ return [
     'branding_logo' => "Brand Logo",
     'branding_revert_to_Default' => "Revert To Default",
 
+    'setting_text_1' => "Setting",
     'setting_website_template' => "Active Menu In Website Template",
     'setting_url_externally' => "use the below URL to link your menu externally",
     'setting_delivery_info_text' => "Enter Your Delivery Information Below",
@@ -37,6 +42,8 @@ return [
     'setting_free_delivery_charge' => "Free Delivery Charge on Order Over",
 
     /* Product */
+    'product_text_1' => "Products",
+    'product_text_2' => "Allergy items selected",
     'product_menu_item_no' => "MENU ITEM NO",
     'product_add_product' => "Add Product",
     'product_update_product' => "Update Product",

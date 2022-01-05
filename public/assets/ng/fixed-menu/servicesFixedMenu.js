@@ -63,12 +63,21 @@ bbAppServices.factory('fixedMenuService', ['Restangular', 'userService', 'localS
         return localStorageService.get('token');
     }
 
+    function removeProductImage(id, onSuccess, onError){
+        Restangular.one('api/merchant-fixed-menu/', id).remove().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+    }
+
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });
 
     return {
         create: create,
         update: update,
         getMerchantFixedMenu: getMerchantFixedMenu,
+        removeProductImage: removeProductImage,
         getCurrentToken: getCurrentToken,
     }
 

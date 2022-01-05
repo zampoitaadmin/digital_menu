@@ -36,13 +36,13 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('merchant-fixed-menu/{category}', [MerchantFixedMenuController::class, 'getMerchantFixedMenu']);
     Route::post('merchant-fixed-menu-update',  [MerchantFixedMenuController::class, 'update']);
     // Route::put('merchant-fixed-menu/{merchantFixedMenuData}',  [MerchantFixedMenuController::class, 'update']);
+    Route::delete('merchant-fixed-menu/{product}',  [MerchantFixedMenuController::class, 'removeProductImage']);
 
     Route::get('products', [ProductController::class, 'getUserSelectedCategoriesProducts']);
     Route::post('products', [ProductController::class, 'store']);
     Route::post('product-image', [ProductController::class, 'storeProductImage']);
     Route::put('products/{product}',  [ProductController::class, 'update']);
     Route::delete('products/{product}',  [ProductController::class, 'destroy']);
-    Route::delete('product-image/{product}',  [ProductController::class, 'removeProductImage']);
     Route::post('products/update-user-category-product-order',  [ProductController::class, 'updateUserCategoryProductOrder']);
     Route::put('remove-product-main-image/{product}', [ProductController::class, 'removeProductMainImage']);
 

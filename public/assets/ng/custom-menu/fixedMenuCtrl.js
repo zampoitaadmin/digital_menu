@@ -121,7 +121,59 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
 
     $scope.initDropify = function(){
         $timeout(function(){
-            $('.dropify').dropify();
+            var drEvent = $('.dropify').dropify();
+
+            drEvent.on('dropify.beforeClear', function(event, element){
+                let productId = element.element.dataset.product_id;
+                if(productId){
+                    swal.fire({
+                        title: 'Are you sure you want to delete?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!'
+                    }).
+                    then((result) => {
+                        if(result.value){
+                            fixedMenuService.removeProductImage(productId, function(response){
+                                console.log(response);
+                                if(response.status){
+                                    Notification.success(response.message);
+                                    // $scope.onLoadFun();
+                                }else{
+                                    Notification.error(response.message);
+                                    $scope.formCrudRequestErrors.message =  response.message;
+                                }
+                            }, function(response){
+                                //alert('Some errors occurred while communicating with the service. Try again later.');
+                                var responseData = response.data;
+                                if(response.status != 200){
+                                    if(angular.isObject(responseData.message)){
+                                        //$scope.requestFormDataError = response.data.message;
+                                        console.warn(responseData.message);
+                                    }else{
+                                        // bbNotification.error(response.data.message);
+                                        if(responseData.message.length==0){
+                                            $scope.loaderUserSelectedCategory = $window.msgError;
+                                        }else {
+                                            //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                            Notification.error(responseData.message);
+                                            //$scope.formCrudRequestErrors.message = responseData.message ;
+                                            //TODO Error Msg with Refresh
+                                            //alert("in "+responseData.message);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+                else{
+                    // event.preventDefault();
+                }
+            });
+
+            drEvent.on('dropify.afterClear', function(event, element){
+            });
         }, 200);
     };
 
@@ -330,25 +382,24 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 formData.append('categoryId', $scope.requestDataFixedMenu.categoryId);
                 formData.append('categoryName', $scope.requestDataFixedMenu.categoryName);
                 formData.append('changeCategoryName', $scope.requestDataFixedMenu.changeCategoryName);
-                formData.append('desertData', $scope.requestDataFixedMenu.desertData);
-                formData.append('fixedMenuPrice', $scope.requestDataFixedMenu.fixedMenuPrice);
-                formData.append('id', $scope.requestDataFixedMenu.id);
-                formData.append('mainCourseData', $scope.requestDataFixedMenu.mainCourseData);
                 formData.append('menuDescriptionConditions', $scope.requestDataFixedMenu.menuDescriptionConditions);
+                formData.append('id', $scope.requestDataFixedMenu.id);
                 formData.append('merchantFixedMenuDataId', $scope.requestDataFixedMenu.merchantFixedMenuDataId);
+                formData.append('fixedMenuPrice', $scope.requestDataFixedMenu.fixedMenuPrice);
                 formData.append('starterData', JSON.stringify($scope.requestDataFixedMenu.starterData));
-                angular.forEach($scope.requestDataFixedMenu.starterData, function (value, key) {
-                    if(value.starterProductMainImage!="")
-                        formData.append(`starter_${key}`,value.starterProductMainImage);
-                });
                 formData.append('mainCourseData', JSON.stringify($scope.requestDataFixedMenu.mainCourseData));
+                formData.append('desertData', JSON.stringify($scope.requestDataFixedMenu.desertData));
+                angular.forEach($scope.requestDataFixedMenu.starterData, function (value, key) {
+                    if(value.starterProductMainImage){
+                        formData.append(`starter_${key}`,value.starterProductMainImage);
+                    }
+                });
                 angular.forEach($scope.requestDataFixedMenu.mainCourseData, function (value, key) {
-                    if(value.mainCourseProductMainImage!="")
+                    if(value.mainCourseProductMainImage)
                         formData.append(`mainCourse_${key}`,value.mainCourseProductMainImage);
                 });
-                formData.append('desertData', JSON.stringify($scope.requestDataFixedMenu.desertData));
                 angular.forEach($scope.requestDataFixedMenu.desertData, function (value, key) {
-                    if(value.desertProductMainImage!="")
+                    if(value.desertProductMainImage)
                         formData.append(`desert_${key}`,value.desertProductMainImage);
                 });
 
@@ -386,25 +437,23 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 formData.append('categoryId', $scope.requestDataFixedMenu.categoryId);
                 formData.append('categoryName', $scope.requestDataFixedMenu.categoryName);
                 formData.append('changeCategoryName', $scope.requestDataFixedMenu.changeCategoryName);
-                formData.append('desertData', $scope.requestDataFixedMenu.desertData);
+                formData.append('menuDescriptionConditions', $scope.requestDataFixedMenu.menuDescriptionConditions);
                 formData.append('fixedMenuPrice', $scope.requestDataFixedMenu.fixedMenuPrice);
                 formData.append('id', $scope.requestDataFixedMenu.id);
-                formData.append('mainCourseData', $scope.requestDataFixedMenu.mainCourseData);
-                formData.append('menuDescriptionConditions', $scope.requestDataFixedMenu.menuDescriptionConditions);
                 formData.append('merchantFixedMenuDataId', $scope.requestDataFixedMenu.merchantFixedMenuDataId);
                 formData.append('starterData', JSON.stringify($scope.requestDataFixedMenu.starterData));
+                formData.append('mainCourseData', JSON.stringify($scope.requestDataFixedMenu.mainCourseData));
+                formData.append('desertData', JSON.stringify($scope.requestDataFixedMenu.desertData));
                 angular.forEach($scope.requestDataFixedMenu.starterData, function (value, key) {
-                    if(value.starterProductMainImage!="")
+                    if(value.starterProductMainImage)
                         formData.append(`starter_${key}`,value.starterProductMainImage);
                 });
-                formData.append('mainCourseData', JSON.stringify($scope.requestDataFixedMenu.mainCourseData));
                 angular.forEach($scope.requestDataFixedMenu.mainCourseData, function (value, key) {
-                    if(value.mainCourseProductMainImage!="")
+                    if(value.mainCourseProductMainImage)
                         formData.append(`mainCourse_${key}`,value.mainCourseProductMainImage);
                 });
-                formData.append('desertData', JSON.stringify($scope.requestDataFixedMenu.desertData));
                 angular.forEach($scope.requestDataFixedMenu.desertData, function (value, key) {
-                    if(value.desertProductMainImage!="")
+                    if(value.desertProductMainImage)
                         formData.append(`desert_${key}`,value.desertProductMainImage);
                 });
                 fixedMenuService.create(formData, function(response){

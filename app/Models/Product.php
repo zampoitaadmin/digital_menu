@@ -148,4 +148,8 @@ class Product extends Model
         }
         return $maxProductOrder;
     }
+    public function getProductsByProductIds($idArray)
+    {
+        return DB::table('products')->whereIn('product_id', $idArray)->get();
+    }
 }

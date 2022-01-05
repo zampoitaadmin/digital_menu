@@ -409,41 +409,6 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.updateModalTitle = true;
     };
 
-    $scope.removeProductImage = function(productId){
-        // 
-        productService.removeProductImage(record.product_id, function(response){
-            console.log(response);
-            if(response.status){
-                Notification.success(response.message);
-                // $scope.onLoadFun();
-                $scope.userSelectedCategoriesProducts[categoryKey].responseProducts = response.data;
-            }else{
-                Notification.error(response.message);
-                $scope.formCrudRequestErrors.message =  response.message;
-            }
-        }, function(response){
-            //alert('Some errors occurred while communicating with the service. Try again later.');
-            var responseData = response.data;
-            if(response.status != 200){
-                if(angular.isObject(responseData.message)){
-                    //$scope.requestFormDataError = response.data.message;
-                    console.warn(responseData.message);
-                }else{
-                    // bbNotification.error(response.data.message);
-                    if(responseData.message.length==0){
-                        $scope.loaderUserSelectedCategory = $window.msgError;
-                    }else {
-                        //$scope.loaderUserSelectedCategorys = $window.msgError;
-                        Notification.error(responseData.message);
-                        //$scope.formCrudRequestErrors.message = responseData.message ;
-                        //TODO Error Msg with Refresh
-                        //alert("in "+responseData.message);
-                    }
-                }
-            }
-        });
-    };
-
     $scope.onLoadFun = function(){
         $scope.refreshUserSelectedCategory();
         $scope.refreshAllAllergies();

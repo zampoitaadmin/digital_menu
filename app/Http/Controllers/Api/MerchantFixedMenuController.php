@@ -194,17 +194,17 @@ class MerchantFixedMenuController extends ApiController
         {
             if(strpos($key, 'starter_') === 0){
                 $index = substr($key, 8);
-                if(!$requestFile->isValid()) $fileNotValid = true;
+                if(!$requestFile->isValid()){ $fileNotValid = true; break; }
                 $starterDataArr[$index]["starterProductMainImage"] = $requestFile;
             }
             else if(strpos($key, 'mainCourse_') === 0){
                 $index = substr($key, 11);
-                if(!$requestFile->isValid()) $fileNotValid = true;
+                if(!$requestFile->isValid()){ $fileNotValid = true; break; }
                 $mainCourseDataArr[$index]["mainCourseProductMainImage"] = $requestFile;
             }
             else if(strpos($key, 'desert_') === 0){
                 $index = substr($key, 7);
-                if(!$requestFile->isValid()) $fileNotValid = true;
+                if(!$requestFile->isValid()){ $fileNotValid = true; break; }
                 $desertDataArr[$index]["desertProductMainImage"] = $requestFile;
             }
         }
@@ -410,7 +410,7 @@ class MerchantFixedMenuController extends ApiController
 
     // public function update(MerchantFixedMenuData $merchantFixedMenuData,Request $request){
     public function update(Request $request){
-        exit;
+        // exit;
         // _pre($merchantFixedMenuData,0);
         // _pre($request->all());
         // exit;
@@ -448,7 +448,7 @@ class MerchantFixedMenuController extends ApiController
                         $menuDescriptionConditions = trim($request->menuDescriptionConditions);
                         $fixedMenuPrice = trim($request->fixedMenuPrice);
 
-                        $starterDataArr = ($request->starterData);
+                        $starterData = ($request->starterData);
                         if(!empty($starterData)){
                             $starterDataArr = json_decode($starterData, true);
                         }
@@ -456,7 +456,7 @@ class MerchantFixedMenuController extends ApiController
                             $starterDataArr = array();
                         }
 
-                        $mainCourseDataArr = ($request->mainCourseData);
+                        $mainCourseData = ($request->mainCourseData);
                         if(!empty($mainCourseData)){
                             $mainCourseDataArr = json_decode($mainCourseData, true);
                         }
@@ -464,7 +464,7 @@ class MerchantFixedMenuController extends ApiController
                             $mainCourseDataArr = array();
                         }
 
-                        $desertDataArr = ($request->desertData);
+                        $desertData = ($request->desertData);
                         if(!empty($desertData)){
                             $desertDataArr = json_decode($desertData, true);
                         }
@@ -476,22 +476,21 @@ class MerchantFixedMenuController extends ApiController
                         $fileNotValid = false;
                         foreach($request->all() as $key => $requestFile)
                         {
-                            if($request->hasFile($requestFile)){
-                                if(strpos($key, 'starter_') === 0){
-                                    $index = substr($key, 8);
-                                    if(!$requestFile->isValid()) $fileNotValid = true;
-                                    $starterDataArr[$index]["starterProductMainImage"] = $requestFile;
-                                }
-                                else if(strpos($key, 'mainCourse_') === 0){
-                                    $index = substr($key, 11);
-                                    if(!$requestFile->isValid()) $fileNotValid = true;
-                                    $mainCourseDataArr[$index]["mainCourseProductMainImage"] = $requestFile;
-                                }
-                                else if(strpos($key, 'desert_') === 0){
-                                    $index = substr($key, 7);
-                                    if(!$requestFile->isValid()) $fileNotValid = true;
-                                    $desertDataArr[$index]["desertProductMainImage"] = $requestFile;
-                                }
+                            if(strpos($key, 'starter_') === 0){
+                                $index = substr($key, 8);
+                                if(!$requestFile->isValid()){ $fileNotValid = true; break; }
+                                // echo "hi";exit;
+                                $starterDataArr[$index]["starterProductMainImage"] = $requestFile;
+                            }
+                            else if(strpos($key, 'mainCourse_') === 0){
+                                $index = substr($key, 11);
+                                if(!$requestFile->isValid()){ $fileNotValid = true; break; }
+                                $mainCourseDataArr[$index]["mainCourseProductMainImage"] = $requestFile;
+                            }
+                            else if(strpos($key, 'desert_') === 0){
+                                $index = substr($key, 7);
+                                if(!$requestFile->isValid()){ $fileNotValid = true; break; }
+                                $desertDataArr[$index]["desertProductMainImage"] = $requestFile;
                             }
                         }
                         if($fileNotValid){
@@ -502,9 +501,12 @@ class MerchantFixedMenuController extends ApiController
                             return response()->json($responseData,$this->statusCode);
                         }
 
+                        /*_pre($starterDataArr,0);
+                        _pre($mainCourseDataArr,0);
+                        _pre($desertDataArr,0);
+                        exit;*/
+
                         $crudData = array(
-                            'user_id' => $userId,
-                            'category_id' => $categoryId,
                             'price' => $fixedMenuPrice,
                             'menu_description_conditions' => $menuDescriptionConditions,
                             'updated_at' => $currentDateTime
@@ -570,8 +572,8 @@ class MerchantFixedMenuController extends ApiController
 
             /* Get New Starter Product Ids */
             $newStarterProductIdArr = array();
-            if(!empty($starterData)){
-                foreach ($starterData as $key => $value) {
+            if(!empty($starterDataArr)){
+                foreach ($starterDataArr as $key => $value) {
                     array_push($newStarterProductIdArr, (int)$value["productId"]);
                 }
             }
@@ -595,19 +597,43 @@ class MerchantFixedMenuController extends ApiController
             /* Starter Delete (Exist in Current But Not in New) */
             if(!empty($needDeleteArr)){
                 $needDeleteArr = array_values(array_filter($needDeleteArr));
+                $needDeleteProducts = $this->objProduct->getProductsByProductIds($needDeleteArr);
+                if( !$needDeleteProducts->isEmpty() ){
+                    foreach ($needDeleteProducts as $key => $value) {
+                        if(!empty($value->product_main_image)){
+                            $currentProductMainImage = $value->product_main_image;
+                            $productFolderPath = $this->productFixedStarterPath;
+                            @unlink($productFolderPath.$currentProductMainImage);
+                        }
+                    }
+                }
                 $this->objProduct->deleteProduct($categoryId, $userId, $needDeleteArr); // Delete
                 $this->objProduct->deleteProductAllergyByProductId($needDeleteArr); // Delete
             }
 
             /* Starter Insert (Not in Current But Exist in New) */
-            if(!empty($starterData)){
-                foreach ($starterData as $starterDataKey => $starterInfo) {
+            if(!empty($starterDataArr)){
+                foreach ($starterDataArr as $starterDataKey => $starterInfo) {
                     $productId = $starterInfo['productId'];
                     if(empty($productId)){
                         $allergyId = $starterInfo['allergyId'];
                         $productDescription = trim($starterInfo['productDescription']);
                         $productName = trim($starterInfo['productName']);
-                        $starterProductMainImage = $starterInfo['starterProductMainImage'];
+                        $storeFileName = NULL;
+                        if( isset($starterInfo['starterProductMainImage']) ){
+                            $starterProductMainImage = $starterInfo['starterProductMainImage'];
+
+                            if( !empty($starterProductMainImage) ){
+                                $fileName = $starterProductMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                                $fileExtension = $starterProductMainImage->getClientOriginalExtension(); // jpg
+                                $fileRealPath = $starterProductMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                                $fileSize = $starterProductMainImage->getSize(); // 951640
+                                $fileMimeType = $starterProductMainImage->getMimeType(); // image/jpeg
+
+                                $storeFileName = time().'-'.$fileName;
+                                $starterProductMainImage->move($this->productFixedStarterPath,$storeFileName);
+                            }
+                        }
                         $crudData = array(
                             'category_id' => $categoryId,
                             'user_id' => $userId,
@@ -615,6 +641,7 @@ class MerchantFixedMenuController extends ApiController
                             'product_name' => $productName,
                             'product_description' => $productDescription,
                             'status' => 'Active',
+                            'product_main_image' => $storeFileName,
                             'created_at' => $currentDateTime,
                         );
                         $createdID = $this->objProduct->createRecord($crudData);
@@ -641,7 +668,7 @@ class MerchantFixedMenuController extends ApiController
             /* Starter Update (Exist in Both Current And New) */
             if(!empty($needUpdateArr)){
                 $needUpdateArr = array_values(array_filter($needUpdateArr));
-                foreach ($starterData as $starterDataKey => $starterInfo) {
+                foreach ($starterDataArr as $starterDataKey => $starterInfo) {
                     $productId = (int)$starterInfo['productId'];
                     $allergyIdArr = $starterInfo['allergyId'];
                     if($allergyIdArr && !empty($allergyIdArr)){
@@ -651,7 +678,6 @@ class MerchantFixedMenuController extends ApiController
                     }
                     $productDescription = trim($starterInfo['productDescription']);
                     $productName = trim($starterInfo['productName']);
-                    // $starterProductMainImage = $starterInfo['starterProductMainImage'];
                     if(in_array($productId, $needUpdateArr)){
                         $allergyId=array();
                         if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
@@ -661,6 +687,7 @@ class MerchantFixedMenuController extends ApiController
                         $needDeleteArr = array_values($needDeleteArr);
                         $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
                         $needInsertArr = array_values($needInsertArr);
+
                         $where = array(
                             'product_id' => $productId,
                             'category_id' => $categoryId,
@@ -671,6 +698,33 @@ class MerchantFixedMenuController extends ApiController
                             'product_description' => $productDescription,
                             'updated_at' => $currentDateTime,
                         );
+
+                        if( isset($starterInfo['starterProductMainImage']) ){
+                            $starterProductMainImage = $starterInfo['starterProductMainImage'];
+
+                            if( !empty($starterProductMainImage) ){
+                                $fileName = $starterProductMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                                $fileExtension = $starterProductMainImage->getClientOriginalExtension(); // jpg
+                                $fileRealPath = $starterProductMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                                $fileSize = $starterProductMainImage->getSize(); // 951640
+                                $fileMimeType = $starterProductMainImage->getMimeType(); // image/jpeg
+
+                                $storeFileName = time().'-'.$fileName;
+                                $starterProductMainImage->move($this->productFixedStarterPath,$storeFileName);
+
+                                $crudData["product_main_image"] = $storeFileName;
+
+                                $currentProductInfo = $this->objProduct->getById($productId);
+                                if($currentProductInfo){
+                                    if(!empty($currentProductInfo->product_main_image)){
+                                        $currentProductMainImage = $currentProductInfo->product_main_image;
+                                        $productFolderPath = $this->productFixedStarterPath;
+                                        @unlink($productFolderPath.$currentProductMainImage);
+                                    }
+                                }
+                            }
+                        }
+
                         $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                         if($responseUpdate){
                             if(!empty($needDeleteArr)){
@@ -703,264 +757,421 @@ class MerchantFixedMenuController extends ApiController
     }
 
     private function updateMainCourse($request, $categoryId, $mainCourseDataArr, $currentDateTime){
-        $userId = $this->user->id;
-        /* Get Current MainCourse Product Ids */
-        $mainCourseProductData = $this->objProduct->getProductByProductType($userId,$categoryId,'course');
-        $currMainCourseProductIdArr = array();
-        if(!$mainCourseProductData->isEmpty()){
-            foreach ($mainCourseProductData as $key => $value) {
-                array_push($currMainCourseProductIdArr, (int)$value->product_id);
+        if(!empty($mainCourseDataArr)){
+            $userId = $this->user->id;
+            /* Get Current MainCourse Product Ids */
+            $mainCourseProductData = $this->objProduct->getProductByProductType($userId,$categoryId,'course');
+            $currMainCourseProductIdArr = array();
+            if(!$mainCourseProductData->isEmpty()){
+                foreach ($mainCourseProductData as $key => $value) {
+                    array_push($currMainCourseProductIdArr, (int)$value->product_id);
+                }
             }
-        }
 
-        /* Get New MainCourse Product Ids */
-        $newMainCourseProductIdArr = array();
-        if(!empty($mainCourseData)){
-            foreach ($mainCourseData as $key => $value) {
-                array_push($newMainCourseProductIdArr, (int)$value["productId"]);
+            /* Get New MainCourse Product Ids */
+            $newMainCourseProductIdArr = array();
+            if(!empty($mainCourseDataArr)){
+                foreach ($mainCourseDataArr as $key => $value) {
+                    array_push($newMainCourseProductIdArr, (int)$value["productId"]);
+                }
             }
-        }
 
-        $needDeleteArr = array_diff($currMainCourseProductIdArr,$newMainCourseProductIdArr);
-        $needUpdateArr = array_intersect($currMainCourseProductIdArr,$newMainCourseProductIdArr);
+            $needDeleteArr = array_diff($currMainCourseProductIdArr,$newMainCourseProductIdArr);
+            $needUpdateArr = array_intersect($currMainCourseProductIdArr,$newMainCourseProductIdArr);
 
-        /* MainCourse Delete (Exist in Current But Not in New) */
-        if(!empty($needDeleteArr)){
-            $needDeleteArr = array_values(array_filter($needDeleteArr));
-            $this->objProduct->deleteProduct($categoryId, $userId, $needDeleteArr); // Delete
-            $this->objProduct->deleteProductAllergyByProductId($needDeleteArr); // Delete
-        }
+            /* MainCourse Delete (Exist in Current But Not in New) */
+            if(!empty($needDeleteArr)){
+                $needDeleteArr = array_values(array_filter($needDeleteArr));
+                $needDeleteProducts = $this->objProduct->getProductsByProductIds($needDeleteArr);
+                if( !$needDeleteProducts->isEmpty() ){
+                    foreach ($needDeleteProducts as $key => $value) {
+                        if(!empty($value->product_main_image)){
+                            $currentProductMainImage = $value->product_main_image;
+                            $productFolderPath = $this->productFixedCoursePath;
+                            @unlink($productFolderPath.$currentProductMainImage);
+                        }
+                    }
+                }
+                $this->objProduct->deleteProduct($categoryId, $userId, $needDeleteArr); // Delete
+                $this->objProduct->deleteProductAllergyByProductId($needDeleteArr); // Delete
+            }
 
-        /* MainCourse Insert (Not in Current But Exist in New) */
-        if(!empty($mainCourseData)){
-            foreach ($mainCourseData as $mainCourseDataKey => $mainCourseInfo) {
-                $productId = $mainCourseInfo['productId'];
-                if(empty($productId)){
-                    $allergyId = $mainCourseInfo['allergyId'];
+            /* MainCourse Insert (Not in Current But Exist in New) */
+            if(!empty($mainCourseDataArr)){
+                foreach ($mainCourseDataArr as $mainCourseDataKey => $mainCourseInfo) {
+                    $productId = $mainCourseInfo['productId'];
+                    if(empty($productId)){
+                        $allergyId = $mainCourseInfo['allergyId'];
+                        $productDescription = trim($mainCourseInfo['productDescription']);
+                        $productName = trim($mainCourseInfo['productName']);
+                        $storeFileName = NULL;
+                        if( isset($mainCourseInfo['mainCourseProductMainImage']) ){
+                            $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
+
+                            if( !empty($mainCourseProductMainImage) ){
+                                $fileName = $mainCourseProductMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                                $fileExtension = $mainCourseProductMainImage->getClientOriginalExtension(); // jpg
+                                $fileRealPath = $mainCourseProductMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                                $fileSize = $mainCourseProductMainImage->getSize(); // 951640
+                                $fileMimeType = $mainCourseProductMainImage->getMimeType(); // image/jpeg
+
+                                $storeFileName = time().'-'.$fileName;
+                                $mainCourseProductMainImage->move($this->productFixedCoursePath,$storeFileName);
+                            }
+                        }
+                        $crudData = array(
+                            'category_id' => $categoryId,
+                            'user_id' => $userId,
+                            'product_type' => 'course',
+                            'product_name' => $productName,
+                            'product_description' => $productDescription,
+                            'status' => 'Active',
+                            'product_main_image' => $storeFileName,
+                            'created_at' => $currentDateTime,
+                        );
+                        $createdID = $this->objProduct->createRecord($crudData);
+                        if($createdID){
+                            $insertRecords = array();
+                            if(!empty($allergyId)){
+                                for($i=0; $i < count($allergyId); $i++){
+                                    $insertRecords[] = array(
+                                        'product_id' => $createdID,
+                                        'allergy_id' => $allergyId[$i]["id"],
+                                        'created_at' => $currentDateTime
+                                    );
+                                }
+                                $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords);
+                                if($responseBulkInsert){
+                                }else{
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            /* MainCourse Update (Exist in Both Current And New) */
+            if(!empty($needUpdateArr)){
+                $needUpdateArr = array_values(array_filter($needUpdateArr));
+                foreach ($mainCourseDataArr as $mainCourseDataKey => $mainCourseInfo) {
+                    $productId = (int)$mainCourseInfo['productId'];
+                    $allergyIdArr = $mainCourseInfo['allergyId'];
+                    if($allergyIdArr && !empty($allergyIdArr)){
+                        $allergyIdArr = array_values(array_filter($allergyIdArr));
+                    }else{
+                        $allergyIdArr = array();
+                    }
                     $productDescription = trim($mainCourseInfo['productDescription']);
                     $productName = trim($mainCourseInfo['productName']);
-                    $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
-                    $crudData = array(
-                        'category_id' => $categoryId,
-                        'user_id' => $userId,
-                        'product_type' => 'course',
-                        'product_name' => $productName,
-                        'product_description' => $productDescription,
-                        'status' => 'Active',
-                        'created_at' => $currentDateTime,
-                    );
-                    $createdID = $this->objProduct->createRecord($crudData);
-                    if($createdID){
-                        $insertRecords = array();
-                        if(!empty($allergyId)){
-                            for($i=0; $i < count($allergyId); $i++){
-                                $insertRecords[] = array(
-                                    'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i]["id"],
-                                    'created_at' => $currentDateTime
-                                );
-                            }
-                            $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords);
-                            if($responseBulkInsert){
-                            }else{
-                            }
-                        }
-                    }
-                }
-            }
-        }
+                    // $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
+                    if(in_array($productId, $needUpdateArr)){
+                        $allergyId=array();
+                        if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
+                        $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
+                        $newAllergyIdArr = array_map('intval', $allergyId);
+                        $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
+                        $needDeleteArr = array_values($needDeleteArr);
+                        $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
+                        $needInsertArr = array_values($needInsertArr);
+                        $where = array(
+                            'product_id' => $productId,
+                            'category_id' => $categoryId,
+                            'user_id' => $userId,
+                        );
+                        $crudData = array(
+                            'product_name' => $productName,
+                            'product_description' => $productDescription,
+                            'updated_at' => $currentDateTime,
+                        );
 
-        /* MainCourse Update (Exist in Both Current And New) */
-        if(!empty($needUpdateArr)){
-            $needUpdateArr = array_values(array_filter($needUpdateArr));
-            foreach ($mainCourseData as $mainCourseDataKey => $mainCourseInfo) {
-                $productId = (int)$mainCourseInfo['productId'];
-                $allergyIdArr = $mainCourseInfo['allergyId'];
-                if($allergyIdArr && !empty($allergyIdArr)){
-                    $allergyIdArr = array_values(array_filter($allergyIdArr));
-                }else{
-                    $allergyIdArr = array();
-                }
-                $productDescription = trim($mainCourseInfo['productDescription']);
-                $productName = trim($mainCourseInfo['productName']);
-                // $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
-                if(in_array($productId, $needUpdateArr)){
-                    $allergyId=array();
-                    if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
-                    $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
-                    $newAllergyIdArr = array_map('intval', $allergyId);
-                    $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
-                    $needDeleteArr = array_values($needDeleteArr);
-                    $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
-                    $needInsertArr = array_values($needInsertArr);
-                    $where = array(
-                        'product_id' => $productId,
-                        'category_id' => $categoryId,
-                        'user_id' => $userId,
-                    );
-                    $crudData = array(
-                        'product_name' => $productName,
-                        'product_description' => $productDescription,
-                        'updated_at' => $currentDateTime,
-                    );
-                    $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
-                    if($responseUpdate){
-                        if(!empty($needDeleteArr)){                                        
-                            $this->objProduct->deleteProductAllergy($productId, $needDeleteArr); // Delete
-                        }
-                        if(!empty($needInsertArr)){                                        
-                            $insertRecords = array();
-                            for($i=0; $i < count($needInsertArr); $i++){
-                                $insertRecords[] = array(
-                                    'product_id' => $productId,
-                                    'allergy_id' => $needInsertArr[$i],
-                                    'created_at' => $currentDateTime
-                                );
-                            }
-                            $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords); // Insert
-                            if($responseBulkInsert){
-                            }else{
+                        if( isset($mainCourseInfo['mainCourseProductMainImage']) ){
+                            $mainCourseProductMainImage = $mainCourseInfo['mainCourseProductMainImage'];
+
+                            if( !empty($mainCourseProductMainImage) ){
+                                $fileName = $mainCourseProductMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                                $fileExtension = $mainCourseProductMainImage->getClientOriginalExtension(); // jpg
+                                $fileRealPath = $mainCourseProductMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                                $fileSize = $mainCourseProductMainImage->getSize(); // 951640
+                                $fileMimeType = $mainCourseProductMainImage->getMimeType(); // image/jpeg
+
+                                $storeFileName = time().'-'.$fileName;
+                                $mainCourseProductMainImage->move($this->productFixedCoursePath,$storeFileName);
+
+                                $crudData["product_main_image"] = $storeFileName;
+
+                                $currentProductInfo = $this->objProduct->getById($productId);
+                                if($currentProductInfo){
+                                    if(!empty($currentProductInfo->product_main_image)){
+                                        $currentProductMainImage = $currentProductInfo->product_main_image;
+                                        $productFolderPath = $this->productFixedCoursePath;
+                                        @unlink($productFolderPath.$currentProductMainImage);
+                                    }
+                                }
                             }
                         }
-                    }
-                    else{
-                        // $this->status = false;
-                        // $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+
+                        $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
+                        if($responseUpdate){
+                            if(!empty($needDeleteArr)){                                        
+                                $this->objProduct->deleteProductAllergy($productId, $needDeleteArr); // Delete
+                            }
+                            if(!empty($needInsertArr)){                                        
+                                $insertRecords = array();
+                                for($i=0; $i < count($needInsertArr); $i++){
+                                    $insertRecords[] = array(
+                                        'product_id' => $productId,
+                                        'allergy_id' => $needInsertArr[$i],
+                                        'created_at' => $currentDateTime
+                                    );
+                                }
+                                $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords); // Insert
+                                if($responseBulkInsert){
+                                }else{
+                                }
+                            }
+                        }
+                        else{
+                            // $this->status = false;
+                            // $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                        }
                     }
                 }
             }
+            // return response
         }
-        // return response
     }
 
     private function updateDesert($request, $categoryId, $desertDataArr, $currentDateTime){
-        $userId = $this->user->id;
-        /* Get Current Desert Product Ids */
-        $desertProductData = $this->objProduct->getProductByProductType($userId,$categoryId,'desert');
-        $currDesertProductIdArr = array();
-        if(!$desertProductData->isEmpty()){
-            foreach ($desertProductData as $key => $value) {
-                array_push($currDesertProductIdArr, (int)$value->product_id);
+        if(!empty($desertDataArr)){
+            $userId = $this->user->id;
+            /* Get Current Desert Product Ids */
+            $desertProductData = $this->objProduct->getProductByProductType($userId,$categoryId,'desert');
+            $currDesertProductIdArr = array();
+            if(!$desertProductData->isEmpty()){
+                foreach ($desertProductData as $key => $value) {
+                    array_push($currDesertProductIdArr, (int)$value->product_id);
+                }
             }
-        }
 
-        /* Get New Desert Product Ids */
-        $newDesertProductIdArr = array();
-        if(!empty($desertData)){
-            foreach ($desertData as $key => $value) {
-                array_push($newDesertProductIdArr, (int)$value["productId"]);
+            /* Get New Desert Product Ids */
+            $newDesertProductIdArr = array();
+            if(!empty($desertDataArr)){
+                foreach ($desertDataArr as $key => $value) {
+                    array_push($newDesertProductIdArr, (int)$value["productId"]);
+                }
             }
-        }
 
-        $needDeleteArr = array_diff($currDesertProductIdArr,$newDesertProductIdArr);
-        $needUpdateArr = array_intersect($currDesertProductIdArr,$newDesertProductIdArr);
+            $needDeleteArr = array_diff($currDesertProductIdArr,$newDesertProductIdArr);
+            $needUpdateArr = array_intersect($currDesertProductIdArr,$newDesertProductIdArr);
 
-        /* Desert Delete (Exist in Current But Not in New) */
-        if(!empty($needDeleteArr)){
-            $needDeleteArr = array_values(array_filter($needDeleteArr));
-            $this->objProduct->deleteProduct($categoryId, $userId, $needDeleteArr); // Delete
-            $this->objProduct->deleteProductAllergyByProductId($needDeleteArr); // Delete
-        }
+            /* Desert Delete (Exist in Current But Not in New) */
+            if(!empty($needDeleteArr)){
+                $needDeleteArr = array_values(array_filter($needDeleteArr));
+                $needDeleteProducts = $this->objProduct->getProductsByProductIds($needDeleteArr);
+                if( !$needDeleteProducts->isEmpty() ){
+                    foreach ($needDeleteProducts as $key => $value) {
+                        if(!empty($value->product_main_image)){
+                            $currentProductMainImage = $value->product_main_image;
+                            $productFolderPath = $this->productFixedDesertPath;
+                            @unlink($productFolderPath.$currentProductMainImage);
+                        }
+                    }
+                }
+                $this->objProduct->deleteProduct($categoryId, $userId, $needDeleteArr); // Delete
+                $this->objProduct->deleteProductAllergyByProductId($needDeleteArr); // Delete
+            }
 
-        /* Desert Insert (Not in Current But Exist in New) */
-        if(!empty($desertData)){
-            foreach ($desertData as $desertDataKey => $desertInfo) {
-                $productId = $desertInfo['productId'];
-                if(empty($productId)){
-                    $allergyId = $desertInfo['allergyId'];
-                    $productDescription = trim($desertInfo['productDescription']);
-                    $productName = trim($desertInfo['productName']);
-                    $desertProductMainImage = $desertInfo['desertProductMainImage'];
-                    $crudData = array(
-                        'category_id' => $categoryId,
-                        'user_id' => $userId,
-                        'product_type' => 'desert',
-                        'product_name' => $productName,
-                        'product_description' => $productDescription,
-                        'status' => 'Active',
-                        'created_at' => $currentDateTime,
-                    );
-                    $createdID = $this->objProduct->createRecord($crudData);
-                    if($createdID){
-                        $insertRecords = array();
-                        if(!empty($allergyId)){
-                            for($i=0; $i < count($allergyId); $i++){
-                                $insertRecords[] = array(
-                                    'product_id' => $createdID,
-                                    'allergy_id' => $allergyId[$i]["id"],
-                                    'created_at' => $currentDateTime
-                                );
+            /* Desert Insert (Not in Current But Exist in New) */
+            if(!empty($desertDataArr)){
+                foreach ($desertDataArr as $desertDataKey => $desertInfo) {
+                    $productId = $desertInfo['productId'];
+                    if(empty($productId)){
+                        $allergyId = $desertInfo['allergyId'];
+                        $productDescription = trim($desertInfo['productDescription']);
+                        $productName = trim($desertInfo['productName']);
+                        $storeFileName = NULL;
+                        if( isset($desertInfo['desertProductMainImage']) ){
+                            $desertProductMainImage = $desertInfo['desertProductMainImage'];
+
+                            if( !empty($desertProductMainImage) ){
+                                $fileName = $desertProductMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                                $fileExtension = $desertProductMainImage->getClientOriginalExtension(); // jpg
+                                $fileRealPath = $desertProductMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                                $fileSize = $desertProductMainImage->getSize(); // 951640
+                                $fileMimeType = $desertProductMainImage->getMimeType(); // image/jpeg
+
+                                $storeFileName = time().'-'.$fileName;
+                                $desertProductMainImage->move($this->productFixedDesertPath,$storeFileName);
                             }
-                            $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords);
-                            if($responseBulkInsert){
-                            }else{
+                        }
+                        $crudData = array(
+                            'category_id' => $categoryId,
+                            'user_id' => $userId,
+                            'product_type' => 'desert',
+                            'product_name' => $productName,
+                            'product_description' => $productDescription,
+                            'status' => 'Active',
+                            'product_main_image' => $storeFileName,
+                            'created_at' => $currentDateTime,
+                        );
+                        $createdID = $this->objProduct->createRecord($crudData);
+                        if($createdID){
+                            $insertRecords = array();
+                            if(!empty($allergyId)){
+                                for($i=0; $i < count($allergyId); $i++){
+                                    $insertRecords[] = array(
+                                        'product_id' => $createdID,
+                                        'allergy_id' => $allergyId[$i]["id"],
+                                        'created_at' => $currentDateTime
+                                    );
+                                }
+                                $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords);
+                                if($responseBulkInsert){
+                                }else{
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        /* Desert Update (Exist in Both Current And New) */
-        if(!empty($needUpdateArr)){
-            $needUpdateArr = array_values(array_filter($needUpdateArr));
-            foreach ($desertData as $desertDataKey => $desertInfo) {
-                $productId = (int)$desertInfo['productId'];
-                $allergyIdArr = $desertInfo['allergyId'];
-                if($allergyIdArr && !empty($allergyIdArr)){
-                    $allergyIdArr = array_values(array_filter($allergyIdArr));
-                }else{
-                    $allergyIdArr = array();
+            /* Desert Update (Exist in Both Current And New) */
+            if(!empty($needUpdateArr)){
+                $needUpdateArr = array_values(array_filter($needUpdateArr));
+                foreach ($desertDataArr as $desertDataKey => $desertInfo) {
+                    $productId = (int)$desertInfo['productId'];
+                    $allergyIdArr = $desertInfo['allergyId'];
+                    if($allergyIdArr && !empty($allergyIdArr)){
+                        $allergyIdArr = array_values(array_filter($allergyIdArr));
+                    }else{
+                        $allergyIdArr = array();
+                    }
+                    $productDescription = trim($desertInfo['productDescription']);
+                    $productName = trim($desertInfo['productName']);
+                    if(in_array($productId, $needUpdateArr)){
+                        $allergyId=array();
+                        if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
+                        $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
+                        $newAllergyIdArr = array_map('intval', $allergyId);
+                        $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
+                        $needDeleteArr = array_values($needDeleteArr);
+                        $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
+                        $needInsertArr = array_values($needInsertArr);
+                        $where = array(
+                            'product_id' => $productId,
+                            'category_id' => $categoryId,
+                            'user_id' => $userId,
+                        );
+                        $crudData = array(
+                            'product_name' => $productName,
+                            'product_description' => $productDescription,
+                            'updated_at' => $currentDateTime,
+                        );
+                        if( isset($desertInfo['desertProductMainImage']) ){
+                            $desertProductMainImage = $desertInfo['desertProductMainImage'];
+
+                            if( !empty($desertProductMainImage) ){
+                                $fileName = $desertProductMainImage->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                                $fileExtension = $desertProductMainImage->getClientOriginalExtension(); // jpg
+                                $fileRealPath = $desertProductMainImage->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                                $fileSize = $desertProductMainImage->getSize(); // 951640
+                                $fileMimeType = $desertProductMainImage->getMimeType(); // image/jpeg
+
+                                $storeFileName = time().'-'.$fileName;
+                                $desertProductMainImage->move($this->productFixedDesertPath,$storeFileName);
+
+                                $crudData["product_main_image"] = $storeFileName;
+
+                                $currentProductInfo = $this->objProduct->getById($productId);
+                                if($currentProductInfo){
+                                    if(!empty($currentProductInfo->product_main_image)){
+                                        $currentProductMainImage = $currentProductInfo->product_main_image;
+                                        $productFolderPath = $this->productFixedDesertPath;
+                                        @unlink($productFolderPath.$currentProductMainImage);
+                                    }
+                                }
+                            }
+                        }
+                        $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
+                        if($responseUpdate){
+                            if(!empty($needDeleteArr)){                                        
+                                $this->objProduct->deleteProductAllergy($productId, $needDeleteArr); // Delete
+                            }
+                            if(!empty($needInsertArr)){                                        
+                                $insertRecords = array();
+                                for($i=0; $i < count($needInsertArr); $i++){
+                                    $insertRecords[] = array(
+                                        'product_id' => $productId,
+                                        'allergy_id' => $needInsertArr[$i],
+                                        'created_at' => $currentDateTime
+                                    );
+                                }
+                                $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords); // Insert
+                                if($responseBulkInsert){
+                                }else{
+                                }
+                            }
+                        }
+                        else{
+                            // $this->status = false;
+                            // $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                        }
+                    }
                 }
-                $productDescription = trim($desertInfo['productDescription']);
-                $productName = trim($desertInfo['productName']);
-                // $desertProductMainImage = $desertInfo['desertProductMainImage'];
-                if(in_array($productId, $needUpdateArr)){
-                    $allergyId=array();
-                    if(!empty($allergyIdArr)) foreach ($allergyIdArr as $key => $value) array_push($allergyId, $value["id"]);
-                    $currAllergyIdArr = $this->objProduct->getProductAllergyIds($productId);
-                    $newAllergyIdArr = array_map('intval', $allergyId);
-                    $needDeleteArr = array_diff($currAllergyIdArr,$newAllergyIdArr);
-                    $needDeleteArr = array_values($needDeleteArr);
-                    $needInsertArr = array_diff($newAllergyIdArr,$currAllergyIdArr);
-                    $needInsertArr = array_values($needInsertArr);
+            }
+            // return response
+        }
+    }
+
+    public function removeProductImage(Product $product)
+    {
+        if($product){
+            $userId = $this->user->id;
+            if($product->user_id == $userId){
+                $currentDateTime = getCurrentDateTime();
+                $currentProductMainImage = $product->product_main_image;
+                if(!empty($product->product_main_image)){
                     $where = array(
-                        'product_id' => $productId,
-                        'category_id' => $categoryId,
-                        'user_id' => $userId,
+                        'product_id' => $product->product_id,
                     );
                     $crudData = array(
-                        'product_name' => $productName,
-                        'product_description' => $productDescription,
+                        'product_main_image' => NULL,
                         'updated_at' => $currentDateTime,
                     );
                     $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
                     if($responseUpdate){
-                        if(!empty($needDeleteArr)){                                        
-                            $this->objProduct->deleteProductAllergy($productId, $needDeleteArr); // Delete
+                        if(!empty($product->product_main_image)){
+                            if($product->product_type=="starter")
+                                @unlink($this->productFixedStarterPath.$currentProductMainImage);
+                            else if($product->product_type=="course")
+                                @unlink($this->productFixedCoursePath.$currentProductMainImage);
+                            else if($product->product_type=="desert")
+                                @unlink($this->productFixedDesertPath.$currentProductMainImage);
                         }
-                        if(!empty($needInsertArr)){                                        
-                            $insertRecords = array();
-                            for($i=0; $i < count($needInsertArr); $i++){
-                                $insertRecords[] = array(
-                                    'product_id' => $productId,
-                                    'allergy_id' => $needInsertArr[$i],
-                                    'created_at' => $currentDateTime
-                                );
-                            }
-                            $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords); // Insert
-                            if($responseBulkInsert){
-                            }else{
-                            }
-                        }
+                        $this->message = __('api.common_update',['module'=> __('api.module_product')]);
                     }
                     else{
-                        // $this->status = false;
-                        // $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                        $this->status = false;
+                        $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
                     }
                 }
+                else{
+                    $this->status = false;
+                    $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+                }
+            }else{
+                $this->status = false;
+                $this->message = __('api.common_error_access_denied');
             }
+        }else{
+            #$this->statusCode = Response::HTTP_NOT_FOUND;
+            $this->status = false;
+            $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
         }
-        // return response
+        return response()->json([
+            'status' => $this->status,
+            'message' => $this->message,
+            'statusCode' => $this->statusCode,
+        ], $this->statusCode);
     }
 }

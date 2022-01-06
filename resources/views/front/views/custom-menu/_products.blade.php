@@ -220,7 +220,7 @@
             </div>
             <form name="frmProduct" id="frmProduct" novalidate autocomplete="off" class="dropzone" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <input type="hidden" name="hdnProductId">
+                    
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label><?= ucfirst(__('message_lang.lbl_category')); ?></label>
@@ -251,23 +251,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
-                        <!-- <div class="preview-zone hidden">
-                        </div>
-                        <div class="dropzone-wrapper">
-                            <div class="dropzone-desc">
-                                <i class="glyphicon glyphicon-download-alt"></i>
-                                <p>Choose an image file or drag it here.</p>
-                            </div>
-                            <input type="file" name="img_logo" class="dropzone">
-                        </div> -->
-                        <!-- <div class="custom-file">
-                            <input type="file" file-input="productMainImage" class="custom-file-input" placeholder="Choose File" id="customFileLang" lang="en">
-                            <label class="custom-file-label" for="customFileLang"><?php //echo __('common.input_file_choose'); ?></label>
-                        </div> -->
-                        <div id="dropzoneDragArea" class="dz-default dz-message dropzoneDragArea">
-                            <span><?= ucfirst(__('common.lbl_upload_file')); ?></span>
-                        </div>
-                        <div class="dropzone-previews"></div>
+                        <input ng-model="requestDataProduct.product_main_image" type="file" class="dropifyProduct" accept="image/*" onchange="angular.element(this).scope().productUploadedFile(this)" data-default-file="">
                     </div>
                     <div class="form-row">
                         <div class="col-md-12">
@@ -340,48 +324,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    Dropzone.autoDiscover = false;
-    var myDropzone;
-    $(function () {
-        initDropzone();
-        // initAllergySelect2();
-    });
-    /*function initAllergySelect2(){
-        $('.select2').select2();
-    }*/
-    function initDropzone(){
-        myDropzone = new Dropzone("div#dropzoneDragArea", {
-            paramName: "productMainImage",
-            url: "{{ url('/api/product-image') }}",
-            previewsContainer: 'div.dropzone-previews',
-            addRemoveLinks: true,
-            autoProcessQueue: false,
-            uploadMultiple: false,
-            parallelUploads: 1,
-            maxFiles: 1,
-            params: {
-            },
-            init: function () {
-                /*this.on("success", function (file, response) {
-                    if(response.status){
-                        $('.dropzone-previews').empty();
-                        $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
-                    }
-                    else{
-                        alert(response.message);
-                    }
-                });*/
-                this.on('sending', function (file, xhr, formData) {
-                    let createdID = $('input:hidden[name=hdnProductId]').val();
-                    $('input:hidden[name=hdnProductId]').val('');
-                    formData.append('productId', createdID);
-                });
-                this.on("complete", function(file) { 
-                    // this.removeAllFiles(true);
-                    // console.log("Reset done");
-                })
-            }
-        });
-    }
-</script>

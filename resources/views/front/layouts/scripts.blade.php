@@ -16,8 +16,8 @@
 <script type="text/javascript" src="{{ url('xPlugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ url('xPlugins/sweetalert2/sweetalert2.min.css') }}">
 
-<link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropzone/css/dropzone.min.css') }}">
-<script src="{{ url('xPlugins/dropzone/js/dropzone.min.js') }}"></script>
+{{-- <link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropzone/css/dropzone.min.css') }}"> --}}
+{{-- <script src="{{ url('xPlugins/dropzone/js/dropzone.min.js') }}"></script> --}}
 <link rel="stylesheet" type="text/css" href="{{ url('xPlugins/dropify-master/css/dropify.min.css') }}">
 <script src="{{ url('xPlugins/dropify-master/js/dropify.min.js') }}"></script>
 <script src="{{-- url('xPlugins/select2/js/select2.min.js') --}}"></script>

@@ -1,10 +1,10 @@
-Dropzone.autoDiscover = false;
+
 bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService', 'categoryService', 'productService','$window','Notification','$sce','$timeout',  function ($scope, $location, userService, categoryService, productService,$window,Notification,$sce,$timeout) {
     console.info("in productsCtrl");
     $('a[href="custom-menu#products"]').click();
 
     $scope.resetProductData = function(){
-        $scope.requestDataProduct = {'categoryId':'',  'productName':'',  'productDescription':'',  'productTopa':'',  'product1r':'',  'product12r':'',  'productPrice':'',  'allergyId':'',  'status':'',  'id':0};
+        $scope.requestDataProduct = {'categoryId':'',  'productName':'',  'productDescription':'',  'productTopa':'',  'product1r':'',  'product12r':'',  'productPrice':'',  'allergyId':[],  'status':'',  'id':0,  'productMainImage':''};
     };
 
     $scope.loaderProduct = false;
@@ -194,8 +194,28 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                 
                 let updateItemCategoryKey = $scope.updateItem.categoryKey;
                 let updateItemProductKey = $scope.updateItem.productKey;
+                $scope.requestDataProduct.appLanguage = appLanguage;
                 console.log("IN UPDATE");
-                productService.update(
+
+                let formData = new FormData();
+                formData.append('allergyId', JSON.stringify($scope.requestDataProduct.allergyId));
+                formData.append('appLanguage', $scope.requestDataProduct.appLanguage);
+                formData.append('categoryId', $scope.requestDataProduct.categoryId);
+                formData.append('id', $scope.requestDataProduct.id);
+                formData.append('product1r', $scope.requestDataProduct.product1r);
+                formData.append('product12r', $scope.requestDataProduct.product12r);
+                formData.append('productDescription', $scope.requestDataProduct.productDescription);
+                if($scope.requestDataProduct.productMainImage){
+                    formData.append('productMainImage', $scope.requestDataProduct.productMainImage);
+                }else{
+                    formData.append('productMainImage', '');
+                }
+                formData.append('productName', $scope.requestDataProduct.productName);
+                formData.append('productPrice', $scope.requestDataProduct.productPrice);
+                formData.append('productTopa', $scope.requestDataProduct.productTopa);
+                formData.append('status', $scope.requestDataProduct.status);
+
+                /*productService.update(
                     $scope.requestDataProduct.id,
                     {
                         allergyId: $scope.requestDataProduct.allergyId,
@@ -208,30 +228,15 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                         productTopa: $scope.requestDataProduct.productTopa,
                         status: $scope.requestDataProduct.status,
                         appLanguage: appLanguage
-                    },
+                    },*/
+                productService.update(formData,
                     function(response){
                         if(response.status){
                             $('#productModel').modal('hide');
-                            let productId = $scope.requestDataProduct.id;
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
-
-                            
-
-                            if(myDropzone.files.length > 0){
-                                
-                                $('input:hidden[name=hdnProductId]').val(productId);
-                                myDropzone.options.headers = {
-                                    'Authorization': 'Bearer ' + productService.getCurrentToken()
-                                };
-                                myDropzone.processQueue();
-                            }
-                            else{
-                            }
-
                             Notification.success(response.message);
                             // $scope.onLoadFun();
-                            // 
                             $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
                         }else{
                             Notification.error(response.message);
@@ -258,29 +263,35 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             else{ // Add
                 console.log("IN ADD");
                 $scope.requestDataProduct.appLanguage = appLanguage;
-                productService.create($scope.requestDataProduct, function(response){
+
+                let formData = new FormData();
+                formData.append('allergyId', JSON.stringify($scope.requestDataProduct.allergyId));
+                formData.append('appLanguage', $scope.requestDataProduct.appLanguage);
+                formData.append('categoryId', $scope.requestDataProduct.categoryId);
+                formData.append('id', $scope.requestDataProduct.id);
+                formData.append('product1r', $scope.requestDataProduct.product1r);
+                formData.append('product12r', $scope.requestDataProduct.product12r);
+                formData.append('productDescription', $scope.requestDataProduct.productDescription);
+                formData.append('productMainImage', $scope.requestDataProduct.productMainImage);
+                formData.append('productName', $scope.requestDataProduct.productName);
+                formData.append('productPrice', $scope.requestDataProduct.productPrice);
+                formData.append('productTopa', $scope.requestDataProduct.productTopa);
+                formData.append('status', $scope.requestDataProduct.status);
+
+                // productService.create($scope.requestDataProduct, function(response){
+                productService.create(formData, function(response){
                         if(response.status){
                             $scope.frmProduct.$setPristine();
                             $('#productModel').modal('hide');
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
-
-                            if(myDropzone.files.length > 0){
-                                $('input:hidden[name=hdnProductId]').val(response.createdID);
-                                myDropzone.options.headers = {
-                                    'Authorization': 'Bearer ' + productService.getCurrentToken()
-                                };
-                                myDropzone.processQueue();
-                            }
-                            else{
-                            }
-                            
+                            $scope.userSelectedCategoriesProducts[response.data.appendCategoryIndex].responseProducts.push(response.data.appendProduct);
                             Notification.success(response.message);
-                            $timeout(function(){
-                                $scope.onLoadFun();
+                            // $timeout(function(){
+                                // $scope.onLoadFun();
                                 // $('#faq .collapse').collapse('hide');
                                 // $('#salads').collapse('toggle');
-                            }, 200);
+                            // }, 200);
                         }else{
                             Notification.error(response.message);
                             $scope.formCrudRequestErrors.message =  response.message;
@@ -358,14 +369,72 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             });
     };
 
+    $scope.getDropifyConfig = function(){
+        let drConfig = {};
+        if(appLanguage == "en"){
+            drConfig = {
+                messages: {
+                    'default': 'Drag and drop a file here or click',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove':  'Remove',
+                    'error':   'Ooops, something wrong happended.'
+                }
+            };
+        }else if(appLanguage == "es"){
+            drConfig = {
+                messages: {
+                    'default': 'es Drag and drop a file here or click',
+                    'replace': 'es Drag and drop or click to replace',
+                    'remove':  'es Remove',
+                    'error':   'es Ooops, something wrong happended.'
+                }
+            };
+        }
+        return drConfig;
+    }
+
+    var drConfig = $scope.getDropifyConfig();
+    var drEvent = $('.dropifyProduct').dropify(drConfig);
+        drEvent = drEvent.data('dropify');
+
     $scope.openAddProductModal = function(){
         $('#productModel').modal('show');
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
         $scope.addModalTitle = true;
         $scope.updateModalTitle = false;
-        myDropzone.files = [];
-        $('.dropzone-previews').empty();
+
+        if (drEvent && drEvent.isDropified()) {
+            drEvent.destroy();
+            drEvent.init();
+        } else {
+            drEvent.init();
+        }
+
+        /*$scope.initDropify();
+
+        let drConfig = $scope.getDropifyConfig();
+        let drEvent = $('.dropifyProduct').dropify(drConfig);
+            drEvent = drEvent.data("dropify");
+        drEvent.resetPreview();
+        console.log("reset done");*/
+    };
+
+    $scope.destroyDropify = function(){
+        var drDestroy = $('.dropifyProduct').dropify();
+            drDestroy = drDestroy.data('dropify');
+        if (drDestroy.isDropified()) {
+            drDestroy.destroy();
+        }
+    };
+
+    $scope.initDropify = function(productMainImageUrl=''){
+        let drConfig = $scope.getDropifyConfig();
+        let drEvent = $('.dropifyProduct').dropify(drConfig);
+            drEvent = drEvent.data("dropify");
+        drEvent.resetPreview();
+        drEvent.destroy();
+        drEvent.init();
     };
 
     $scope.openEditProductModal = function(record,categoryKey,productKey){
@@ -375,6 +444,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.requestDataProduct = {'categoryId':record.category_id.toString(),  'productName':record.product_name,  'productDescription':record.product_description,  'productTopa':record.product_topa,  'product1r':record.product_1r,  'product12r':record.product_12r,  'productPrice':record.product_price,  
         // 'allergyId':record.allergyIdArray,  
         'allergyId':[],  
+        // 'productMainImage':'',  
         'status':record.status,  'id':record.product_id};
         
         console.log($scope.allAllergies);
@@ -390,30 +460,39 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             });
         }
 
-        myDropzone.files = [];
-        if(record.productMainImageList.length > 0){
-            // 
-            $('.dropzone-previews').empty();
-            $.each(record.productMainImageList, function (key, value) {
-                let mockFile = {
-                    name: value.name,
-                    size: value.size,
-                    id: value.id
-                };
-                myDropzone.emit("addedfile", mockFile);
-                myDropzone.emit("thumbnail", mockFile, value.url);
-                myDropzone.emit("complete", mockFile);
-                // myDropzone.files.push( mockFile );
-            });
-        }
-        else{
-            // 
-            $('.dropzone-previews').empty();
-            // myDropzone.removeAllFiles( true );
-        }
         $('#productModel').modal('show');
         $scope.addModalTitle = false;
         $scope.updateModalTitle = true;
+
+        if (drEvent && drEvent.isDropified()) {
+            drEvent.destroy();            
+            // drEvent.init();
+            if(record.productMainImageUrl != ''){
+                document.getElementsByClassName('dropifyProduct')[0].dataset.defaultFile=record.productMainImageUrl;
+                var drConfig = $scope.getDropifyConfig();
+                var drEvent = $('.dropifyProduct').dropify(drConfig);
+                    drEvent = drEvent.data('dropify');
+                drEvent.init();
+            }else{
+                drEvent.init();
+            }
+        } else {
+            drEvent.init();
+        }
+
+        // if(record.productMainImageUrl != ''){
+        //     document.getElementsByClassName('dropifyProduct')[0].dataset.defaultFile=record.productMainImageUrl;
+        // }
+        // $scope.initDropify();
+        // console.log("init done");
+        // if(record.productMainImageUrl == ''){
+        //     let drConfig = $scope.getDropifyConfig();
+        //     let drEvent = $('.dropifyProduct').dropify(drConfig);
+        //         drEvent = drEvent.data("dropify");
+        //     drEvent.resetPreview();
+        //     console.log("reset done");
+
+        // }
     };
 
     $scope.onLoadFun = function(){
@@ -505,62 +584,16 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         }
     };
     $timeout(function(){
-
         $('.ui-select-container').find('input[type="text"]').css('width', '100%');
-
-        myDropzone.on("success", function (file, response, progressEvent) {
-            
-            if(response.status){
-                $('.dropzone-previews').empty();
-                let updateItemCategoryKey = $scope.updateItem.categoryKey;
-                let updateItemProductKey = $scope.updateItem.productKey;
-                // 
-                $scope.userSelectedCategoriesProducts[updateItemCategoryKey].responseProducts[updateItemProductKey] = response.data;
-                // 
-            }
-            else{
-                // alert(response.message);
-            }
-        });
-        myDropzone.on("removedfile", function (file) {
-            // 
-            let fileName = file.name;
-            let id = file.id;
-            if(id){
-                productService.removeProductMainImage(id,
-                    {fileName} , function(response){
-                    if(response.status){
-                        myDropzone.files = [];
-                        Notification.success(response.message);
-                        // $scope.onLoadFun();
-                    }else{
-                        Notification.error(response.message);
-                        // $scope.messageBrand =  response.message;
-                    }
-                }, function(response){
-                    //alert('Some errors occurred while communicating with the service. Try again later.');
-                    //console.error(response);
-                    var responseData = response.data;
-                    if(response.status != 200){
-                        if(angular.isObject(responseData.message)){
-                            //$scope.requestFormDataError = response.data.message;
-                            console.warn(responseData.message);
-                        }else{
-                            // bbNotification.error(response.data.message);
-                            if(responseData.message.length==0){
-                                //$scope.loaderUserSelectedCategory = $window.msgError;
-                                $scope.messageBrand = '<span class="text-danger">'+serviceError+'</span>';
-                            }else {
-                                //$scope.loaderUserSelectedCategorys = $window.msgError;
-                                Notification.error(responseData.message);
-                                //$scope.formCrudRequestErrors.message = responseData.message ;
-                                //TODO Error Msg with Refresh
-                                //alert("in "+responseData.message);
-                            }
-                        }
-                    }
-                });
-            }
-        });
     }, 200);
+
+    $scope.productUploadedFile = function (element) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            $scope.$apply(function ($scope) {
+                $scope.requestDataProduct.productMainImage = element.files[0];
+            });
+        }
+        reader.readAsDataURL(element.files[0]);
+    }
 }]);

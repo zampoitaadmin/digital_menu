@@ -40,8 +40,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::get('products/{appLanguage}', [ProductController::class, 'getUserSelectedCategoriesProducts']);
     Route::post('products', [ProductController::class, 'store']);
-    Route::post('product-image', [ProductController::class, 'storeProductImage']);
-    Route::put('products/{product}',  [ProductController::class, 'update']);
+    // Route::post('product-image', [ProductController::class, 'storeProductImage']);
+    // Route::put('products/{product}',  [ProductController::class, 'update']);
+    Route::post('products-update',  [ProductController::class, 'update']);
     Route::delete('products/{product}/{appLanguage}',  [ProductController::class, 'destroy']);
     Route::post('products/update-user-category-product-order',  [ProductController::class, 'updateUserCategoryProductOrder']);
     Route::put('remove-product-main-image/{product}', [ProductController::class, 'removeProductMainImage']);

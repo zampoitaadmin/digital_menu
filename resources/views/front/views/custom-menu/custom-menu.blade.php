@@ -8,26 +8,6 @@
     <meta name="description" content="LV MAP DESCRIPTION">
 @endsection
 @section('styles')
-<style type="text/css">
-    .dropzoneDragArea{
-        background-color: #fbfdff;
-        border: 1px dashed #c0ccda;
-        border-radius: 6px;
-        padding: 60px;
-        text-align: center;
-        margin-bottom: 15px;
-        cursor: pointer;
-    }
-    .dropzone{
-        /*box-shadow: 0px 2px 20px 0px #f2f2f2;*/
-        /*border-radius: 10px;*/
-        padding: 0px !important;
-        border: 0px !important;
-    }
-    .dropzone .dz-message{
-        margin: 0px !important;
-    }
-</style>
 @endsection
 
 @section('content')

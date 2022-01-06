@@ -10,20 +10,40 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
     }
 
     function create(data, onSuccess, onError){
-        Restangular.all('api/products').post(data).then(function(response){
+        Restangular.all('api/products').withHttpConfig({
+            transformRequest: angular.identity
+        }).customPOST(data, undefined, undefined, {
+            'Content-Type': undefined
+        }).then(function(response){
             onSuccess(response);
         }, function(response){
             onError(response);
         });
+
+        /*Restangular.all('api/products').post(data).then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });*/
     }
 
-    function update(id, data, onSuccess, onError){
-        Restangular.one("api/products").customPUT(data, id).then(function(response) {
+    function update(data, onSuccess, onError){
+    // function update(id, data, onSuccess, onError){
+        Restangular.all('api/products-update').withHttpConfig({
+            transformRequest: angular.identity
+        }).customPOST(data, undefined, undefined, {
+            'Content-Type': undefined
+        }).then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+        /*Restangular.one("api/products").customPUT(data, id).then(function(response) {
                 onSuccess(response);
             }, function(response){
                 onError(response);
             }
-        );
+        );*/
     }
 
     function remove(id, appLanguage, onSuccess, onError){

@@ -232,6 +232,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                 productService.update(formData,
                     function(response){
                         if(response.status){
+                            $scope.frmProduct.$setPristine();
                             $('#productModel').modal('hide');
                             $scope.requestDataProduct = {};
                             $scope.formCrudRequestErrors = {};
@@ -576,7 +577,7 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                 productService.updateUserCategoryProductOrder(jsObject, function(response){
                     if(response.status){
                         Notification.success(response.message);
-                        $scope.onLoadFun();
+                        // $scope.onLoadFun();
                     }else{
                         Notification.error(response.message);
                         //$scope.formCrudRequestErrors.message =  response.message;

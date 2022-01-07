@@ -72,6 +72,15 @@ class ProductController extends ApiController
                                     $tempObj = new stdClass;
                                     $tempObj->id = (int)$allergyInfo->allergy_id;
                                     $tempObj->name = $allergyInfo->name;
+
+                                    $responseAllergies[$allergyKey]->originalName = $allergyInfo->name;
+                                    if($appLanguage=="en"){
+                                        $responseAllergies[$allergyKey]->name = $allergyInfo->name;
+                                    }
+                                    else if($appLanguage=="es"){
+                                        $responseAllergies[$allergyKey]->name = $allergyInfo->spanish;
+                                    }
+
                                     array_push($allergyIdArray, $tempObj);
                                     // array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
                                 }
@@ -248,6 +257,14 @@ class ProductController extends ApiController
                                 $tempObj->id = (int)$allergyInfo->allergy_id;
                                 $tempObj->name = $allergyInfo->name;
                                 array_push($allergyIdArray, $tempObj);
+
+                                $responseAllergies[$allergyKey]->originalName = $allergyInfo->name;
+                                if($appLanguage=="en"){
+                                    $responseAllergies[$allergyKey]->name = $allergyInfo->name;
+                                }
+                                else if($appLanguage=="es"){
+                                    $responseAllergies[$allergyKey]->name = $allergyInfo->spanish;
+                                }
                             }
                         }
                         $responseProducts[$productKey]->responseAllergies = $responseAllergies;
@@ -439,6 +456,14 @@ class ProductController extends ApiController
                                         $tempObj->name = $allergyInfo->name;
                                         array_push($allergyIdArray, $tempObj);
                                         // array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+
+                                        $responseAllergies[$allergyKey]->originalName = $allergyInfo->name;
+                                        if($appLanguage=="en"){
+                                            $responseAllergies[$allergyKey]->name = $allergyInfo->name;
+                                        }
+                                        else if($appLanguage=="es"){
+                                            $responseAllergies[$allergyKey]->name = $allergyInfo->spanish;
+                                        }
                                     }
                                 }
                                 $responseProduct->responseAllergies = $responseAllergies;
@@ -501,6 +526,14 @@ class ProductController extends ApiController
                         if($responseAllergies){
                             foreach ($responseAllergies as $allergyKey => $allergyInfo){
                                 array_push($allergyIdArray, (string)$allergyInfo->allergy_id);
+
+                                $responseAllergies[$allergyKey]->originalName = $allergyInfo->name;
+                                if($appLanguage=="en"){
+                                    $responseAllergies[$allergyKey]->name = $allergyInfo->name;
+                                }
+                                else if($appLanguage=="es"){
+                                    $responseAllergies[$allergyKey]->name = $allergyInfo->spanish;
+                                }
                             }
                         }
                         $responseProducts[$productKey]->responseAllergies = $responseAllergies;

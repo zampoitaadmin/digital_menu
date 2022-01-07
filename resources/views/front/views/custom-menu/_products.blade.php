@@ -80,19 +80,19 @@
                                                                     <div class="allergyPriceInfo">
                                                                         <div class="productAllergiesDiv">
                                                                             <div ng-repeat="allergyInfo in productInfo.responseAllergies">
-                                                                                <button type="button" class="p-0 mr-1 btn btn-outline-info">
+                                                                                <button type="button" class="p-0 mr-1 btn btn-outline-info" title="@{{ allergyInfo.name }}" data-toggle="tooltip" tooltip>
                                                                                     <img src="{{ _getHomeUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
                                                                                 </button>
                                                                             </div>
                                                                         </div>
                                                                         <div>
-                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="Fixed Price" data-toggle="tooltip" tooltip>{{ config('constants.currency') }}@{{ productInfo.product_price }}</a>
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" title="Fixed Price" data-toggle="tooltip" tooltip>{{ config('constants.currency') }}@{{ productInfo.product_price }}</a>
 
-                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="1 R" data-toggle="tooltip" tooltip ng-if="productInfo.product_1r>0">{{ config('constants.currency') }}@{{ productInfo.product_1r }}</a>
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" title="1 R" data-toggle="tooltip" tooltip ng-if="productInfo.product_1r>0">{{ config('constants.currency') }}@{{ productInfo.product_1r }}</a>
 
-                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="1/2 R" data-toggle="tooltip" tooltip ng-if="productInfo.product_12r>0">{{ config('constants.currency') }}@{{ productInfo.product_12r }}</a>
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" title="1/2 R" data-toggle="tooltip" tooltip ng-if="productInfo.product_12r>0">{{ config('constants.currency') }}@{{ productInfo.product_12r }}</a>
 
-                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="Tapa" data-toggle="tooltip" tooltip ng-if="productInfo.product_topa>0">{{ config('constants.currency') }}@{{ productInfo.product_topa }}</a>
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" title="Tapa" data-toggle="tooltip" tooltip ng-if="productInfo.product_topa>0">{{ config('constants.currency') }}@{{ productInfo.product_topa }}</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -228,7 +228,7 @@
                         <div class="form-group col-md-6">
                             <label><strong><?= ucfirst(__('message_lang.lbl_category')); ?></strong></label>
                             <select class="form-control" name="categoryId" ng-model="requestDataProduct.categoryId" required>
-                                <option value="">Select Your Category</option>
+                                <option value="">{{ __('message_lang.category_text_4') }}</option>
                                 <option ng-repeat="category in userSelectedCategories" ng-if="category.category_type=='Normal'" value="@{{ category.id }}">@{{ category.name }}</option>
                             </select>
                             <span ng-show="frmProduct.$submitted || frmProduct.categoryId.$dirty">
@@ -311,6 +311,7 @@
                         <div class="form-group col-md-6">
                             <label><strong><?= ucfirst(__('message_lang.lbl_status')); ?></strong></label>
                             <select class="form-control" name="status" ng-model="requestDataProduct.status" required>
+                                <option value="">{{ __('common.lbl_select_status') }}</option>
                                 <option value="Active"><?= ucfirst(__('common.status_active')); ?></option>
                                 <option value="Inactive"><?= ucfirst(__('common.status_inactive')); ?></option>
                             </select>

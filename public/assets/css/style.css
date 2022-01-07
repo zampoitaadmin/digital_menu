@@ -1301,6 +1301,10 @@ ul.right-nav {
     display: flex;
     justify-content: space-between;
 }
+.select2-container-multi .select2-choices{
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem;
+}
 /* End Css: By KR */
 
 .nav-pills .nav-link.active,

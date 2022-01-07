@@ -7,6 +7,7 @@ return [
     'lbl_remove' => "Remove",
     'lbl_add' => "Add",
     'lbl_back' => "Back",
+    'lbl_select_status' => "Select Status",
     'status_active' => "Active",
     'status_inactive' => "Inactive",
     'lbl_upload_file' => "Upload file",

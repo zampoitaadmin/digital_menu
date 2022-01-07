@@ -424,14 +424,6 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                                 });
                                 Notification.success(response.message);
                                 // $scope.onLoadFun();
-
-                                var dropifyProduct = $('.dropifyProduct').dropify( $scope.getDropifyConfig() );
-                                dropifyProduct = dropifyProduct.data('dropify');
-                                dropifyProduct.resetPreview();
-                                dropifyProduct.clearElement();
-                                dropifyProduct.settings['defaultFile'] = '';
-                                dropifyProduct.destroy();
-                                dropifyProduct.init();
                             }else{
                                 Notification.error(response.message);
                                 $scope.formCrudRequestErrors.message =  response.message;

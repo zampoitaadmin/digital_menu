@@ -42,10 +42,10 @@
       navbarCollapse.classList.remove("show");
     })
   );
-  navbarToggler.addEventListener("click", function () {
+  /*navbarToggler.addEventListener("click", function () {
     navbarToggler.classList.toggle("active");
     navbarCollapse.classList.toggle("show");
-  });
+  });*/
 
   // ===== submenu
   const submenuButton = document.querySelectorAll(".nav-item-has-children");
@@ -87,7 +87,7 @@
     return (-c / 2) * (t * (t - 2) - 1) + b;
   };
 
-  document.querySelector(".back-to-top").onclick = () => {
+  /*document.querySelector(".back-to-top").onclick = () => {
     scrollTo(document.documentElement);
-  };
+  };*/
 })();

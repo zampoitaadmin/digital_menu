@@ -393,9 +393,64 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         return drConfig;
     }
 
-    var drConfig = $scope.getDropifyConfig();
-    var drEvent = $('.dropifyProduct').dropify(drConfig);
-        drEvent = drEvent.data('dropify');
+    var dropifyProduct;
+    dropifyProduct = $('.dropifyProduct').dropify( $scope.getDropifyConfig() );
+
+    dropifyProduct.on('dropify.beforeClear', function(event, element){
+        if( $('#productModel').is(':visible') ){
+            let productId = $scope.requestDataProduct.id;
+            if(productId>0){
+                swal.fire({
+                    title: 'Are you sure you want to delete?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!'
+                }).
+                then((result) => {
+                    if(result.value){
+                        productService.removeProductMainImage(productId, function(response){
+                            console.log(response);
+                            if(response.status){
+                                Notification.success(response.message);
+                                // $scope.onLoadFun();
+                            }else{
+                                Notification.error(response.message);
+                                $scope.formCrudRequestErrors.message =  response.message;
+                            }
+                        }, function(response){
+                            //alert('Some errors occurred while communicating with the service. Try again later.');
+                            var responseData = response.data;
+                            if(response.status != 200){
+                                if(angular.isObject(responseData.message)){
+                                    //$scope.requestFormDataError = response.data.message;
+                                    console.warn(responseData.message);
+                                }else{
+                                    // bbNotification.error(response.data.message);
+                                    if(responseData.message.length==0){
+                                        $scope.loaderUserSelectedCategory = $window.msgError;
+                                    }else {
+                                        //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                        Notification.error(responseData.message);
+                                        //$scope.formCrudRequestErrors.message = responseData.message ;
+                                        //TODO Error Msg with Refresh
+                                        //alert("in "+responseData.message);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            else{
+                // event.preventDefault();
+            }
+        }
+    });
+
+    dropifyProduct = dropifyProduct.data('dropify');
+    if(!dropifyProduct.isDropified()){
+        dropifyProduct.init();
+    }
 
     $scope.openAddProductModal = function(){
         $('#productModel').modal('show');
@@ -404,40 +459,24 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         $scope.addModalTitle = true;
         $scope.updateModalTitle = false;
 
-        if (drEvent && drEvent.isDropified()) {
-            drEvent.destroy();
-            drEvent.init();
-        } else {
-            drEvent.init();
-        }
-
-        /*$scope.initDropify();
-
-        let drConfig = $scope.getDropifyConfig();
-        let drEvent = $('.dropifyProduct').dropify(drConfig);
-            drEvent = drEvent.data("dropify");
-        drEvent.resetPreview();
-        console.log("reset done");*/
-    };
-
-    $scope.destroyDropify = function(){
-        var drDestroy = $('.dropifyProduct').dropify();
-            drDestroy = drDestroy.data('dropify');
-        if (drDestroy.isDropified()) {
-            drDestroy.destroy();
-        }
-    };
-
-    $scope.initDropify = function(productMainImageUrl=''){
-        let drConfig = $scope.getDropifyConfig();
-        let drEvent = $('.dropifyProduct').dropify(drConfig);
-            drEvent = drEvent.data("dropify");
-        drEvent.resetPreview();
-        drEvent.destroy();
-        drEvent.init();
+        var dropifyProduct = $('.dropifyProduct').dropify( $scope.getDropifyConfig() );
+        dropifyProduct = dropifyProduct.data('dropify');
+        dropifyProduct.resetPreview();
+        dropifyProduct.clearElement();
+        dropifyProduct.settings['defaultFile'] = '';
+        dropifyProduct.destroy();
+        dropifyProduct.init();
     };
 
     $scope.openEditProductModal = function(record,categoryKey,productKey){
+        var dropifyProduct = $('.dropifyProduct').dropify( $scope.getDropifyConfig() );
+        dropifyProduct = dropifyProduct.data('dropify');
+        dropifyProduct.resetPreview();
+        dropifyProduct.clearElement();
+        dropifyProduct.settings['defaultFile'] = record.productMainImageUrl;
+        dropifyProduct.destroy();
+        dropifyProduct.init();
+
         $scope.updateItem = {categoryKey, productKey};
         $scope.resetProductData();
         $scope.frmProduct.$setPristine();
@@ -461,38 +500,9 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
         }
 
         $('#productModel').modal('show');
+        // $('.dropifyProduct').data('product_id', record.product_id);
         $scope.addModalTitle = false;
         $scope.updateModalTitle = true;
-
-        if (drEvent && drEvent.isDropified()) {
-            drEvent.destroy();            
-            // drEvent.init();
-            if(record.productMainImageUrl != ''){
-                document.getElementsByClassName('dropifyProduct')[0].dataset.defaultFile=record.productMainImageUrl;
-                var drConfig = $scope.getDropifyConfig();
-                var drEvent = $('.dropifyProduct').dropify(drConfig);
-                    drEvent = drEvent.data('dropify');
-                drEvent.init();
-            }else{
-                drEvent.init();
-            }
-        } else {
-            drEvent.init();
-        }
-
-        // if(record.productMainImageUrl != ''){
-        //     document.getElementsByClassName('dropifyProduct')[0].dataset.defaultFile=record.productMainImageUrl;
-        // }
-        // $scope.initDropify();
-        // console.log("init done");
-        // if(record.productMainImageUrl == ''){
-        //     let drConfig = $scope.getDropifyConfig();
-        //     let drEvent = $('.dropifyProduct').dropify(drConfig);
-        //         drEvent = drEvent.data("dropify");
-        //     drEvent.resetPreview();
-        //     console.log("reset done");
-
-        // }
     };
 
     $scope.onLoadFun = function(){

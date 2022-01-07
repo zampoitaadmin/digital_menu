@@ -45,7 +45,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('products-update',  [ProductController::class, 'update']);
     Route::delete('products/{product}/{appLanguage}',  [ProductController::class, 'destroy']);
     Route::post('products/update-user-category-product-order',  [ProductController::class, 'updateUserCategoryProductOrder']);
-    Route::put('remove-product-main-image/{product}', [ProductController::class, 'removeProductMainImage']);
+    Route::delete('remove-product-main-image/{product}', [ProductController::class, 'removeProductMainImage']);
 
     Route::get('branding-by-user', [BrandingController::class, 'getOneByUserId']);
     Route::get('branding-logo', [BrandingController::class, 'getBrandingLogo']);

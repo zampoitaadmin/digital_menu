@@ -67,13 +67,12 @@ bbAppServices.factory('productService', ['Restangular', 'userService', 'localSto
         );
     }
 
-    function removeProductMainImage(id, data, onSuccess, onError){
-        Restangular.one("api/remove-product-main-image").customPUT(data, id).then(function(response) {
-                onSuccess(response);
-            }, function(response){
-                onError(response);
-            }
-        );
+    function removeProductMainImage(id, onSuccess, onError){
+        Restangular.one('api/remove-product-main-image/', id).remove().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
     }
 
     Restangular.setDefaultHeaders({ 'Authorization' : 'Bearer ' + userService.getCurrentToken() });

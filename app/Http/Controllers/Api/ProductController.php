@@ -341,7 +341,7 @@ class ProductController extends ApiController
                         $allergyIdJson = ($request->allergyId);
                         $allergyIdArr = json_decode($allergyIdJson, true);
                         $status = trim($request->status);
-                        $productMainImage = trim($request->productMainImage);
+                        $productMainImage = ($request->productMainImage);
                         $currentDateTime = getCurrentDateTime();
 
                         $crudData = array(
@@ -378,7 +378,7 @@ class ProductController extends ApiController
                                 $fileMimeType = $productMainImage->getMimeType(); // image/jpeg
 
                                 $storeFileName = time().'-'.$fileName;
-                                $productMainImage->move($this->productFixedStarterPath,$storeFileName);
+                                $productMainImage->move($this->productMainImagePath,$storeFileName);
 
                                 $crudData["product_main_image"] = $storeFileName;
 
@@ -671,25 +671,35 @@ class ProductController extends ApiController
             //'data' => $category
         ], Response::HTTP_OK);
     }
-    public function removeProductMainImage(Request $request,$id=0){
-        if($id){
+    public function removeProductMainImage(Product $product){
+        if($product){
             $userId = $this->user->id;
-            $product = $this->objProduct->getById($id);
             if($product->user_id == $userId){
-                $crudData = array(
-                    'product_main_image' => NULL,
-                    'updated_at' => getCurrentDateTime(),
-                );
-                $where = array('product_id' => $product->product_id);
-                $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
-                if($responseUpdate){
-                    $productMainImage = $product->product_main_image;
-                    $path = $this->productMainImagePath;
-                    @unlink($path.$productMainImage);
-                    $this->message = __('api.common_update',['module'=> __('api.module_product')]);
-                }else{
+                $currentDateTime = getCurrentDateTime();
+                $currentProductMainImage = $product->product_main_image;
+                if(!empty($product->product_main_image)){
+                    $where = array(
+                        'product_id' => $product->product_id,
+                    );
+                    $crudData = array(
+                        'product_main_image' => NULL,
+                        'updated_at' => $currentDateTime,
+                    );
+                    $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
+                    if($responseUpdate){
+                        if(!empty($product->product_main_image)){
+                            @unlink($this->productMainImagePath.$currentProductMainImage);
+                        }
+                        $this->message = __('api.common_update',['module'=> __('api.module_product')]);
+                    }
+                    else{
+                        $this->status = false;
+                        $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                    }
+                }
+                else{
                     $this->status = false;
-                    $this->message = __('api.common_update_error',['module'=> __('api.module_product')]);
+                    $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
                 }
             }else{
                 $this->status = false;

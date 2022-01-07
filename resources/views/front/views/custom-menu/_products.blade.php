@@ -50,16 +50,6 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="col-sm-9">
-                                                                    <h4 class="title-store">
-                                                                        <strong>
-                                                                            <a href="#">
-                                                                                {{ __('message_lang.product_menu_item_no') }} :
-                                                                                <div class="btn-group" role="group" aria-label="Third group">
-                                                                                    <button type="button" class="btn btn-del_edt mb-1">@{{ productInfo.product_order }}</button>
-                                                                                </div>
-                                                                            </a>
-                                                                        </strong>
-                                                                    </h4>
                                                                     <div class="pull-right">
                                                                         <button type="button" class="btn btn-sm btn-primary mb-1" ng-click="openEditProductModal(productInfo,categoryKey,productKey)">
                                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -71,6 +61,16 @@
                                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
+                                                                    <h4 class="title-store">
+                                                                        <strong>
+                                                                            <a href="#">
+                                                                                {{ __('message_lang.product_menu_item_no') }} :
+                                                                                <div class="btn-group" role="group" aria-label="Third group">
+                                                                                    <button type="button" class="btn btn-del_edt mb-1">@{{ productInfo.product_order }}</button>
+                                                                                </div>
+                                                                            </a>
+                                                                        </strong>
+                                                                    </h4>
                                                                     <h6 class="m-0">@{{ productInfo.product_name }}</h6>
                                                                     <p>
                                                                         @{{ productInfo.product_description }}

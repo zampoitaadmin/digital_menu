@@ -411,8 +411,27 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
                         productService.removeProductMainImage(productId, function(response){
                             console.log(response);
                             if(response.status){
+                                angular.forEach($scope.userSelectedCategoriesProducts, function (value, key) {
+                                    if(value){
+                                        if(value.responseProducts.length>0){
+                                            angular.forEach(value.responseProducts, function (value1, key1) {
+                                                if(value1.product_id==productId){
+                                                    value1.product_main_image=""; value1.productMainImageUrl="";
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
                                 Notification.success(response.message);
                                 // $scope.onLoadFun();
+
+                                var dropifyProduct = $('.dropifyProduct').dropify( $scope.getDropifyConfig() );
+                                dropifyProduct = dropifyProduct.data('dropify');
+                                dropifyProduct.resetPreview();
+                                dropifyProduct.clearElement();
+                                dropifyProduct.settings['defaultFile'] = '';
+                                dropifyProduct.destroy();
+                                dropifyProduct.init();
                             }else{
                                 Notification.error(response.message);
                                 $scope.formCrudRequestErrors.message =  response.message;
@@ -443,7 +462,11 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             }
             else{
                 // event.preventDefault();
+                return false;
             }
+        }
+        else{
+            return false;
         }
     });
 

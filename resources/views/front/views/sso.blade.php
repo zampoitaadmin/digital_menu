@@ -1,6 +1,6 @@
 @extends('front.layouts.layout')
 @section('title')
-    SSO Connecting...
+    {{ __('message_lang.connecting_text_1') }}
 @endsection
 
 @section('meta')
@@ -35,6 +35,9 @@
     </script>
 @endsection
 @section('script')
+    <script type="text/javascript">
+        let connectingText2 = "{{ __('message_lang.connecting_text_2') }}";
+    </script>
     <script src='{{ asset("assets/ng/sso/index.js?t=".time()) }}'></script>
     <script src='{{ asset("assets/ng/sso/SsoController.js?t=".time()) }}'></script>
 @endsection

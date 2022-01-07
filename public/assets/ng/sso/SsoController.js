@@ -4,7 +4,7 @@ bbAppControllers.controller('SsoController', ['$scope', '$location','$stateParam
     //alert("IN SSO Ctrl");
     //alert($stateParams.sso);
     //$log.error($scope.requestFormData);
-    $scope.message = 'Connecting Custom Menu Server...';
+    $scope.message = connectingText2;
     $scope.connectSso = function() {
         ssoService.connectSso(
             $stateParams.sso,

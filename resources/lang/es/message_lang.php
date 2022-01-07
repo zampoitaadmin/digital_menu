@@ -4,6 +4,9 @@ return [
     'common_error_505' => "es Something went wrong.",
     'common_error_400' => "es Something went wrong.",
 
+    'connecting_text_1' => "es SSO Connecting...",
+    'connecting_text_2' => "es Connecting Custom Menu Server...",
+
     'dashboard_text_1' => 'es Dashboard',
     'preview_text_1' => 'es Preview',
 

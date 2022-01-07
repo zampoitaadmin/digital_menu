@@ -12,7 +12,7 @@ if (!function_exists('_getAppLang')) {
     }
 }
 if (!function_exists('_getHomeUrl')) {
-    function _getHomeUrl($urlSegment) {
+    function _getHomeUrl($urlSegment='') {
         if(config('constants.urlType') == 'betagit'){
             return config('constants.betagitUrls.homeUrl').$urlSegment;
         }

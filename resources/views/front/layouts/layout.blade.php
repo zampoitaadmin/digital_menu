@@ -11,7 +11,7 @@
 
 </head>
 
-<body style="background: url(assets/images/bg-3.jpg) no-repeat; background-size: cover; background-position: center; height: 100vh;" ng-app="bbApp"  ng-cloak class="ng-cloak">
+<body style="background: url(assets/images/bg-3.jpg) no-repeat; background-size: cover; background-position: center; height: 100%;" ng-app="bbApp"  ng-cloak class="ng-cloak">
 
     @include('front.layouts.main_header')
 

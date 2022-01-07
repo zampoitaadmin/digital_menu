@@ -22,7 +22,22 @@ bbApp.config(function (localStorageServiceProvider) {
         .setStorageType('localStorage');
 });
 
-bbApp.directive("fileInput", function ($parse) {
+bbApp.directive('tooltip', function(){
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs){
+            $(element).hover(function(){
+                // on mouseenter
+                $(element).tooltip('show');
+            }, function(){
+                // on mouseleave
+                $(element).tooltip('hide');
+            });
+        }
+    };
+});
+
+/*bbApp.directive("fileInput", function ($parse) {
     return {
         link: function ($scope, element, attrs) {
             element.on("change", function (event) {
@@ -33,7 +48,7 @@ bbApp.directive("fileInput", function ($parse) {
             });
         }
     }
-});
+});*/
 
 bbApp.factory('bbNotification', ['$window', function(msg) {
     var notification = {};

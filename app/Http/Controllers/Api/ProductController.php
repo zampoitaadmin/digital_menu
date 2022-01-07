@@ -113,7 +113,7 @@ class ProductController extends ApiController
             'product1r' => 'required',
             'product12r' => 'required',
             'productPrice' => 'required',
-            'allergyId' => [
+            /*'allergyId' => [
                 'required',function ($attribute, $value, $fail){
                     if(empty($value)){
                         $fail($attribute. ' is required.');
@@ -131,7 +131,7 @@ class ProductController extends ApiController
                         }
                     }
                 },
-            ],
+            ],*/
             'status' => 'required',
         ]);
         //Send failed response if request is not valid
@@ -191,16 +191,18 @@ class ProductController extends ApiController
             $responseUpdate = $this->objProduct->updateRecord($crudData,$where);
             if($responseUpdate){
                 $insertRecords = array();
-                for($i=0; $i < count($allergyId); $i++){
-                    $insertRecords[] = array(
-                        'product_id' => $createdID,
-                        'allergy_id' => $allergyId[$i]["id"],
-                        'created_at' => $currentDateTime
-                    );
-                }
-                $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords);
-                if($responseBulkInsert){
-                }else{
+                if(!empty($allergyId)){
+                    for($i=0; $i < count($allergyId); $i++){
+                        $insertRecords[] = array(
+                            'product_id' => $createdID,
+                            'allergy_id' => $allergyId[$i]["id"],
+                            'created_at' => $currentDateTime
+                        );
+                    }
+                    $responseBulkInsert = $this->objProduct->createBulkRecord($insertRecords);
+                    if($responseBulkInsert){
+                    }else{
+                    }
                 }
             }else{
             }
@@ -296,7 +298,7 @@ class ProductController extends ApiController
                     'product1r' => 'required',
                     'product12r' => 'required',
                     'productPrice' => 'required',
-                    'allergyId' => [
+                    /*'allergyId' => [
                         'required',function ($attribute, $value, $fail){
                             if(empty($value)){
                                 $fail($attribute. ' is required.');
@@ -314,7 +316,7 @@ class ProductController extends ApiController
                                 }
                             }
                         },
-                    ],
+                    ],*/
                     'status' => 'required',
                 ]);
                 //Send failed response if request is not valid

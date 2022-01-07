@@ -1297,4 +1297,37 @@ ul.right-nav {
 .selectize-control > .selectize-dropdown {
     top: 36px;
 }
+.allergyPriceInfo{
+    display: flex;
+    justify-content: space-between;
+}
 /* End Css: By KR */
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #bc874a!important;
+}
+.footer_bg .list-unstyled li a {
+    color: #bc874a;
+}
+.for_style
+{
+    background: #bc874a;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px!important;
+    text-align: center;
+    color: #000;
+}
+.title-store a
+{
+    color: #bc874a!important;
+    text-decoration: none !important;
+}
+.title-store .btn-del_edt
+{
+    background: #bc874a!important;
+    color: #fff;
+}

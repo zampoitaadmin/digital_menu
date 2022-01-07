@@ -43,7 +43,7 @@
                                                     <div class="panel">
                                                         <div class="panel-body">
                                                             <div class="row">
-                                                                <div class="col-sm-3 pb-3">
+                                                                <div class="col-sm-3 pb-0">
                                                                     <a href="#">
                                                                         {{-- <img src="{{ _getHomeUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';"> --}}
                                                                         <img src="{{ url('uploads/product/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
@@ -51,47 +51,50 @@
                                                                 </div>
                                                                 <div class="col-sm-9">
                                                                     <div class="pull-right">
-                                                                        <button type="button" class="btn btn-sm btn-primary mb-1" ng-click="openEditProductModal(productInfo,categoryKey,productKey)">
+                                                                        <button type="button" class="btn btn-sm btn-primary mb-1 p-1" ng-click="openEditProductModal(productInfo,categoryKey,productKey)" title="Edit" data-toggle="tooltip" tooltip>
                                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                                         </button>
-                                                                        <button type="button" class="btn btn-sm btn-warning mb-1">
+                                                                        <button type="button" class="btn btn-sm btn-warning mb-1 p-1" title="Archive" data-toggle="tooltip" tooltip>
                                                                             <i class="fa fa-archive" aria-hidden="true"></i>
                                                                         </button>
-                                                                        <button type="button" class="btn btn-sm btn-danger mb-1" ng-click="deleteRecordFun(productInfo,categoryKey)">
+                                                                        <button type="button" class="btn btn-sm btn-danger mb-1 p-1" ng-click="deleteRecordFun(productInfo,categoryKey)" title="Delete" data-toggle="tooltip" tooltip>
                                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
-                                                                    <h4 class="title-store">
+                                                                    <h5 class="title-store">
                                                                         <strong>
                                                                             <a href="#">
                                                                                 {{ __('message_lang.product_menu_item_no') }} :
                                                                                 <div class="btn-group" role="group" aria-label="Third group">
-                                                                                    <button type="button" class="btn btn-del_edt mb-1">@{{ productInfo.product_order }}</button>
+                                                                                    <button type="button" class="btn btn-del_edt btn-sm">@{{ productInfo.product_order }}</button>
                                                                                 </div>
                                                                             </a>
                                                                         </strong>
-                                                                    </h4>
+                                                                    </h5>
                                                                     <h6 class="m-0">@{{ productInfo.product_name }}</h6>
-                                                                    <p>
+                                                                    <p class="mb-0">
                                                                         @{{ productInfo.product_description }}
                                                                     </p>
-                                                                    <p>
-                                                                    <p class="my-2" ng-if="productInfo.responseAllergies.length"><b>{{ __('message_lang.product_text_2') }}</b></p>
-                                                                    <div class="productAllergiesDiv">
-                                                                        <div ng-repeat="allergyInfo in productInfo.responseAllergies">
-                                                                            <button type="button" class="p-0 mr-1 btn btn-outline-info">
-                                                                                <img src="{{ _getHomeUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
-                                                                            </button>
+                                                                    
+                                                                    <p class="mb-1" ng-if="productInfo.responseAllergies.length"><b>{{ __('message_lang.product_text_2') }}</b></p>
+                                                                    <div class="allergyPriceInfo">
+                                                                        <div class="productAllergiesDiv">
+                                                                            <div ng-repeat="allergyInfo in productInfo.responseAllergies">
+                                                                                <button type="button" class="p-0 mr-1 btn btn-outline-info">
+                                                                                    <img src="{{ _getHomeUrl('assets/allergy/').'/' }}@{{ allergyInfo.image }}" class="img-fluid" width="30" height="30" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="Fixed Price" data-toggle="tooltip" tooltip>{{ config('constants.currency') }}@{{ productInfo.product_price }}</a>
+
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="1 R" data-toggle="tooltip" tooltip ng-if="productInfo.product_1r>0">{{ config('constants.currency') }}@{{ productInfo.product_1r }}</a>
+
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="1/2 R" data-toggle="tooltip" tooltip ng-if="productInfo.product_12r>0">{{ config('constants.currency') }}@{{ productInfo.product_12r }}</a>
+
+                                                                            <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1 btn-sm" data-original-title="" title="Tapa" data-toggle="tooltip" tooltip ng-if="productInfo.product_topa>0">{{ config('constants.currency') }}@{{ productInfo.product_topa }}</a>
                                                                         </div>
                                                                     </div>
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Fixed Price">{{ config('constants.currency') }}@{{ productInfo.product_price }}</a>
-
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1 R">{{ config('constants.currency') }}@{{ productInfo.product_1r }}</a>
-
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="1/2 R">{{ config('constants.currency') }}@{{ productInfo.product_12r }}</a>
-
-                                                                    <a href="javascript:void(0)" class="btn btn_custom_for_only_color pull-right mx-1" data-original-title="" title="Tapa">{{ config('constants.currency') }}@{{ productInfo.product_topa }}</a>
-                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -223,7 +226,7 @@
                     
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label><?= ucfirst(__('message_lang.lbl_category')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_category')); ?></strong></label>
                             <select class="form-control" name="categoryId" ng-model="requestDataProduct.categoryId" required>
                                 <option value="">Select Your Category</option>
                                 <option ng-repeat="category in userSelectedCategories" ng-if="category.category_type=='Normal'" value="@{{ category.id }}">@{{ category.name }}</option>
@@ -233,7 +236,7 @@
                             </span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label><?= ucfirst(__('message_lang.lbl_product_name')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_product_name')); ?></strong></label>
                             <input type="text" class="form-control" name="productName" ng-model="requestDataProduct.productName" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.productName.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.productName.$error.required || formCrudRequestErrors.productName"><?= __('common.validation_message_required'); ?></span>
@@ -242,7 +245,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label><?= ucfirst(__('message_lang.lbl_product_description')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_product_description')); ?></strong></label>
                             <textarea class="form-control" name="productDescription" ng-model="requestDataProduct.productDescription" required></textarea>
                             <span ng-show="frmProduct.$submitted || frmProduct.productDescription.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.productDescription.$error.required || formCrudRequestErrors.productDescription"><?= __('common.validation_message_required'); ?></span>
@@ -250,36 +253,36 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"><?= ucfirst(__('message_lang.lbl_upload_file')); ?></label>
+                        <label class="control-label"><strong><?= ucfirst(__('message_lang.lbl_upload_file')); ?></strong></label>
                         <input ng-model="requestDataProduct.product_main_image" type="file" class="dropifyProduct" accept="image/*" onchange="angular.element(this).scope().productUploadedFile(this)" data-default-file="">
                     </div>
                     <div class="form-row">
                         <div class="col-md-12">
-                            <label for="inputState"><?= ucfirst(__('message_lang.lbl_product_price')); ?>  </label>
+                            <label for="inputState"><strong><?= ucfirst(__('message_lang.lbl_product_price')); ?></strong></label>
                         </div>
                         <div class="form-group col-md-3">
-                            <label><?= ucfirst(__('message_lang.lbl_tapa')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_tapa')); ?></strong></label>
                             <input type="text" class="form-control" name="productTopa" ng-model="requestDataProduct.productTopa" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.productTopa.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.productTopa.$error.required || formCrudRequestErrors.productPrice"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label><?= ucfirst(__('message_lang.lbl_1r')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_1r')); ?></strong></label>
                             <input type="text" class="form-control" name="product1r" ng-model="requestDataProduct.product1r" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.product1r.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.product1r.$error.required || formCrudRequestErrors.product1r"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label><?= ucfirst(__('message_lang.lbl_12r')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_12r')); ?></strong></label>
                             <input type="text" class="form-control" name="product12r" ng-model="requestDataProduct.product12r" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.product12r.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.product12r.$error.required || formCrudRequestErrors.product12r"><?= __('common.validation_message_required'); ?></span>
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label><?= ucfirst(__('message_lang.lbl_fixed')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_fixed')); ?></strong></label>
                             <input type="text" class="form-control" name="productPrice" ng-model="requestDataProduct.productPrice" placeholder="" required>
                             <span ng-show="frmProduct.$submitted || frmProduct.productPrice.$dirty">
                                 <span class="validationMessageClass" ng-show="frmProduct.productPrice.$error.required || formCrudRequestErrors.productPrice"><?= __('common.validation_message_required'); ?></span>
@@ -288,7 +291,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label><?= ucfirst(__('message_lang.lbl_allergy')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_allergy')); ?></strong></label>
                             {{--
                             <select class="form-control select2" name="allergyId" ng-model="requestDataProduct.allergyId" multiple required>
                                 <option value=""><?= ucfirst(__('message_lang.lbl_select_allergy')); ?></option>
@@ -306,7 +309,7 @@
                             </span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label><?= ucfirst(__('message_lang.lbl_status')); ?></label>
+                            <label><strong><?= ucfirst(__('message_lang.lbl_status')); ?></strong></label>
                             <select class="form-control" name="status" ng-model="requestDataProduct.status" required>
                                 <option value="Active"><?= ucfirst(__('common.status_active')); ?></option>
                                 <option value="Inactive"><?= ucfirst(__('common.status_inactive')); ?></option>

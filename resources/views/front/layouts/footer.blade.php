@@ -9,53 +9,53 @@
 				</div>
 			</div>
 			<div class="col-md-10 col-lg-9">
-				<div class="row">
+				<div class="row rowFooter">
 					<div class="col-md-4 mb-md-0 mb-4 border-left">
-						<h2 class="footer-heading">Legal</h2>
+						<h2 class="footer-heading">{{ __('message_lang.legal') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">Term & Conditions</a></li>
-							<li><a href="#" class="py-1 d-block">Term & Conditions - Competitions</a></li>
-							<li><a href="#" class="py-1 d-block">Privacy Policy</a></li>
-							<li><a href="#" class="py-1 d-block">Cookie Info</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.termsandconditions') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.com_ter_co') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.privacy_policy') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.cookies_info_text_f') }}</a></li>
 						</ul>
 					</div>
 					<div class="col-md-2 mb-md-0 mb-4 border-left">
-						<h2 class="footer-heading">Company</h2>
+						<h2 class="footer-heading">{{ __('message_lang.company') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">About Us</a></li>
-							<li><a href="#" class="py-1 d-block">Why Zampoita</a></li>
-							<li><a href="#" class="py-1 d-block">Pricing</a></li>
-							<li><a href="#" class="py-1 d-block">Blog</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.About_Us') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.why_zampoita') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.pricing') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.blog') }}</a></li>
 						</ul>
 					</div>
 					<div class="col-md-4 mb-md-0 mb-4 border-left">
-						<h2 class="footer-heading">Services</h2>
+						<h2 class="footer-heading">{{ __('message_lang.services') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">Premium Listing</a></li>
-							<li><a href="#" class="py-1 d-block">Zampoita Design</a></li>
-							<li><a href="#" class="py-1 d-block">Website Design</a></li>
-							<li><a href="#" class="py-1 d-block">Table Reserving & Foor ordering</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.prem_listing') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.zam_design') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.web_design') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.tbl_reserver') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.competitions_') }}</a></li>
 						</ul>
 					</div>
 					<div class="col-md-2 mb-md-0 mb-4 border-left">
-						<h2 class="footer-heading">Support</h2>
+						<h2 class="footer-heading">{{ __('message_lang.contact') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">Signup</a></li>
-							<li><a href="#" class="py-1 d-block">Client Login</a></li>
-							<li><a href="#" class="py-1 d-block">Instagram</a></li>
-							<li><a href="#" class="py-1 d-block">Support</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.signup') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.client_login') }}</a></li>
+							<li><a href="#" class="py-1 d-block">{{ __('message_lang.contact') }}</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row mt-5">
-			<div class="col-md-6 col-lg-8">
+			<div class="col-md-6 col-lg-7">
 				<p class="copyright" style="color: #bc874a;">
-					Copyright &copy;<i class="ion-ios-heart" aria-hidden="true"></i> Zampoita.com <script>document.write(new Date().getFullYear());</script>
+					{{ __('message_lang.copyright') }} &copy;<i class="ion-ios-heart" aria-hidden="true"></i> Zampoita.com <script>document.write(new Date().getFullYear());</script>
 				</p>
 			</div>
-			<div class="col-md-6 col-lg-4 text-md-right d-flex justify-content-end">
+			<div class="col-md-6 col-lg-5 text-md-right d-flex justify-content-end">
 				<p class="mb-0 list-unstyled">
 					<a class="mr-md-3" href="https://www.facebook.com/zampoita"><i class="fab fa-facebook-f for_style"></i></a>
 					<a class="mr-md-3" href="https://www.linkedin.com/company/zampoita/"><i class="fab fa-linkedin-in for_style"></i></a>
@@ -75,8 +75,8 @@
 								@endif
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-								@if($appLanguage == "en") <button class="dropdown-item" type="button">Spanish</button>
-								@elseif($appLanguage == "es") <button class="dropdown-item" type="button">English</button>
+								@if($appLanguage == "en") <button class="dropdown-item" type="button" onclick="changeLang('es');">Spanish</button>
+								@elseif($appLanguage == "es") <button class="dropdown-item" type="button" onclick="changeLang('en');">English</button>
 								@endif
 							</div>
 						</div>
@@ -86,3 +86,13 @@
 		</div>
 	</div>
 </footer>
+<script type="text/javascript">
+	function changeLang(langShortCode) {
+		event.preventDefault();
+		if(langShortCode=="es"){
+			window.location.href = "{{ route('change-lang', ['lang' => 'es']) }}";
+		}else if(langShortCode=="en"){
+			window.location.href = "{{ route('change-lang', ['lang' => 'en']) }}";
+		}
+	}
+</script>

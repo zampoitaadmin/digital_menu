@@ -1305,6 +1305,9 @@ ul.right-nav {
     border: 1px solid #ced4da !important;
     border-radius: 0.25rem;
 }
+.rowFooter{
+    text-transform: uppercase;
+}
 /* End Css: By KR */
 
 .nav-pills .nav-link.active,

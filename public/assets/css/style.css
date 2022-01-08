@@ -292,7 +292,7 @@ footer {
 }
 
 .footer_bg .footer-heading {
-    font-size: 19px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 20px;
 }
@@ -1307,6 +1307,9 @@ ul.right-nav {
 }
 .rowFooter{
     text-transform: uppercase;
+}
+.rowFooter .linkFontSize{
+    font-size: 12px;
 }
 /* End Css: By KR */
 

@@ -13,37 +13,37 @@
 					<div class="col-md-4 mb-md-0 mb-4 border-left">
 						<h2 class="footer-heading">{{ __('message_lang.legal') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.termsandconditions') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.com_ter_co') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.privacy_policy') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.cookies_info_text_f') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.termsandconditions') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.com_ter_co') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.privacy_policy') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.cookies_info_text_f') }}</a></li>
 						</ul>
 					</div>
 					<div class="col-md-2 mb-md-0 mb-4 border-left">
 						<h2 class="footer-heading">{{ __('message_lang.company') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.About_Us') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.why_zampoita') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.pricing') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.blog') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.About_Us') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.why_zampoita') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.pricing') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.blog') }}</a></li>
 						</ul>
 					</div>
 					<div class="col-md-4 mb-md-0 mb-4 border-left">
 						<h2 class="footer-heading">{{ __('message_lang.services') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.prem_listing') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.zam_design') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.web_design') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.tbl_reserver') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.competitions_') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.prem_listing') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.zam_design') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.web_design') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.tbl_reserver') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.competitions_') }}</a></li>
 						</ul>
 					</div>
 					<div class="col-md-2 mb-md-0 mb-4 border-left">
 						<h2 class="footer-heading">{{ __('message_lang.contact') }}</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.signup') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.client_login') }}</a></li>
-							<li><a href="#" class="py-1 d-block">{{ __('message_lang.contact') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.signup') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.client_login') }}</a></li>
+							<li><a href="#" class="py-1 d-block linkFontSize">{{ __('message_lang.contact') }}</a></li>
 						</ul>
 					</div>
 				</div>

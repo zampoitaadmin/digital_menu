@@ -16,7 +16,11 @@
                                                 @{{ category.change_category_name }} (@{{ category.name }})
                                             </div>
                                             <div ng-if="!category.change_category_name">
-                                                @{{ category.name }}
+                                                @if( _getAppLang() == "en" )
+                                                    @{{ category.name }}
+                                                @elseif( _getAppLang() == "es" )
+                                                    @{{ category.spanish }}
+                                                @endif
                                             </div>
                                         </div>
                                     </a>

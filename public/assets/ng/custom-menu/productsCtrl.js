@@ -402,10 +402,11 @@ bbAppControllers.controller('productsCtrl', ['$scope', '$location','userService'
             let productId = $scope.requestDataProduct.id;
             if(productId>0){
                 swal.fire({
-                    title: 'Are you sure you want to delete?',
+                    title: deleteConfirmationText,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: btnYesDelete,
+                    cancelButtonText: btnCancelDelete,
                 }).
                 then((result) => {
                     if(result.value){

@@ -195,7 +195,8 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
     $scope.deleteRecordFun = function(record){
 
         swal.fire({
-            title: 'Are you sure you want to delete "'+record.name+'" category?',
+            // title: 'Are you sure you want to delete "'+record.name+'" category?',
+            title: deleteConfirmationText,
             //text: "You won't be able to revert this("+record.name+")!",
             icon: 'warning',
             showCancelButton: true,
@@ -203,7 +204,9 @@ bbAppControllers.controller('categoriesCtrl', ['$scope', '$location','userServic
             //cancelButtonColor: '#d33',
             //confirmButtonColor: '#2EB973',
            // cancelButtonColor: '#FA4559',
-            confirmButtonText: 'Yes, delete it!'
+            // confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: btnYesDelete,
+            cancelButtonText: btnCancelDelete,
         }).
             then((result) => {
                 if(result.value){

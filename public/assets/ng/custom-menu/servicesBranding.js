@@ -22,14 +22,27 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', 'localSt
         });
     }
 
-    function update(id, data, onSuccess, onError){
+    /*function update(id, data, onSuccess, onError){
         Restangular.one("api/branding-by-user").customPUT(data, id).then(function(response) {
                 onSuccess(response);
             }, function(response){
                 onError(response);
             }
         );
+    }*/
+
+    function update(data, onSuccess, onError){
+        Restangular.all("api/branding-by-user").withHttpConfig({
+            transformRequest: angular.identity
+        }).customPOST(data, undefined, undefined, {
+            'Content-Type': undefined
+        }).then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
     }
+
     function revertToDefault(id, data, onSuccess, onError){
         Restangular.one("api/branding-revert-default").customPUT(data, id).then(function(response) {
                 onSuccess(response);
@@ -62,14 +75,13 @@ bbAppServices.factory('brandingService', ['Restangular', 'userService', 'localSt
 
         });
     }
-
-    function removeBrandingLogo(id, data, onSuccess, onError){
-        Restangular.one("api/remove-branding-logo").customPUT(data, id).then(function(response) {
-                onSuccess(response);
-            }, function(response){
-                onError(response);
-            }
-        );
+    
+    function removeBrandingLogo(id, onSuccess, onError){
+        Restangular.one('api/remove-branding-logo/', id).remove().then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
     }
 
     function getCurrentToken(){

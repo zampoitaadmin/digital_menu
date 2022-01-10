@@ -4,6 +4,95 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
     $('a[href="custom-menu#branding"]').click();
     $scope.requestDataBranding = {'mainColor':'','secondaryColor':'','thirdColor':'','fontColor':'','brandLogo':'','id':0};
     $scope.messageBrand = '';
+
+    $scope.getDropifyConfig = function(){
+        let drConfig = {};
+        if(appLanguage == "en"){
+            drConfig = {
+                messages: {
+                    'default': 'Drag and drop a file here or click',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove':  'Remove',
+                    'error':   'Ooops, something wrong happended.'
+                }
+            };
+        }else if(appLanguage == "es"){
+            drConfig = {
+                messages: {
+                    'default': 'es Drag and drop a file here or click',
+                    'replace': 'es Drag and drop or click to replace',
+                    'remove':  'es Remove',
+                    'error':   'es Ooops, something wrong happended.'
+                }
+            };
+        }
+        return drConfig;
+    }
+
+    var dropifyBrandLogo;
+        dropifyBrandLogo = $('.dropifyBrandLogo').dropify( $scope.getDropifyConfig() );
+
+    $(document).on('click', '.dropify-clear', function()
+    {
+        if( $("ul.nav.nav-pills li a.active").get(0).href.indexOf('#branding') > -1 ){
+            let menuBrandingId = $scope.requestDataBranding.id;
+            if(menuBrandingId>0){
+                swal.fire({
+                    title: 'Are you sure you want to delete?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!'
+                }).
+                then((result) => {
+                    if(result.value){
+                        brandingService.removeBrandingLogo(menuBrandingId, function(response){
+                            console.log(response);
+                            if(response.status){
+                                Notification.success(response.message);
+                                $scope.onLoadFun();
+                            }else{
+                                Notification.error(response.message);
+                                $scope.messageBrand =  response.message;
+                            }
+                        }, function(response){
+                            //alert('Some errors occurred while communicating with the service. Try again later.');
+                            var responseData = response.data;
+                            if(response.status != 200){
+                                if(angular.isObject(responseData.message)){
+                                    //$scope.requestFormDataError = response.data.message;
+                                    console.warn(responseData.message);
+                                }else{
+                                    // bbNotification.error(response.data.message);
+                                    if(responseData.message.length==0){
+                                        $scope.loaderUserSelectedCategory = $window.msgError;
+                                    }else {
+                                        //$scope.loaderUserSelectedCategorys = $window.msgError;
+                                        Notification.error(responseData.message);
+                                        //$scope.formCrudRequestErrors.message = responseData.message ;
+                                        //TODO Error Msg with Refresh
+                                        //alert("in "+responseData.message);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            else{
+                // event.preventDefault();
+                return false;
+            }
+        }
+    });
+
+    dropifyBrandLogo.on('dropify.beforeClear', function(event, element){
+    });
+
+    dropifyBrandLogo = dropifyBrandLogo.data('dropify');
+    if(!dropifyBrandLogo.isDropified()){
+        dropifyBrandLogo.init();
+    }
+
     $scope._refreshBranding = function(){
         brandingService.getAll(function(response){
             $scope.branding  = response.data.branding;
@@ -12,17 +101,14 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
             $scope.requestDataBranding.thirdColor = $scope.branding.third_color;
             $scope.requestDataBranding.fontColor = $scope.branding.font_color;
             $scope.requestDataBranding.id = $scope.branding.menu_branding_id;
-            console.log($scope.requestDataBranding);
-            $.each(response.data.fileList, function (key, value) {
-                var mockFile = {
-                    name: value.name,
-                    size: value.size,
-                    id: value.id
-                };
-                brandingDropzone.emit("addedfile", mockFile);
-                brandingDropzone.emit("thumbnail", mockFile, value.url);
-                brandingDropzone.emit("complete", mockFile);
-            });
+
+            var dropifyBrandLogo = $('.dropifyBrandLogo').dropify( $scope.getDropifyConfig() );
+            dropifyBrandLogo = dropifyBrandLogo.data('dropify');
+            dropifyBrandLogo.resetPreview();
+            dropifyBrandLogo.clearElement();
+            dropifyBrandLogo.settings['defaultFile'] = $scope.branding.brandLogoUrl;
+            dropifyBrandLogo.destroy();
+            dropifyBrandLogo.init();
         }, function(response){
             if(response.status!=200){
                 if(angular.isObject(response.data.message)){
@@ -50,22 +136,36 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
 
     $scope.onLoadFun();
     $scope.updateUserBrandingFun = function(){
+        // debugger;
         //console.log($scope.requestDataBranding); return false;
-        $scope.requestDataBranding.appLanguage = appLanguage;
-        brandingService.update($scope.requestDataBranding.id,
-            $scope.requestDataBranding , function(response){
+        // $scope.requestDataBranding.appLanguage = appLanguage;
+        // debugger;
+        console.log($scope.requestDataBranding);
+        
+        // let appLanguage = $scope.requestDataBranding.appLanguage;
+        let brandLogo = $scope.requestDataBranding.brandLogo;
+        let fontColor = $scope.requestDataBranding.fontColor;
+        let id = $scope.requestDataBranding.id;
+        let mainColor = $scope.requestDataBranding.mainColor;
+        let secondaryColor = $scope.requestDataBranding.secondaryColor;
+        let thirdColor = $scope.requestDataBranding.thirdColor;
+
+        let formData = new FormData();
+        formData.append('appLanguage', appLanguage);
+        if($scope.requestDataBranding.brandLogo){
+            formData.append('brandLogo', $scope.requestDataBranding.brandLogo);
+        }else{
+            formData.append('brandLogo', '');
+        }
+        formData.append('fontColor', $scope.requestDataBranding.fontColor);
+        formData.append('id', $scope.requestDataBranding.id);
+        formData.append('mainColor', $scope.requestDataBranding.mainColor);
+        formData.append('secondaryColor', $scope.requestDataBranding.secondaryColor);
+        formData.append('thirdColor', $scope.requestDataBranding.thirdColor);
+        
+        brandingService.update(formData,
+            function(response){
             if(response.status){
-
-                if(brandingDropzone.files.length > 0){
-                    $('input:hidden[name=hdnMenuBrandingId]').val($scope.requestDataBranding.id);
-                    brandingDropzone.options.headers = {
-                        'Authorization': 'Bearer ' + brandingService.getCurrentToken()
-                    };
-                    brandingDropzone.processQueue();
-                }
-                else{
-                }
-
                 Notification.success(response.message);
                 $scope.onLoadFun();
             }else{
@@ -132,44 +232,14 @@ bbAppControllers.controller('brandingCtrl', ['$scope', '$location','userService'
             }
         });
     }
-    $timeout(function(){
-        brandingDropzone.on("removedfile", function (file) {
-            let fileName = file.name;
-            let id = file.id;
-            if(id){
-                brandingService.removeBrandingLogo(id,
-                    {fileName} , function(response){
-                    if(response.status){
-                        Notification.success(response.message);
-                        $scope.onLoadFun();
-                    }else{
-                        Notification.error(response.message);
-                        $scope.messageBrand =  response.message;
-                    }
-                }, function(response){
-                    //alert('Some errors occurred while communicating with the service. Try again later.');
-                    //console.error(response);
-                    var responseData = response.data;
-                    if(response.status != 200){
-                        if(angular.isObject(responseData.message)){
-                            //$scope.requestFormDataError = response.data.message;
-                            console.warn(responseData.message);
-                        }else{
-                            // bbNotification.error(response.data.message);
-                            if(responseData.message.length==0){
-                                //$scope.loaderUserSelectedCategory = $window.msgError;
-                                $scope.messageBrand = '<span class="text-danger">Some errors occurred while communicating with the service. Try again later.</span>';
-                            }else {
-                                //$scope.loaderUserSelectedCategorys = $window.msgError;
-                                Notification.error(responseData.message);
-                                //$scope.formCrudRequestErrors.message = responseData.message ;
-                                //TODO Error Msg with Refresh
-                                //alert("in "+responseData.message);
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    }, 200);
+
+    $scope.brandLogoUploadedFile = function (element) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            $scope.$apply(function ($scope) {
+                $scope.requestDataBranding.brandLogo = element.files[0];
+            });
+        }
+        reader.readAsDataURL(element.files[0]);
+    }
 }]);

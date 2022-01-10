@@ -1,10 +1,3 @@
-<style type="text/css">
-    .dz-preview .dz-image img{
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover;
-    }
-</style>
 <div role="tabpanel" class="tab-pane  active show1 " id="branding">
     <div class="container ">
         <div class="row ">
@@ -15,7 +8,6 @@
                             <button class="btn btn_custom_for_only_color d-flex flex-row-reverse"  ng-click="revertToDefaultFun()"><?= __('message_lang.branding_revert_to_Default'); ?></button>
                         </div>
                         <form novalidate autocomplete="off" class="dropzone" enctype="multipart/form-data">
-                            <input type="hidden" name="hdnMenuBrandingId">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4"><b><?= __('message_lang.branding_color_main'); ?></b></label>
@@ -37,10 +29,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="inputEmail4"><b><?= __('message_lang.branding_logo'); ?></b></label>
-                                    <div id="brandingDropzoneDragArea" class="dz-default dz-message dropzoneDragArea">
-                                        <span><?= ucfirst(__('message_lang.lbl_upload_file')); ?></span>
-                                    </div>
-                                    <div class="branding-dropzone-previews"></div>
+                                    <input ng-model="requestDataBranding.brandLogo" type="file" class="dropifyBrandLogo" accept="image/*" onchange="angular.element(this).scope().brandLogoUploadedFile(this)" data-default-file="">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
@@ -53,43 +42,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    Dropzone.autoDiscover = false;
-    var brandingDropzone;
-    $(function () {
-        initBrandingDropzone();
-    });
-    function initBrandingDropzone(){
-        brandingDropzone = new Dropzone("div#brandingDropzoneDragArea", {
-            paramName: "brandLogo",
-            url: "{{ url('/api/branding-logo') }}",
-            previewsContainer: 'div.branding-dropzone-previews',
-            addRemoveLinks: true,
-            autoProcessQueue: false,
-            uploadMultiple: false,
-            parallelUploads: 1,
-            maxFiles: 1,
-            params: {
-            },
-            init: function () {
-                this.on("success", function (file, response) {
-                    if(response.status){
-                        $('.branding-dropzone-previews').empty();
-                    }
-                    else{
-                        alert(response.message);
-                    }
-                });
-                this.on('sending', function (file, xhr, formData) {
-                    let createdID = $('input:hidden[name=hdnMenuBrandingId]').val();
-                    $('input:hidden[name=hdnMenuBrandingId]').val('');
-                    formData.append('menuBrandingId', createdID);
-                });
-                this.on("complete", function(file) { 
-                    this.removeAllFiles(true);
-                    console.log("Reset done");
-                })
-            }
-        });
-    }
-</script>

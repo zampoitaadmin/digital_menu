@@ -1,37 +1,37 @@
 <?php
 return [
-    'common_error_500' => "es Something went wrong.",
-    'common_error_505' => "es Something went wrong.",
-    'common_error_400' => "es Something went wrong.",
-    'common_error_access_denied' => "es Access denied",
+    'common_error_500' => "Algo fue mal",
+    'common_error_505' => "Algo fue mal",
+    'common_error_400' => "Algo fue mal",
+    'common_error_access_denied' => "Acceso denegado",
 
-    'module_category' => "es Category",
-    'module_product' => "es Product",
-    'module_allergy' => "es Allergy",
-    'module_user_category' => "es User Category",
-    'module_branding' => "es Branding",
-    'module_setting' => "es Setting",
+    'module_category' => "Categoría",
+    'module_product' => "Producto",
+    'module_allergy' => "Alergia",
+    'module_user_category' => "Usar Categoría",
+    'module_branding' => "Marca",
+    'module_setting' => "Ajuste",
 
-    'common_empty' => "es Record(s) not available",
-    'common_empty_records' => ":module not available",
-    'common_add' => ":module created successfully",
-    'common_add_error' => ":module could not be created",
-    'common_delete' => ":module deleted successfully",
-    'common_update' => ":module updated successfully",
-    'common_update_error' => ":module could not be updated",
+    'common_empty' => "Registro(s) no disponible",
+    'common_empty_records' => ":module no disponible",
+    'common_add' => ":module creado con éxito",
+    'common_add_error' => ":module no pudo ser creado",
+    'common_delete' => ":module borrado con éxito",
+    'common_update' => ":module actualizado con éxito",
+    'common_update_error' => ":module no pudo ser actualizado",
 
-    'common_not_found' => ":module not found",
+    'common_not_found' => ":module no encontrado",
 
-    'api_token_failed' => "es Something went wrong.",
-    'api_credentials_invalid' => "es Invalid credentials.",
+    'api_token_failed' => "Algo fue mal",
+    'api_credentials_invalid' => "Credenciales no válidas",
 
-    'api_category_empty' => "es Invalid credentials.",
-    'api_category_assign' => "es Categories successfully assigned",
-    'api_category_assign_error' => "es Categories could not be assigned",
-    'api_category_assign_already' => "es Categories already assigned",
+    'api_category_empty' => "Credenciales no válidas",
+    'api_category_assign' => "Categrías asignadas con éxito",
+    'api_category_assign_error' => "Las categorías no pudieron ser asignadas",
+    'api_category_assign_already' => "Categorías ya asignadas",
 
-    'api_branding_revert_default' => "es Branding reverted to default successfully",
-    'api_branding_revert_default_error' => "es Branding could not be reverted to default",
+    'api_branding_revert_default' => "La marca volvió a la forma predeterminada con éxito",
+    'api_branding_revert_default_error' => "La marca no pudo volver a la forma predeterminada",
 
 ];
 ?>

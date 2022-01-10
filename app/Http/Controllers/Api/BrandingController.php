@@ -26,38 +26,29 @@ class BrandingController extends ApiController
         $this->objMenuBranding = new MenuBranding();
         $this->objUserCategory = new UserCategory();
         $this->user = JWTAuth::parseToken()->authenticate();
+        $this->brandLogoPath = public_path('uploads/menu_branding/');
     }
 
     public function getOneByUserId(){
         $responseData= array();
         try {
-
             $userId = $this->user->id;
             $responseBranding = $this->objMenuBranding->getOneByUserId($userId);
             if($responseBranding){
                 unset($responseBranding->user_id);
+                if(!empty($responseBranding->brand_logo)){
+                    $responseBranding->brandLogoUrl = url('uploads/menu_branding/').'/'.$responseBranding->brand_logo;
+                }
+                else{
+                    $responseBranding->brandLogoUrl = "";
+                }
                 $responseData['branding'] = $responseBranding;
             }else{
                 $responseBranding = $this->createDefault();
                 $responseData['branding'] = $responseBranding;
-                //CreateDefault
-                //Send Default Colors
-                #$this->status = false;
-                #$this->message = __('api.common_empty',['module' => __('api.module_branding')]);
             }
             $brandLogo = $responseBranding->brand_logo;
             $menuBrandingId = $responseBranding->menu_branding_id;
-            $fileList = [];
-            $targetDir = public_path('uploads/menu_branding/');
-            if(!empty($brandLogo)){
-                $filePath = $targetDir.$brandLogo;
-                if(file_exists($filePath)){
-                    $size = filesize($filePath);
-                    $fileUrl = url('uploads/menu_branding/').'/'.$brandLogo;
-                    $fileList[] = ['name'=>$brandLogo, 'size'=>$size, 'path'=>$filePath, 'url'=>$fileUrl, 'id'=>$menuBrandingId];
-                }
-            }
-            $responseData['fileList'] = $fileList;
             return response()->json([
                 'status' => $this->status,
                 'message' => $this->message,
@@ -70,26 +61,16 @@ class BrandingController extends ApiController
             ], 500);
         }
     }
-    public function update(Request $request,$id=0){
-        if($id){
-            $userId = $this->user->id;
-            $menuBranding = $this->objMenuBranding->getById($id);
-            if($menuBranding ->user_id == $userId){
-                $data = $request->only('brandLogo', 'fontColor', 'mainColor', 'secondaryColor', 'thirdColor');
-                /*$validator = Validator::make($data, [
-                    'categoryNameSp' => 'required',
-                    'categoryNameEn' => 'required',
-                ]);*/
-                //Send failed response if request is not valid
-                /*if ($validator->fails()) {
-                    $this->status = false;
-                    $this->statusCode = Response::HTTP_BAD_REQUEST;
-                    $this->message = _lvValidations($validator->messages()->get('*'));
-                    $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
-                    return response()->json($responseData,$this->statusCode);
-                }*/
+    public function update(Request $request){
+        // _pre($request->all());
+        $data = $request->only('brandLogo', 'fontColor', 'mainColor', 'secondaryColor', 'thirdColor');
+        $userId = $this->user->id;
+        $id = trim($request->id);
+        $menuBranding = $this->objMenuBranding->getById($id);
+        if($menuBranding){
+            if($menuBranding->user_id == $userId){
                 $appLanguage = trim($request->appLanguage);
-                $brandLogo = trim($request->brandLogo);
+                $brandLogo = ($request->brandLogo);
                 $fontColor = trim($request->fontColor);
                 $mainColor = trim($request->mainColor);
                 $secondaryColor = trim($request->secondaryColor);
@@ -102,6 +83,34 @@ class BrandingController extends ApiController
                     'updated_at' => getCurrentDateTime(),
                 );
                 $where = array('menu_branding_id' => $menuBranding->menu_branding_id);
+                if( isset($brandLogo) ){
+                    if( !empty($brandLogo) ){
+                        if(!$brandLogo->isValid())
+                        {
+                            $this->status = false;
+                            $this->statusCode = Response::HTTP_BAD_REQUEST;
+                            $this->message = 'Error on upload file: '.$brandLogo->getErrorMessage();
+                            $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
+                            return response()->json($responseData,$this->statusCode);
+                        }
+
+                        $fileName = $brandLogo->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
+                        $fileExtension = $brandLogo->getClientOriginalExtension(); // jpg
+                        $fileRealPath = $brandLogo->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
+                        $fileSize = $brandLogo->getSize(); // 951640
+                        $fileMimeType = $brandLogo->getMimeType(); // image/jpeg
+
+                        $storeFileName = time().'-'.$fileName;
+                        $brandLogo->move($this->brandLogoPath,$storeFileName);
+
+                        $crudData["brand_logo"] = $storeFileName;
+
+                        if(!empty($menuBranding->brand_logo)){
+                            $currentBrandLogo = $menuBranding->brand_logo;
+                            @unlink($this->brandLogoPath.$currentBrandLogo);
+                        }
+                    }
+                }
                 $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
                 if($responseUpdate){
                     $this->message = __('api.common_update',['module'=> __('api.module_branding', [], $appLanguage)], $appLanguage);
@@ -113,8 +122,8 @@ class BrandingController extends ApiController
                 $this->status = false;
                 $this->message = __('api.common_error_access_denied', [], $appLanguage);
             }
-        }else{
-            #$this->statusCode = Response::HTTP_NOT_FOUND;
+        }
+        else{
             $this->status = false;
             $this->message = __('api.common_not_found',['module'=> __('api.module_branding', [], $appLanguage)], $appLanguage);
         }
@@ -130,7 +139,7 @@ class BrandingController extends ApiController
         if($id){
             $userId = $this->user->id;
             $menuBranding = $this->objMenuBranding->getById($id);
-            if($menuBranding ->user_id == $userId){
+            if($menuBranding->user_id == $userId){
                 //$data = $request->only('brandLogo', 'fontColor', 'mainColor', 'secondaryColor', 'thirdColor');
                 $crudData = array(
                     'brand_color' => '#a77337',
@@ -144,6 +153,10 @@ class BrandingController extends ApiController
                 $where = array('menu_branding_id' => $menuBranding->menu_branding_id);
                 $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
                 if($responseUpdate){
+                    if(!empty($menuBranding->brand_logo)){
+                        $currentBrandLogo = $menuBranding->brand_logo;
+                        @unlink($this->brandLogoPath.$currentBrandLogo);
+                    }
                     $this->message = __('api.api_branding_revert_default', [], $appLanguage);
                 }else{
                     $this->status = false;
@@ -182,100 +195,36 @@ class BrandingController extends ApiController
         }
         return $responseBranding;
     }
-    public function storeBrandingLogo(Request $request){
-        $data = $request->only('menuBrandingId', 'brandLogo');
 
-        $validator = Validator::make($data, [
-            'menuBrandingId' => 'required',
-            'brandLogo' => 'required',
-        ]);
-
-        //Send failed response if request is not valid
-        if ($validator->fails()) {
-            $this->status = false;
-            $this->statusCode = Response::HTTP_BAD_REQUEST;
-            $this->message = _lvValidations($validator->messages()->get('*'));
-            $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
-            return response()->json($responseData,$this->statusCode);
-        }
-
-        $menuBrandingId = $request->menuBrandingId;
-        $menuBranding = $this->objMenuBranding->getById($menuBrandingId);
+    public function removeBrandingLogo(MenuBranding $menuBranding){
         if($menuBranding){
             $userId = $this->user->id;
-            
             if($menuBranding->user_id == $userId){
-                $brandLogo = $request->file('brandLogo');
-        
-                if (!$brandLogo->isValid()) {
-                    $this->status = false;
-                    $this->statusCode = Response::HTTP_BAD_REQUEST;
-                    $this->message = 'Error on upload file: '.$image->getErrorMessage();
-                    $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
-                    return response()->json($responseData,$this->statusCode);
-                }
-
-                if(!empty($menuBranding->brand_logo)){
-                    $currentBrandLogo = $menuBranding->brand_logo;
-                    $folderPath = public_path('uploads/menu_branding/');
-                    @unlink($folderPath.$currentBrandLogo);
-                }
-
-                $fileName = $brandLogo->getClientOriginalName(); // 3b8ad2c7b1be2caf24321c852103598a.jpg
-                $fileExtension = $brandLogo->getClientOriginalExtension(); // jpg
-                $fileRealPath = $brandLogo->getRealPath(); // C:\xampp\tmp\phpAC2F.tmp
-                $fileSize = $brandLogo->getSize(); // 951640
-                $fileMimeType = $brandLogo->getMimeType(); // image/jpeg
-                $storeFileName = time().'-'.$fileName;
-                $destinationPath = 'uploads/menu_branding';
-                $brandLogo->move($destinationPath,$storeFileName);
-
                 $currentDateTime = getCurrentDateTime();
-                $crudData = array( 'brand_logo' => $storeFileName, 'updated_at' => $currentDateTime );
-                $where = array('menu_branding_id' => $menuBrandingId);
-                $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
-                if($responseUpdate){
-                    $this->message = __('api.common_add',['module'=>__('api.module_branding')]);
-                }else{
-                    $this->status = false;
-                    $this->message = __('api.common_add_error',['module'=> __('api.module_branding')]);
+                $currentBrandLogo = $menuBranding->brand_logo;
+                if(!empty($menuBranding->brand_logo)){
+                    $where = array(
+                        'menu_branding_id' => $menuBranding->menu_branding_id,
+                    );
+                    $crudData = array(
+                        'brand_logo' => NULL,
+                        'updated_at' => $currentDateTime,
+                    );
+                    $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
+                    if($responseUpdate){
+                        if(!empty($menuBranding->brand_logo)){
+                            @unlink($this->brandLogoPath.$currentBrandLogo);
+                        }
+                        $this->message = __('api.common_update',['module'=> __('api.module_branding')]);
+                    }
+                    else{
+                        $this->status = false;
+                        $this->message = __('api.common_update_error',['module'=> __('api.module_branding')]);
+                    }
                 }
-            }
-            else{
-                $this->status = false;
-                $this->message = __('api.common_error_access_denied');
-            }
-        }
-        else{
-            $this->status = false;
-            $this->message = __('api.common_not_found',['module'=> __('api.module_branding')]);
-        }
-
-        return response()->json([
-            'status' => $this->status,
-            'message' => $this->message,
-            'statusCode' => $this->statusCode,
-        ], $this->statusCode);
-    }
-    public function removeBrandingLogo(Request $request,$id=0){
-        if($id){
-            $userId = $this->user->id;
-            $menuBranding = $this->objMenuBranding->getById($id);
-            if($menuBranding ->user_id == $userId){
-                $crudData = array(
-                    'brand_logo' => NULL,
-                    'updated_at' => getCurrentDateTime(),
-                );
-                $where = array('menu_branding_id' => $menuBranding->menu_branding_id);
-                $responseUpdate = $this->objMenuBranding->updateRecord($crudData,$where);
-                if($responseUpdate){
-                    $brandLogo = $menuBranding->brand_logo;
-                    $path = public_path('uploads/menu_branding/');
-                    @unlink($path.$brandLogo);
-                    $this->message = __('api.common_update',['module'=> __('api.module_branding')]);
-                }else{
+                else{
                     $this->status = false;
-                    $this->message = __('api.common_update_error',['module'=> __('api.module_branding')]);
+                    $this->message = __('api.common_not_found',['module'=> __('api.module_branding')]);
                 }
             }else{
                 $this->status = false;

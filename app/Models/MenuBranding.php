@@ -7,6 +7,7 @@ use DB;
 class MenuBranding extends Model
 {
     public $table = 'menu_branding';
+    protected $primaryKey = 'menu_branding_id';
     protected $fillable = [
         'menu_branding_id ',
         'user_id',

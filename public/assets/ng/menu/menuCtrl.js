@@ -1,7 +1,7 @@
 
 bbAppControllers.controller('menuCtrl', ['$scope', '$location','$stateParams', 'menuService', function ($scope, $location, $stateParams, menuService) {
     console.info("IN Menu Ctrl");
-    //alert("IN SSO Ctrl");
+    alert("IN Menu Ctrl");
     //alert($stateParams.sso);
     //$log.error($scope.requestFormData);
     // $scope.message = 'Connecting Custom Menu Server...';
@@ -9,14 +9,17 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$location','$stateParams', '
     //alert("IN SSO Ctrl");
     //alert($stateParams.sso);
     //$log.error($scope.requestFormData);
-    /*$scope.message = 'Connecting Custom Menu Server...';
-    $scope.connectSso = function() {
-        ssoService.connectSso(
-            $stateParams.sso,
+    // $scope.message = 'Connecting Custom Menu Server...';
+    $scope.loadMenuPage = function() {
+        var appLanguage = "en";
+        menuService.getBySlug(
+            $stateParams.slug,
+            appLanguage,
             function(response){
-                console.info("IN SSO Ctrl Success");
-                //$location.path('/'); //Redirect on merchant page
-                window.location = '/custom-menu';
+                debugger;
+                // console.info("IN SSO Ctrl Success");
+                // //$location.path('/'); //Redirect on merchant page
+                // window.location = '/custom-menu';
             },
             function(response){
                 // console.error(response);
@@ -38,7 +41,7 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$location','$stateParams', '
     }
     //if(ssoService.checkIfLoggedIn())
     //$location.path('/'); //Redirect on merchant page
-    $scope.loadMenuPage();*/
+    $scope.loadMenuPage();
 
 
     

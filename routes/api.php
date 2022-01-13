@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\MerchantFixedMenuController;
 
 Route::post('login', [AuthController::class, 'authenticate']);
 Route::post('auth/connect-sso', [AuthController::class, 'authenticate']);
+Route::get('menu/{slug}/{appLanguage}',  [AuthController::class, 'getMenu']);
 #Route::post('login', [ApiController::class, 'authenticate']);
 #Route::post('register', [ApiController::class, 'register']);
 

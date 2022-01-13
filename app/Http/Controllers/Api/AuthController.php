@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends ApiController
 {
+    public $statusCode;
+    public $status;
+    public $message;
+    public function __construct()
+    {
+        $this->status = TRUE;
+        $this->statusCode = Response::HTTP_OK;
+        $this->message = '';
+        $this->objUser = new User();
+    }
 
     public function authenticate(Request $request)
     {
@@ -124,5 +134,9 @@ class AuthController extends ApiController
         $user = JWTAuth::authenticate($request->token);
 
         return response()->json(['user' => $user]);
+    }
+
+    public function getMenu(User $slug, $appLanguage='en'){
+        _pre($slug);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Category;
-use App\Models\UserCategory, App\Models\Allergy;
+use App\Models\UserCategory, App\Models\Allergy, App\Models\User;
 use Illuminate\Http\Request;
 
 use JWTAuth;
@@ -25,6 +25,7 @@ class CategoryController extends ApiController
         $this->objCategory = new Category();
         $this->objUserCategory = new UserCategory();
         $this->objAllergy = new Allergy();
+        $this->objUser = new User();
         $this->user = JWTAuth::parseToken()->authenticate();
     }
 
@@ -443,5 +444,9 @@ class CategoryController extends ApiController
                 'message' => __('api.common_error_500',[],$appLanguage),
             ], 500);
         }
+    }
+
+    public function getMenu($slug, $appLanguage='en'){
+        _pre($slug);
     }
 }

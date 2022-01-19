@@ -30,7 +30,7 @@ class UserCategory extends Model
     public function getUserSelectedCategories($userId)
     {
         //$select = DB::raw('category.*,user_category.*');
-        $select = DB::raw('category.id,category.name,category.spanish,category.status,category.category_type,user_category.change_category_name,user_category.user_category_order,user_category.user_category_id,user_category.category_id');
+        $select = DB::raw('category.id, category.name, category.spanish, category.status, category.category_type, user_category.change_category_name, user_category.user_category_order, user_category.user_category_id, user_category.category_id');
         $dataBase = DB::table('category')->select($select);
         $dataBase->where('user_category.user_id', '=', $userId);
         $dataBase->leftJoin('user_category', function ($leftJoin) {
@@ -41,6 +41,24 @@ class UserCategory extends Model
         $dataBase->where('category.status', 'active');
         #$responseData= $dataBase->orderBy('user_category.user_category_order','asc')->get();
         $responseData= $dataBase->orderByRaw("user_category.user_category_order asc, user_category.user_category_id DESC")->get();
+        return $responseData;
+    }
+
+    public function getUserSelectedCategories1($userId)
+    {
+        //$select = DB::raw('category.*,user_category.*');
+        $select = DB::raw('user_category.*, category.name, category.spanish, category.category_type, merchant_fixed_menu_data.menu_description_conditions, merchant_fixed_menu_data.price');
+        $dataBase = DB::table('user_category')->select($select);
+        $dataBase->where('user_category.user_id', '=', $userId);
+        $dataBase->join('category', function ($join) {
+            $join->on('user_category.category_id', '=', 'category.id');
+        });
+        $dataBase->leftJoin('merchant_fixed_menu_data', function ($leftJoin) {
+            $leftJoin->on('user_category.category_id', '=', 'merchant_fixed_menu_data.category_id');
+        });
+        $dataBase->where('category.status', 'active');
+        $dataBase->groupBy('user_category.category_id');
+        $responseData= $dataBase->orderByRaw("user_category.user_category_order asc")->get();
         return $responseData;
     }
 

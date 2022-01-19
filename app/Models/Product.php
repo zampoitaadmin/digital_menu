@@ -152,4 +152,21 @@ class Product extends Model
     {
         return DB::table('products')->whereIn('product_id', $idArray)->get();
     }
+    public function searchProduct($categoryIdsArray, $userId, $searchText)
+    {
+        $select = DB::raw('products.*, category.name');
+        $dataBase = DB::table('products')->select($select);
+        $dataBase->join('category', function ($join) {
+            $join->on('products.category_id', '=', 'category.id');
+        });
+        $dataBase->where('products.user_id', '=', $userId);
+        if(!empty($searchText)){
+            $dataBase->where('products.product_name', 'like', '%' . $searchText . '%');
+        }
+        if(!empty($categoryIdsArray)){
+            $dataBase->whereIn('products.category_id', $categoryIdsArray);
+        }
+        $responseData= $dataBase->orderByRaw("category.id ASC, products.product_order ASC")->get();
+        return $responseData;
+    }
 }

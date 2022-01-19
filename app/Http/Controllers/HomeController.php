@@ -14,6 +14,9 @@ class HomeController extends Controller{
 
     }
     public function index(Request $request){
+        if(!Auth::check()){
+            return redirect(route('logout'));
+        }
         return "Under Development";
         #return view("front.views.index");
     }

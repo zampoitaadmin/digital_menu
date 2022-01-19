@@ -63,7 +63,11 @@ class User extends Authenticatable implements JWTSubject
         $update = DB::table('user')->where($where)->update($crud);
         return $update;
     }
-    public function getRouteKeyName(){
-        return 'slug';
+    public function getInfoBySlug($slug)
+    {
+        $select = DB::raw('*');
+        $dataBase = DB::table('user')->select($select);
+        $responseData= $dataBase->where('slug', $slug)->get()->first();
+        return $responseData;
     }
 }

@@ -1,5 +1,5 @@
 
-bbAppServices.factory('menuService', ['$http', 'localStorageService', function($http, localStorageService) {
+bbAppServices.factory('menuService', ['Restangular', '$http', 'localStorageService', function(Restangular, $http, localStorageService) {
 
     /*function getBySlug(slug, appLanguage, onSuccess, onError){
         Restangular.one('api/menu/'+slug+'/'+appLanguage).get().then(function(response){
@@ -25,8 +25,22 @@ bbAppServices.factory('menuService', ['$http', 'localStorageService', function($
             onError(response);
         });
     }*/
+
+    function searchItem(data, onSuccess, onError){
+        Restangular.all('api/menu').withHttpConfig({
+            transformRequest: angular.identity
+        }).customPOST(data, undefined, undefined, {
+            'Content-Type': undefined
+        }).then(function(response){
+            onSuccess(response);
+        }, function(response){
+            onError(response);
+        });
+    }
+
     return {
-        getBySlug: getBySlug
+        getBySlug: getBySlug,
+        searchItem: searchItem
     }
 }]);
 

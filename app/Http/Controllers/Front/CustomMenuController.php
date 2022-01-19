@@ -55,6 +55,9 @@ class CustomMenuController extends Controller
 
     public function manageCustomMenu(Request $request,$type=null)
     {
+        /*if(!Auth::check()){
+            return redirect(route('logout'));
+        }*/
         return view("front.views.custom-menu.custom-menu");
     }
 

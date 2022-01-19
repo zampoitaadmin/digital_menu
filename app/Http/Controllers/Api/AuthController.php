@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use JWTAuth;
-use App\Models\User;
+use App\Models\User, App\Models\MenuBranding, App\Models\UserCategory, App\Models\Allergy, App\Models\Product;
 use App\Models\UserToken;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use DB, stdClass;
 
 class AuthController extends ApiController
 {
@@ -22,6 +23,10 @@ class AuthController extends ApiController
         $this->statusCode = Response::HTTP_OK;
         $this->message = '';
         $this->objUser = new User();
+        $this->objMenuBranding = new MenuBranding();
+        $this->objUserCategory = new UserCategory();
+        $this->objAllergy = new Allergy();
+        $this->objProduct = new Product();
     }
 
     public function authenticate(Request $request)
@@ -136,7 +141,232 @@ class AuthController extends ApiController
         return response()->json(['user' => $user]);
     }
 
-    public function getMenu(User $slug, $appLanguage='en'){
-        _pre($slug);
+    public function getMenu(User $user, $appLanguage='en'){
+        $appLanguage = _getAppLang();
+        $responseData= array();
+        try {
+            if($user){
+                // $userId = $this->user->id;
+                // _pre($user);
+                $userId = $user->id;
+
+                $responseBranding = $this->objMenuBranding->getOneByUserId($userId);
+                if($responseBranding){
+                    unset($responseBranding->user_id);
+                    if(!empty($responseBranding->brand_logo)){
+                        $responseBranding->brandLogoUrl = url('uploads/menu_branding/').'/'.$responseBranding->brand_logo;
+                    }
+                    else{
+                        $responseBranding->brandLogoUrl = "";
+                    }
+                }
+
+                $responseCategories = $this->objUserCategory->getUserSelectedCategories1($userId);
+                if($responseCategories){
+                    foreach($responseCategories as $key => $categoryInfo)
+                    {
+                        $responseCategories[$key]->originalName = $categoryInfo->name;
+                        if($appLanguage=="en"){
+                            $responseCategories[$key]->name = $categoryInfo->name;
+                        }
+                        else if($appLanguage=="es"){
+                            $responseCategories[$key]->name = $categoryInfo->spanish;
+                        }
+                        
+                        $responseCategories[$key]->slug = _generateSeoURL($categoryInfo->name);
+                        $responseProducts = $this->objProduct->getProductData($categoryInfo->category_id, $userId);
+
+                        if($responseProducts){
+                            foreach ($responseProducts as $productKey => $productInfo)
+                            {
+                                if(!empty($productInfo->product_main_image)){
+                                    $responseProducts[$productKey]->productMainImageUrl = url('uploads/product/').'/'.$productInfo->product_main_image;
+                                }
+                                else{
+                                    $responseProducts[$productKey]->productMainImageUrl = "";
+                                }
+                                $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
+                                $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
+                                $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);
+                                $responseProducts[$productKey]->product_12r = _number_format($productInfo->product_12r);
+                                $responseAllergies = $this->objAllergy->getProductAllergies($productInfo->product_id);
+                                if($responseAllergies){
+                                    foreach ($responseAllergies as $allergyKey => $allergyInfo){
+                                        $responseAllergies[$allergyKey]->originalName = $allergyInfo->name;
+                                        if($appLanguage=="en"){
+                                            $responseAllergies[$allergyKey]->name = $allergyInfo->name;
+                                        }
+                                        else if($appLanguage=="es"){
+                                            $responseAllergies[$allergyKey]->name = $allergyInfo->spanish;
+                                        }
+                                    }
+                                }
+                                $responseProducts[$productKey]->responseAllergies = $responseAllergies;
+                            }
+                        }
+
+                        $responseCategories[$key]->responseProducts = $responseProducts;
+                    }
+                    // _pre($responseCategories);
+                }
+
+                $responseAllergies = $this->objAllergy->getAllAllergies();
+                if($responseAllergies){
+                    foreach ($responseAllergies as $key => $value) {
+                        $responseAllergies[$key]->originalName = $value->name;
+                        if($appLanguage=="en"){
+                            $responseAllergies[$key]->name = $value->name;
+                        }
+                        else if($appLanguage=="es"){
+                            $responseAllergies[$key]->name = $value->spanish;
+                        }
+                    }
+                }
+
+                $responseData = array(
+                    'userInfo' => $user,
+                    'branding' => $responseBranding,
+                    'categories' => $responseCategories,
+                    // 'allAllergies' => $responseAllergies,
+                );
+                // _pre($responseData);
+                return response()->json([
+                    'status' => $this->status,
+                    'message' => $this->message,
+                    'data' => $responseData
+                ], $this->statusCode);
+            }
+            else{
+                $this->status = false;
+                $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+            }
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => __('api.common_error_500'),
+            ], 500);
+        }
     }
+
+    public function searchItem(Request $request)
+    {
+        // _pre($request->all());
+        $data = $request->only('slug', 'searchText');
+        $validator = Validator::make($data, [
+            'slug' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $this->status = false;
+            $this->statusCode = Response::HTTP_BAD_REQUEST;
+            $this->message = _lvValidations($validator->messages()->get('*'));
+            $responseData = array('status'=>$this->status,'message'=>$this->message,'statusCode'=>$this->statusCode,'data'=>array());
+            return response()->json($responseData,$this->statusCode);
+        }
+        $slug = $request->slug;
+        $searchText = $request->searchText;
+        $appLanguage = _getAppLang();
+        $responseData= array();
+        try {
+            $user = $this->objUser->getInfoBySlug($slug);
+            if($user){
+                // _pre($user);
+                $userId = $user->id;
+                $responseBranding = $this->objMenuBranding->getOneByUserId($userId);
+                if($responseBranding){
+                    unset($responseBranding->user_id);
+                    if(!empty($responseBranding->brand_logo)){
+                        $responseBranding->brandLogoUrl = url('uploads/menu_branding/').'/'.$responseBranding->brand_logo;
+                    }
+                    else{
+                        $responseBranding->brandLogoUrl = "";
+                    }
+                }
+                
+                $responseCategories = $this->objUserCategory->getUserSelectedCategories1($userId);
+                $categoryIdsArray = array();
+                if($responseCategories){
+                    foreach($responseCategories as $key => $categoryInfo){
+                        array_push($categoryIdsArray, $categoryInfo->category_id);
+                    }
+                    $responseProducts = $this->objProduct->searchProduct($categoryIdsArray, $userId, $searchText);
+                    if($responseProducts){
+                        foreach($responseCategories as $key => $categoryInfo)
+                        {
+                            $responseCategories[$key]->originalName = $categoryInfo->name;
+                            if($appLanguage=="en"){
+                                $responseCategories[$key]->name = $categoryInfo->name;
+                            }
+                            else if($appLanguage=="es"){
+                                $responseCategories[$key]->name = $categoryInfo->spanish;
+                            }
+                            
+                            $responseCategories[$key]->slug = _generateSeoURL($categoryInfo->name);
+
+                            $responseCategories[$key]->responseProducts = array();
+                            $productArr = $this->_objectArraySearch($responseProducts, 'category_id', $categoryInfo->category_id);
+                            $responseCategories[$key]->responseProducts = $productArr;
+                        }
+                        $responseData = array(
+                            'categories' => $responseCategories,
+                        );
+                        // _pre($responseData);
+                        return response()->json([
+                            'status' => $this->status,
+                            'message' => $this->message,
+                            'data' => $responseData
+                        ], $this->statusCode);
+                    }
+                    else{
+                        $this->status = false;
+                        $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+                    }
+                }
+                else{
+                    $this->status = false;
+                    $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+                }
+            }
+            else{
+                $this->status = false;
+                $this->message = __('api.common_not_found',['module'=> __('api.module_product')]);
+            }
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => __('api.common_error_500'),
+            ], 500);
+        }
+    }
+
+    public function _objectArraySearch($array, $index, $value)
+    {
+        $appLanguage = _getAppLang();
+        $productArr = array();
+        foreach($array as $key => $arrayInf) {
+            if($arrayInf->{$index} == $value) {
+                if(!empty($arrayInf->product_main_image)){
+                    $arrayInf->productMainImageUrl = url('uploads/product/').'/'.$arrayInf->product_main_image;
+                }
+                else{
+                    $arrayInf->productMainImageUrl = "";
+                }
+                $allergies = array();
+                $allergies = $this->objAllergy->getProductAllergies($arrayInf->product_id);
+                if($allergies){
+                    foreach ($allergies as $allergyKey => $allergyValue) {
+                        $allergies[$allergyKey]->originalName = $allergyValue->name;
+                        if($appLanguage=="en"){
+                            $allergies[$allergyKey]->name = $allergyValue->name;
+                        }
+                        else if($appLanguage=="es"){
+                            $allergies[$allergyKey]->name = $allergyValue->spanish;
+                        }
+                    }
+                }
+                $arrayInf->allergies = $allergies;
+                array_push($productArr, $arrayInf);
+            }
+        }
+        return $productArr;
+    }           
 }

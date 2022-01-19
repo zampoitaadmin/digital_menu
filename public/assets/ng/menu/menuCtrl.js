@@ -1,29 +1,33 @@
 
-bbAppControllers.controller('menuCtrl', ['$scope', '$location','$stateParams', 'menuService', function ($scope, $location, $stateParams, menuService) {
+bbAppControllers.controller('menuCtrl', ['$scope', '$window', '$location','$stateParams', 'menuService', 'Notification', function ($scope, $window, $location, $stateParams, menuService, Notification) {
     console.info("IN Menu Ctrl");
-    alert("IN Menu Ctrl");
-    //alert($stateParams.sso);
-    //$log.error($scope.requestFormData);
-    // $scope.message = 'Connecting Custom Menu Server...';
-
-    //alert("IN SSO Ctrl");
-    //alert($stateParams.sso);
-    //$log.error($scope.requestFormData);
-    // $scope.message = 'Connecting Custom Menu Server...';
+    $scope.searchText = "";
+    $scope.loaderMenu = false;
     $scope.loadMenuPage = function() {
+        $scope.loaderMenu = $window.loaderText;
         var appLanguage = "en";
-        menuService.getBySlug(
-            $stateParams.slug,
-            appLanguage,
-            function(response){
-                debugger;
-                // console.info("IN SSO Ctrl Success");
-                // //$location.path('/'); //Redirect on merchant page
-                // window.location = '/custom-menu';
+        menuService.getBySlug($stateParams.slug, appLanguage, function(response){
+                $scope.loaderMenu = '';
+                $scope.userInfo = response.data.data.userInfo;
+                $scope.branding = response.data.data.branding;
+                $scope.userSelectedCategories = response.data.data.categories;
+                let allAllergies = [];
+                angular.forEach(response.data.data.allAllergies, function (value, key) {
+                    this.push({
+                        'id': value.id,
+                        'name': value.name,
+                    });
+                }, allAllergies);
+                $scope.allAllergies = allAllergies;
+                if(!response.status){
+                    $scope.loaderMenu =  response.data.data.message;
+                    $scope.loaderMenu = '<span class="text-info">' + response.message + '</span>';
+                }
             },
             function(response){
                 // console.error(response);
                 console.error("IN SSO Ctrl Error");
+                $scope.loaderMenu = '';
                 if(response.status!=200){
                     if(angular.isObject(response.data.message)){
                         //$scope.requestFormDataError = response.data.message;
@@ -31,7 +35,6 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$location','$stateParams', '
                         // bbNotification.error(response.data.message);
                         $scope.message = '<span class="text-danger">'+response.data.message+'</span>';
                     }
-
                     //alert('Something went wrong with the login process. Try again later!');
                 }
                 //$location.path('/custom-menu'); //Redirect on merchant page
@@ -39,10 +42,37 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$location','$stateParams', '
             }
         );
     }
+    $scope.searchItem = function() {
+        // console.log($scope.searchText);
+        $scope.loaderMenu = $window.loaderText;
+        let formData = new FormData();
+        formData.append('slug', $stateParams.slug);
+        formData.append('searchText', $scope.searchText);
+        menuService.searchItem(formData, function(response){
+                $scope.loaderMenu = '';
+                if(response.status){
+                    $scope.userSelectedCategories = response.data.categories;
+                }else{
+                    //
+                }
+            }, function(response){
+                console.error(" In Update ERROR");
+                var responseData = response.data;
+                if(response.status != 200){
+                    if(angular.isObject(responseData.message)){
+                        $scope.formCrudRequestErrors =  responseData.message;
+                    }else{
+                        if(responseData.message.length==0){
+                            $scope.formCrudRequestErrors.message = $window.msgError;
+                        }else {
+                            Notification.error(responseData.message);
+                        }
+                    }
+                }
+            }
+        );
+    }
     //if(ssoService.checkIfLoggedIn())
     //$location.path('/'); //Redirect on merchant page
     $scope.loadMenuPage();
-
-
-    
 }]);

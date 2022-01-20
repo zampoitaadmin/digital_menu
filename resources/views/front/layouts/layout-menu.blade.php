@@ -11,7 +11,6 @@
 </head>
 <body ng-app="bbApp"  ng-cloak class="ng-cloak" data-spy="scroll" data-target=".tab-panel" data-offset="50">
     @yield('content')
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     @include('front.layouts.scripts-menu')
     <style type="text/css">
         [ng:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

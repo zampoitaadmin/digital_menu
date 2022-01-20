@@ -27,6 +27,10 @@ class AuthController extends ApiController
         $this->objUserCategory = new UserCategory();
         $this->objAllergy = new Allergy();
         $this->objProduct = new Product();
+        $this->productMainImageUrl = url('uploads/product/');
+        $this->productFixedStarterUrl = url('uploads/product_fixed/starter/');
+        $this->productFixedCourseUrl = url('uploads/product_fixed/course/');
+        $this->productFixedDesertUrl = url('uploads/product_fixed/desert/');
     }
 
     public function authenticate(Request $request)
@@ -179,11 +183,39 @@ class AuthController extends ApiController
                         if($responseProducts){
                             foreach ($responseProducts as $productKey => $productInfo)
                             {
-                                if(!empty($productInfo->product_main_image)){
-                                    $responseProducts[$productKey]->productMainImageUrl = url('uploads/product/').'/'.$productInfo->product_main_image;
+                                if($categoryInfo->category_type == "Normal"){
+                                    if(!empty($productInfo->product_main_image)){
+                                        $responseProducts[$productKey]->productMainImageUrl = $this->productMainImageUrl.'/'.$productInfo->product_main_image;
+                                    }
+                                    else{
+                                        $responseProducts[$productKey]->productMainImageUrl = "";
+                                    }
                                 }
-                                else{
-                                    $responseProducts[$productKey]->productMainImageUrl = "";
+                                else if($categoryInfo->category_type == "Fixed"){
+                                    if($productInfo->product_type == "starter"){
+                                        if(!empty($productInfo->product_main_image)){
+                                            $responseProducts[$productKey]->productMainImageUrl = $this->productFixedStarterUrl.'/'.$productInfo->product_main_image;
+                                        }
+                                        else{
+                                            $responseProducts[$productKey]->productMainImageUrl = "";
+                                        }
+                                    }
+                                    else if($productInfo->product_type == "course"){
+                                        if(!empty($productInfo->product_main_image)){
+                                            $responseProducts[$productKey]->productMainImageUrl = $this->productFixedCourseUrl.'/'.$productInfo->product_main_image;
+                                        }
+                                        else{
+                                            $responseProducts[$productKey]->productMainImageUrl = "";
+                                        }
+                                    }
+                                    else if($productInfo->product_type == "desert"){
+                                        if(!empty($productInfo->product_main_image)){
+                                            $responseProducts[$productKey]->productMainImageUrl = $this->productFixedDesertUrl.'/'.$productInfo->product_main_image;
+                                        }
+                                        else{
+                                            $responseProducts[$productKey]->productMainImageUrl = "";
+                                        }
+                                    }
                                 }
                                 $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
                                 $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
@@ -303,7 +335,7 @@ class AuthController extends ApiController
                             $responseCategories[$key]->slug = _generateSeoURL($categoryInfo->name);
 
                             $responseCategories[$key]->responseProducts = array();
-                            $productArr = $this->_objectArraySearch($responseProducts, 'category_id', $categoryInfo->category_id);
+                            $productArr = $this->_objectArraySearch($responseProducts, 'category_id', $categoryInfo->category_id, $categoryInfo);
                             $responseCategories[$key]->responseProducts = $productArr;
                         }
                         $responseData = array(
@@ -338,17 +370,45 @@ class AuthController extends ApiController
         }
     }
 
-    public function _objectArraySearch($array, $index, $value)
+    public function _objectArraySearch($array, $index, $value, $categoryInfo)
     {
         $appLanguage = _getAppLang();
         $productArr = array();
         foreach($array as $key => $arrayInf) {
             if($arrayInf->{$index} == $value) {
-                if(!empty($arrayInf->product_main_image)){
-                    $arrayInf->productMainImageUrl = url('uploads/product/').'/'.$arrayInf->product_main_image;
+                if($categoryInfo->category_type == "Normal"){
+                    if(!empty($arrayInf->product_main_image)){
+                        $arrayInf->productMainImageUrl = $this->productMainImageUrl.'/'.$arrayInf->product_main_image;
+                    }
+                    else{
+                        $arrayInf->productMainImageUrl = "";
+                    }
                 }
-                else{
-                    $arrayInf->productMainImageUrl = "";
+                else if($categoryInfo->category_type == "Fixed"){
+                    if($arrayInf->product_type == "starter"){
+                        if(!empty($arrayInf->product_main_image)){
+                            $arrayInf->productMainImageUrl = $this->productFixedStarterUrl.'/'.$arrayInf->product_main_image;
+                        }
+                        else{
+                            $arrayInf->productMainImageUrl = "";
+                        }
+                    }
+                    else if($arrayInf->product_type == "course"){
+                        if(!empty($arrayInf->product_main_image)){
+                            $arrayInf->productMainImageUrl = $this->productFixedCourseUrl.'/'.$arrayInf->product_main_image;
+                        }
+                        else{
+                            $arrayInf->productMainImageUrl = "";
+                        }
+                    }
+                    else if($arrayInf->product_type == "desert"){
+                        if(!empty($arrayInf->product_main_image)){
+                            $arrayInf->productMainImageUrl = $this->productFixedDesertUrl.'/'.$arrayInf->product_main_image;
+                        }
+                        else{
+                            $arrayInf->productMainImageUrl = "";
+                        }
+                    }
                 }
                 $allergies = array();
                 $allergies = $this->objAllergy->getProductAllergies($arrayInf->product_id);

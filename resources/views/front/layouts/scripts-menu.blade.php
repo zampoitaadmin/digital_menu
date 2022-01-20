@@ -1,4 +1,8 @@
 <script src="{{-- asset('assets/front-menu/js/aos.js') --}}"></script>
+<script type="text/javascript" src="{{ asset('assets/front-menu/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/front-menu/js/popper.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/front-menu/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/front-menu/js/4077c6ef6a.js') }}"></script>
 <script src="xPlugins/angular-libs/bower_components/angular/angular.min.js"></script>
 <script src="xPlugins/angular-libs/bower_components/angular-sanitize/angular-sanitize-1.2.20.min.js"></script>
 <script src="xPlugins/angular-libs/bower_components/lodash/dist/lodash.min.js"></script>

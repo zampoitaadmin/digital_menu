@@ -2,6 +2,9 @@
 bbAppControllers.controller('menuCtrl', ['$scope', '$window', '$location','$stateParams', 'menuService', 'Notification', function ($scope, $window, $location, $stateParams, menuService, Notification) {
     console.info("IN Menu Ctrl");
     $scope.searchText = "";
+    $scope.brandColor = '#A77337'; // 
+    $scope.secondaryColor = '#000000'; // 
+    $scope.thirdColor = '#ffffff'; // 
     $scope.loaderMenu = false;
     $scope.loadMenuPage = function() {
         $scope.loaderMenu = $window.loaderText;
@@ -19,6 +22,13 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$window', '$location','$stat
                     });
                 }, allAllergies);
                 $scope.allAllergies = allAllergies;
+
+                if($scope.branding){
+                    $scope.brandColor = $scope.branding.brand_color;
+                    $scope.secondaryColor = $scope.branding.secondary_color;
+                    $scope.thirdColor = $scope.branding.third_color;
+                }
+
                 if(!response.status){
                     $scope.loaderMenu =  response.data.data.message;
                     $scope.loaderMenu = '<span class="text-info">' + response.message + '</span>';

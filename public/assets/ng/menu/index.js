@@ -39,11 +39,11 @@
 $('.menu__link').on("click", function () {
     $('.menu__toggle').click();
 });
-$('#myModal').on('shown.bs.modal', function () {
+/*$('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
 })
 $('.openProductModal').click(function (e) {
-});
+});*/
 $(document).ready(function () {
     $('ul.nav-pills li a').click(function (e) {
         $('ul.nav-pills li.active').removeClass('active')

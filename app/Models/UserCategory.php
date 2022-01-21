@@ -55,6 +55,7 @@ class UserCategory extends Model
         });
         $dataBase->leftJoin('merchant_fixed_menu_data', function ($leftJoin) {
             $leftJoin->on('user_category.category_id', '=', 'merchant_fixed_menu_data.category_id');
+            $leftJoin->on('user_category.user_id', '=', 'merchant_fixed_menu_data.user_id');
         });
         $dataBase->where('category.status', 'active');
         $dataBase->groupBy('user_category.category_id');

@@ -153,6 +153,7 @@ class AuthController extends ApiController
                 // $userId = $this->user->id;
                 // _pre($user);
                 $userId = $user->id;
+                $attachmentArray = json_decode($user->attachment, true);
 
                 $responseBranding = $this->objMenuBranding->getOneByUserId($userId);
                 if($responseBranding){
@@ -160,12 +161,17 @@ class AuthController extends ApiController
                     if(!empty($responseBranding->brand_logo)){
                         $responseBranding->brandLogoUrl = url('uploads/menu_branding/').'/'.$responseBranding->brand_logo;
                     }
+                    else if( !empty($attachmentArray) && !empty(@$attachmentArray['logo']) ){
+                        $responseBranding->brandLogoUrl = _getHomeUrl('assets/uploads/merchant/').$userId.'/'.$attachmentArray['logo'];
+                    }
                     else{
                         $responseBranding->brandLogoUrl = "";
                     }
                 }
 
+                // DB::enableQueryLog();
                 $responseCategories = $this->objUserCategory->getUserSelectedCategories1($userId);
+                // _pre(DB::getQueryLog());
                 if($responseCategories){
                     foreach($responseCategories as $key => $categoryInfo)
                     {

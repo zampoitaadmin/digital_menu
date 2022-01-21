@@ -401,7 +401,12 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 let formData = new FormData();
                 formData.append('categoryId', $scope.requestDataFixedMenu.categoryId);
                 formData.append('categoryName', $scope.requestDataFixedMenu.categoryName);
-                formData.append('changeCategoryName', $scope.requestDataFixedMenu.changeCategoryName);
+                if($scope.requestDataFixedMenu.changeCategoryName){
+                    formData.append('changeCategoryName', $scope.requestDataFixedMenu.changeCategoryName);
+                }
+                else{
+                    formData.append('changeCategoryName', '');
+                }
                 formData.append('menuDescriptionConditions', $scope.requestDataFixedMenu.menuDescriptionConditions);
                 formData.append('id', $scope.requestDataFixedMenu.id);
                 formData.append('merchantFixedMenuDataId', $scope.requestDataFixedMenu.merchantFixedMenuDataId);
@@ -457,7 +462,12 @@ bbAppControllers.controller('fixedMenuCtrl', ['$scope', '$location','$stateParam
                 let formData = new FormData();
                 formData.append('categoryId', $scope.requestDataFixedMenu.categoryId);
                 formData.append('categoryName', $scope.requestDataFixedMenu.categoryName);
-                formData.append('changeCategoryName', $scope.requestDataFixedMenu.changeCategoryName);
+                if($scope.requestDataFixedMenu.changeCategoryName){
+                    formData.append('changeCategoryName', $scope.requestDataFixedMenu.changeCategoryName);
+                }
+                else{
+                    formData.append('changeCategoryName', '');
+                }
                 formData.append('menuDescriptionConditions', $scope.requestDataFixedMenu.menuDescriptionConditions);
                 formData.append('fixedMenuPrice', $scope.requestDataFixedMenu.fixedMenuPrice);
                 formData.append('id', $scope.requestDataFixedMenu.id);

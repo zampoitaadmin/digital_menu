@@ -51,7 +51,7 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$window', '$location','$stat
                 //window.location = '/custom-menu/';
             }
         );
-    }
+    };
     $scope.searchItem = function() {
         // console.log($scope.searchText);
         $scope.loaderMenu = $window.loaderText;
@@ -81,7 +81,16 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$window', '$location','$stat
                 }
             }
         );
-    }
+    };
+    $scope.showRecordFun = function(record){
+        $scope.formCrudRequestData = { 'productMainImageUrl':record.productMainImageUrl,
+            'responseAllergies':record.responseAllergies,
+            'productPrice':record.product_price,
+            'productName':record.product_name,
+            'productDescription':record.product_description,
+            'id':record.product_id };
+        $('#regular_modal').modal('show');
+    };
     //if(ssoService.checkIfLoggedIn())
     //$location.path('/'); //Redirect on merchant page
     $scope.loadMenuPage();

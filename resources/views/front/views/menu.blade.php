@@ -19,6 +19,9 @@
             #product_details{
                 background: @{{brandColor}};
             }
+            .custom-btn{
+                background: @{{brandColor}};
+            }
             .tab-panel .nav .nav-item .active{
                 background-color: @{{brandColor}} !important;
             }
@@ -162,10 +165,10 @@
                                     <!-- <h6 class="item-list mt-md-3 mb-md-0 text-black">Test appetizer 2</h6> -->
                                     <div class="row product_bottom_border py-md-3" ng-repeat="product in category.responseProducts">
                                         <div class="col-sm-2">
-                                            <img data-toggle="modal" data-target="#regular_modal" src="@{{ product.productMainImageUrl }}" class="img-fluid  product-img" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <img src="@{{ product.productMainImageUrl }}" class="img-fluid  product-img" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';" ng-click="showRecordFun(product)">
                                         </div>
                                         <div class="col-sm-6">
-                                            <h4 class="card-title" data-toggle="modal" data-target="#regular_modal">@{{ product.product_name }}</h4>
+                                            <h4 class="card-title" ng-click="showRecordFun(product)">@{{ product.product_name }}</h4>
                                             <p class="card-text">@{{ product.product_description }}</p>
                                             <div class="productAllergiesDiv">
                                                 <img ng-repeat="allergy in product.responseAllergies" src="{{ _getHomeUrl('assets/allergy/') }}@{{allergy.image}}" class="for-svg_height mr-1" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
@@ -215,8 +218,8 @@
                                     </div>
                                     <div class="row product_bottom_border py-md-3 text-center">
                                         <div class="col-sm-3" ng-repeat="product in category.responseProducts" ng-if="product.product_type=='starter'">
-                                            <img data-toggle="modal" data-target="#regular_modal" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
-                                            <h6 class="mt-3 mb-1">@{{ product.product_name }}</h6>
+                                            <img ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <h6 class="mt-3 mb-1" ng-click="showRecordFun(product)">@{{ product.product_name }}</h6>
                                             <p class="mb-0 p-list-p-tag">@{{ product.product_description }}</p>
                                         </div>
                                     </div>
@@ -225,8 +228,8 @@
                                     </div>
                                     <div class="row product_bottom_border py-md-3 text-center">
                                         <div class="col-sm-3" ng-repeat="product in category.responseProducts" ng-if="product.product_type=='course'">
-                                            <img data-toggle="modal" data-target="#regular_modal" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
-                                            <h6 class="mt-3 mb-1">@{{ product.product_name }}</h6>
+                                            <img ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <h6 class="mt-3 mb-1" ng-click="showRecordFun(product)">@{{ product.product_name }}</h6>
                                             <p class="mb-0 p-list-p-tag">@{{ product.product_description }}</p>
                                         </div>
                                     </div>
@@ -235,8 +238,8 @@
                                     </div>
                                     <div class="row product_bottom_border py-md-3 text-center">
                                         <div class="col-sm-3" ng-repeat="product in category.responseProducts" ng-if="product.product_type=='desert'">
-                                            <img data-toggle="modal" data-target="#regular_modal" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
-                                            <h6 class="mt-3 mb-1">@{{ product.product_name }}</h6>
+                                            <img ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <h6 class="mt-3 mb-1" ng-click="showRecordFun(product)">@{{ product.product_name }}</h6>
                                             <p class="mb-0 p-list-p-tag">@{{ product.product_description }}</p>
                                         </div>
                                     </div>
@@ -248,7 +251,6 @@
                 </div>
             </div>
         </section>
-
         <!-- <===================================Modal-1===============================================> -->
         <div class="modal full fade" id="fullscreen_modal" tabindex="-1" role="dialog" aria-labelledby="fullscreen_modal">
             <div class="modal-dialog" role="document">
@@ -428,33 +430,25 @@
                                 <div class="row">
                                     <div class="col-md-4 p-0">
                                         <div class="img-box">
-                                            <img src="{{ url('assets/front-menu/images/pop_up_img-1.jpg') }}" width="100%" class="img-fluid" id="ProductImg">              
+                                            <img src="@{{formCrudRequestData.productMainImageUrl}}" width="100%" class="img-fluid" id="ProductImg">              
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <h1 class="product-title">Lorem ipsum dolor consectetur adipisicing inventore</h1>
-                                        <img src="{{ url('assets/front-menu/images/1.svg') }}" class="for-svg_height" >
-                                        <img src="{{ url('assets/front-menu/images/2.svg') }}" class="for-svg_height" >
-                                        <img src="{{ url('assets/front-menu/images/3.svg') }}" class="for-svg_height" >
-                                        <img src="{{ url('assets/front-menu/images/4.svg') }}" class="for-svg_height" >
-                                        <img src="{{ url('assets/front-menu/images/5.svg') }}" class="for-svg_height" >
+                                        <h1 class="product-title">@{{formCrudRequestData.productName}}</h1>
+                                        <div class="productAllergiesDiv">
+                                            <img ng-repeat="allergy in formCrudRequestData.responseAllergies" src="{{ _getHomeUrl('assets/allergy/') }}@{{allergy.image}}" class="for-svg_height mr-1" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                        </div>
                                         <div id="product" class="product-inf">
                                             <div class="tabs-content">
                                                 <div id="Description">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, inventore magnam! Natus, quibusdam ea? Modi nemo corrupti alias quae quis.</p>
-                                                </div>
-                                                <div id="Description">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, inventore magnam! Natus, quibusdam ea? Modi nemo corrupti alias quae quis.</p>
-                                                </div>
-                                                <div id="Description">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, inventore magnam! Natus, quibusdam ea? Modi nemo corrupti alias quae quis.</p>
+                                                    <p>@{{formCrudRequestData.productDescription}}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="buttons">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a href="#" class="custom-btn">Order Now</a>
+                                                    <a href="#" class="custom-btn">{{ config('constants.currency') }}@{{ formCrudRequestData.productPrice }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -463,10 +457,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        </div> -->
                 </div>
             </div>
         </div>

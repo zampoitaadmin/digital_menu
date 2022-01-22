@@ -22,6 +22,14 @@ class HomeController extends Controller{
     }
     public function sso($token=null)
     {
+        if( session('sso_token') == $token ){
+            //
+        }
+        else{
+            session()->forget(['sso_token', 'is_admin_login', 'is_front_active', 'login_details', 'cart_user_id','userId']);
+            \Session::flush();
+            Auth::logout();
+        }
         if(\Session::get('is_front_active') == 1){
             return redirect()->route('custom-menu');
         }
@@ -60,7 +68,7 @@ class HomeController extends Controller{
     }
     public function logout(Request $request){
         // $request->session()->forget(['is_front_active', 'login_details']);
-        $request->session()->forget(['is_front_active', 'login_details', 'cart_user_id','userId']);
+        $request->session()->forget(['sso_token', 'is_admin_login', 'is_front_active', 'login_details', 'cart_user_id','userId']);
         \Session::flush();
 
         Auth::logout();

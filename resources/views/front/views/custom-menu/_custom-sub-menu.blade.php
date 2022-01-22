@@ -14,10 +14,10 @@
                 <a class="nav-link btn_custom_for_only_border forFontFamilyOnly text-white"  ng-class="{active: currentTab == 'setting'}" href="custom-menu#setting" data-toggle="tab">{{ __('message_lang.setting_text_1') }} @{{ currentTab }}</a>
             </li>
             <li class="nav-item m-2">
-                <a class="nav-link btn_custom_for_only_border forFontFamilyOnly text-white" href="{{ _getMerchantDashboardUrl() }}" data-toggle="tab">{{ __('message_lang.dashboard_text_1') }}</a>
+                <a class="nav-link btn_custom_for_only_border forFontFamilyOnly text-white" href="{{ _getMerchantDashboardUrl() }}">{{ __('message_lang.dashboard_text_1') }}</a>
             </li>
             <li class="nav-item m-2">
-                <a class="nav-link btn_custom_for_only_border forFontFamilyOnly text-white" href="#" data-toggle="tab">{{ __('message_lang.preview_text_1') }}</a>
+                <a class="nav-link btn_custom_for_only_border forFontFamilyOnly text-white" href="{{ route('menu', ['slug' => session('login_details')->slug]) }}" target="_blank">{{ __('message_lang.preview_text_1') }}</a>
             </li>
         </ul>
     </div>

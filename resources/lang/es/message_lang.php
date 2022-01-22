@@ -4,7 +4,7 @@ return [
     'common_error_505' => "Algo fue mal",
     'common_error_400' => "Algo fue mal",
 
-    'connecting_text_1' => "SSO Conectando...",
+    'connecting_text_1' => "Conectando...",
     'connecting_text_2' => "Servidor de Menú Personalizado Conectando...",
 
     'dashboard_text_1' => 'Tablero',

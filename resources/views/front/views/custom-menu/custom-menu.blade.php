@@ -1,6 +1,6 @@
 @extends('front.layouts.layout')
 @section('title')
-    custom-menu
+    Zampoita Menu
 @endsection
 
 @section('meta')

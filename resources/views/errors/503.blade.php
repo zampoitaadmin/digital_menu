@@ -1,5 +1,5 @@
 @extends("front.layouts.layout")
-@section("title", "Error | Slate Sign")
+@section("title", "Error | Zampoita Menu")
 @section("page_style")
 @endsection
 @section("content")

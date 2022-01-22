@@ -10,6 +10,7 @@ bbAppServices.factory('menuService', ['Restangular', '$http', 'localStorageServi
     }*/
 
     function getBySlug(slug, appLanguage, onSuccess, onError){
+        // $http.get(secondUriSegment+'/api/menu/'+slug+'/'+appLanguage).
         $http.get('api/menu/'+slug+'/'+appLanguage).
             then(function(response) {
                 onSuccess(response);
@@ -27,6 +28,7 @@ bbAppServices.factory('menuService', ['Restangular', '$http', 'localStorageServi
     }*/
 
     function searchItem(data, onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/menu').withHttpConfig({
         Restangular.all('api/menu').withHttpConfig({
             transformRequest: angular.identity
         }).customPOST(data, undefined, undefined, {

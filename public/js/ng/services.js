@@ -18,7 +18,9 @@ bbAppServices.factory('ssoService', ['$http', 'localStorageService', function($h
     }
 
     function connectSso(ssoToken, onSuccess, onError){
-        $http.post('/api/auth/connect-sso',
+        // let url = '/' + secondUriSegment + '/api/auth/connect-sso';
+        let url = '/api/auth/connect-sso';
+        $http.post(url,
             {
                 sso: ssoToken,
             }).

@@ -1,6 +1,7 @@
 bbAppServices.factory('categoryService', ['Restangular', 'userService', function(Restangular, userService) {
 
     function getAll(onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/categories').customGET(appLanguage).then(function(response){
         Restangular.all('api/categories').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
@@ -9,6 +10,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
         });
     }
     function getAllOnlyByUser(onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/categories-user').customGET(appLanguage).then(function(response){
         Restangular.all('api/categories-user').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
@@ -18,6 +20,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
     function getUserSelectedCategories(onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/user-selected-categories').customGET(appLanguage).then(function(response){
         Restangular.all('api/user-selected-categories').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
@@ -27,6 +30,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
     function getAllAllergies(onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/all-allergies').customGET(appLanguage).then(function(response){
         Restangular.all('api/all-allergies').customGET(appLanguage).then(function(response){
             onSuccess(response);
         }, function(response){
@@ -36,6 +40,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
     function create(data, onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/categories').post(data).then(function(response){
         Restangular.all('api/categories').post(data).then(function(response){
 
             onSuccess(response);
@@ -48,6 +53,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
 
     function remove(id, appLanguage, onSuccess, onError){
+        // Restangular.one(secondUriSegment+'/api/categories/'+id+'/'+appLanguage).remove().then(function(response){
         Restangular.one('api/categories/'+id+'/'+appLanguage).remove().then(function(response){
 
             onSuccess(response);
@@ -61,6 +67,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
 
 
     function update(id, data, onSuccess, onError){
+        // Restangular.one(secondUriSegment+"/api/categories").customPUT(data, id).then(function(response) {
         Restangular.one("api/categories").customPUT(data, id).then(function(response) {
                 onSuccess(response);
             }, function(response){
@@ -71,6 +78,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
 
 
     function updateUserCategoryOrder(data, onSuccess, onError){
+        // Restangular.all(secondUriSegment+"/api/categories/update-user-category-order").post(data).then(function(response) {
         Restangular.all("api/categories/update-user-category-order").post(data).then(function(response) {
                 onSuccess(response);
             }, function(response){
@@ -81,6 +89,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
 
 
     function assignCategory(data, onSuccess, onError){
+        // Restangular.all(secondUriSegment+'/api/categories/assign').post(data).then(function(response){
         Restangular.all('api/categories/assign').post(data).then(function(response){
             onSuccess(response);
         }, function(response){
@@ -89,6 +98,7 @@ bbAppServices.factory('categoryService', ['Restangular', 'userService', function
     }
     /* OLD REF */
     function getById(bookId, onSuccess, onError){
+        // Restangular.one(secondUriSegment+'/api/books', bookId).get().then(function(response){
         Restangular.one('api/books', bookId).get().then(function(response){
             onSuccess(response);
         }, function(response){

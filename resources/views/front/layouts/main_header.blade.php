@@ -92,4 +92,14 @@
 </header>
 <script type="text/javascript">
     var appLanguage = "{{ $appLanguage }}";
+    @php
+        $uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    @endphp
+    @if( !empty($uriSegments) && isset($uriSegments[1]) )
+        // var secondUriSegment = "{{ $uriSegments[1] }}";
+        var secondUriSegment = "{{ $uriSegments[1] }}"+"/public";
+        // var secondUriSegment = "";
+    @else
+        var secondUriSegment = "";
+    @endif
 </script>

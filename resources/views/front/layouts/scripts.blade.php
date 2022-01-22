@@ -270,16 +270,16 @@
 <script type='text/javascript' src='{{ asset("assets/ng/main.js".'?t='.time()) }}'></script>--}}
 
 
-<script src="xPlugins/angular-libs/bower_components/angular/angular.min.js"></script>
+<script src='{{ asset("xPlugins/angular-libs/bower_components/angular/angular.min.js") }}'></script>
 {{--<script src="//code.angularjs.org/1.2.20/angular-sanitize.min.js"></script>--}}
-<script src="xPlugins/angular-libs/bower_components/angular-sanitize/angular-sanitize-1.2.20.min.js"></script>
+<script src='{{ asset("xPlugins/angular-libs/bower_components/angular-sanitize/angular-sanitize-1.2.20.min.js") }}'></script>
 {{--<script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js" charset="utf-8">--}}
-<script src="xPlugins/angular-libs/bower_components/lodash/dist/lodash.min.js"></script>
+<script src='{{ asset("xPlugins/angular-libs/bower_components/lodash/dist/lodash.min.js") }}'></script>
 {{--<script src="xPlugins/angular-libs/bower_components/angular-route/angular-route.min.js"></script>--}}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.30/angular-ui-router.min.js"></script>
-<script src="xPlugins/angular-libs/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-<script src="xPlugins/angular-libs/bower_components/restangular/dist/restangular.min.js"></script>
+<script src='{{ asset("xPlugins/angular-libs/bower_components/angular-local-storage/dist/angular-local-storage.min.js") }}'></script>
+<script src='{{ asset("xPlugins/angular-libs/bower_components/restangular/dist/restangular.min.js") }}'></script>
 <script src="{{ url('xPlugins/angular-libs/bower_components/angular-ui-notification/angular-ui-notification.js') }}"></script>
 <link rel="stylesheet" href="{{ url('xPlugins/angular-libs/bower_components/angular-ui-notification/angular-ui-notification.css') }}" />
 <script src='{{ asset("xPlugins/jquery-ui/jquery-ui.js") }}'></script>

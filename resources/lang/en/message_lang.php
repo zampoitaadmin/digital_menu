@@ -4,7 +4,7 @@ return [
     'common_error_505' => "Something went wrong.",
     'common_error_400' => "Something went wrong.",
 
-    'connecting_text_1' => "SSO Connecting...",
+    'connecting_text_1' => "Connecting...",
     'connecting_text_2' => "Connecting Custom Menu Server...",
 
     'dashboard_text_1' => 'Dashboard',

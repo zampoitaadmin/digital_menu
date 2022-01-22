@@ -12,6 +12,7 @@ bbAppControllers.controller('SsoController', ['$scope', '$location','$stateParam
                 console.info("IN SSO Ctrl Success");
                 //$location.path('/'); //Redirect on merchant page
                 window.location = '/custom-menu';
+                // window.location = '/'+secondUriSegment+'/custom-menu';
             },
             function(response){
                 // console.error(response);

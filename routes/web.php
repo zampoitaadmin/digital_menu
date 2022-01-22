@@ -19,9 +19,18 @@ use Illuminate\Support\Facades\Route;
 #Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 /** front-end routes */
 
+$uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+if( !empty($uriSegments) && isset($uriSegments[1]) ){
+    $secondUriSegment = $uriSegments[1];
+    // $secondUriSegment = "";
+}
+else{
+    $secondUriSegment = "";
+}
 
 Route::get('/', 'HomeController@index');
 Route::get('/', 'HomeController@index')->name('/');
+// Route::get($secondUriSegment.'/sso/{token?}', 'HomeController@sso')->name('sso');
 Route::get('sso/{token?}', 'HomeController@sso')->name('sso');
 Route::get('menu/{slug}', 'MenuController@menu')->name('menu');
 Route::get("logout", "HomeController@logout")->name("logout");

@@ -12,6 +12,15 @@ use App\Http\Controllers\Api\BrandingController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MerchantFixedMenuController;
 
+$uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+if( !empty($uriSegments) && isset($uriSegments[1]) ){
+    $secondUriSegment = $uriSegments[1];
+    // $secondUriSegment = "";
+}
+else{
+    $secondUriSegment = "";
+}
+
 Route::post('login', [AuthController::class, 'authenticate']);
 Route::post('auth/connect-sso', [AuthController::class, 'authenticate']);
 Route::get('menu/{user:slug}/{appLanguage}',  [AuthController::class, 'getMenu']);
@@ -19,6 +28,7 @@ Route::post('menu',  [AuthController::class, 'searchItem']);
 #Route::post('login', [ApiController::class, 'authenticate']);
 #Route::post('register', [ApiController::class, 'register']);
 
+// Route::group(['prefix' => $secondUriSegment, 'middleware' => ['jwt.verify']], function() {
 Route::group(['middleware' => ['jwt.verify']], function() {
     // custom-menu/categories
     // http://local.zampoita.com/custom-menu/categories

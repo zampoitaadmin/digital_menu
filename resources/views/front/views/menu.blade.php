@@ -73,7 +73,7 @@
             <div class="container">
                 <div class="row" >
                     <div class="col-md-3">
-                        <img class="img-fluid main-product_img" src="@{{ branding.brandLogoUrl }}">
+                        <img class="img-fluid main-product_img" src="@{{ branding.brandLogoUrl }}" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
                     </div>
                     <div class="col-md-6">
                         <h1 class="title text-white wack_waffle_pizza text-black">@{{ userInfo.restaurant_name }}</h1>
@@ -469,32 +469,15 @@
                         <div class="text-center">
                             <a class="navbar-brand" href="#" target="_blank"><img src="{{ url('assets/front-menu/images/white-logo.png') }}" alt=""></a> 
                         </div>
-                        <li class="menu__group ">
-                            <a href="#" class="menu__link r-link">Recommended</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#exotic_pocket" class="menu__link r-link">Exotic Pocket Waffles</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#waffle_pizza" class="menu__link r-link">Waffle Pizza</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#brownies" class="menu__link r-link">Brownies</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#mini_pancakes" class="menu__link r-link">Mini Pancakes</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#beverages_milkshakes" class="menu__link r-link">Beverages & Milkshakes (250 ML)</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#combos" class="menu__link r-link ">Combos</a>
-                        </li>
-                        <li class="menu__group">
-                            <a href="#special_price" class="menu__link r-link">Special Price Dessert From Wack Waffles</a>
-                        </li>
-                        <li class="menu__group ">
-                            <a href="#price_combos" class="menu__link r-link ">Special Price Combos From Wack</a>
+                        <li class="menu__group" ng-repeat="category in userSelectedCategories">
+                            <a ng-if="category.change_category_name" href="#@{{category.slug}}" class="menu__link r-link">@{{ category.change_category_name }}</a>
+                            <a ng-if="!category.change_category_name" href="#@{{category.slug}}" class="menu__link r-link">
+                                @if( _getAppLang() == "en" )
+                                    @{{ category.name }}
+                                @elseif( _getAppLang() == "es" )
+                                    @{{ category.spanish }}
+                                @endif
+                            </a>
                         </li>
                     </ul>
                 </nav>

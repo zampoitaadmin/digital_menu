@@ -59,7 +59,7 @@ class UserCategory extends Model
         });
         $dataBase->where('category.status', 'active');
         $dataBase->groupBy('user_category.category_id');
-        $responseData= $dataBase->orderByRaw("user_category.user_category_order asc")->get();
+        $responseData= $dataBase->orderByRaw("category_type desc, user_category.user_category_order asc")->get();
         return $responseData;
     }
 

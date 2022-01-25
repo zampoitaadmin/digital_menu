@@ -61,6 +61,10 @@ class ProductController extends ApiController
                             else{
                                 $responseProducts[$productKey]->productMainImageUrl = "";
                             }
+
+                            if(!empty($productInfo->product_description)){
+                                $responseProducts[$productKey]->product_description = mb_strimwidth($productInfo->product_description, 0, 97, '...');
+                            }
                             $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
                             $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
                             $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);

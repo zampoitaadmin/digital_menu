@@ -179,6 +179,7 @@ margin-top: 20px;
 .forFontFamilyOnly{
     font-family: AmaticSC-Bold !important;
     font-size: 25px !important;
+    letter-spacing: 2px;
 }
 
 .cat{
@@ -293,7 +294,8 @@ footer {
 
 .footer_bg .footer-heading {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
+    /*color: rgba(255, 255, 255, 0.9);*/
+    color: #bc874a;
     margin-bottom: 20px;
 }
 
@@ -320,7 +322,7 @@ footer {
 }
 
 .footer_bg .list-unstyled li a:hover {
-    color: #fff;
+    /*color: #fff;*/
 }
 
 .footer_bg .list-unstyled a {
@@ -328,7 +330,7 @@ footer {
 }
 
 .footer_bg .list-unstyled a:hover {
-    color: #fff;
+    /*color: #fff;*/
 }
 
 .footer_bg .subscribe {
@@ -1280,6 +1282,8 @@ ul.right-nav {
 }
 .productAllergiesDiv{
     display: flex;
+    flex-wrap: wrap;
+    flex: 1;
 }
 .productRow{
     border: 2px dashed #000;
@@ -1311,6 +1315,11 @@ ul.right-nav {
 .rowFooter .linkFontSize{
     font-size: 12px;
 }
+.productImage{
+    width: 188px;
+    height: 188px !important;
+    object-fit: cover;
+}
 /* End Css: By KR */
 
 .nav-pills .nav-link.active,
@@ -1340,4 +1349,11 @@ ul.right-nav {
 {
     background: #bc874a!important;
     color: #fff;
+}
+.cat:hover {
+    background: #bc874a;
+    color: #fff !important;
+}
+.cat:hover label span {
+    color: #fff !important;
 }

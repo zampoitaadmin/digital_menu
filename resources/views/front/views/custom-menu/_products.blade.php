@@ -50,7 +50,7 @@
                                                                 <div class="col-sm-3 pb-0">
                                                                     <a href="#">
                                                                         {{-- <img src="{{ _getHomeUrl('assets/products/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';"> --}}
-                                                                        <img src="{{ url('uploads/product/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded h-100" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                                                        <img src="{{ url('uploads/product/').'/' }}@{{ productInfo.product_main_image }}"  class="img-fluid img-thumbnail rounded productImage" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
                                                                     </a>
                                                                 </div>
                                                                 <div class="col-sm-9">

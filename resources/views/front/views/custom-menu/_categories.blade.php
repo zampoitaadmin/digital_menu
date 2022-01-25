@@ -65,7 +65,7 @@
                                             @{{ category.name }}
                                         </button>
                                     </div>
-                                    <button type="button" class="btn btn-del_edt btn_custom_for_only_color" ng-click="deleteRecordFun(category)"><i class="fa fa-trash text-danger"></i></button>
+                                    <button type="button" class="btn btn-del_edt btn_custom_for_only_color" ng-click="deleteRecordFun(category)"><i class="fa fa-trash"></i></button>
                                     <button type="button" class="btn btn-del_edt btn_custom_for_only_color" ng-click="showRecordFun(category)"><i class="fa fa-pencil-square-o text-light"></i></button>
                                 </div>
                             </div>

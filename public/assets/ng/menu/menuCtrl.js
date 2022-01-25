@@ -14,14 +14,15 @@ bbAppControllers.controller('menuCtrl', ['$scope', '$window', '$location','$stat
                 $scope.userInfo = response.data.data.userInfo;
                 $scope.branding = response.data.data.branding;
                 $scope.userSelectedCategories = response.data.data.categories;
-                let allAllergies = [];
+                $scope.allAllergies = response.data.data.allAllergies;
+                /*let allAllergies = [];
                 angular.forEach(response.data.data.allAllergies, function (value, key) {
                     this.push({
                         'id': value.id,
                         'name': value.name,
                     });
                 }, allAllergies);
-                $scope.allAllergies = allAllergies;
+                $scope.allAllergies = allAllergies;*/
 
                 if($scope.branding){
                     $scope.brandColor = $scope.branding.brand_color;

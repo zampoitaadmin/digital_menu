@@ -45,7 +45,8 @@
                 background-color: @{{secondaryColor}};
             }
             .tab-panel .nav .nav-item .nav-link{
-                color: @{{secondaryColor}} !important;
+                //color: @{{secondaryColor}} !important;
+                color: #fff;
             }
             .card-title{
                 color: @{{secondaryColor}};
@@ -165,7 +166,7 @@
                                     <!-- <h6 class="item-list mt-md-3 mb-md-0 text-black">Test appetizer 2</h6> -->
                                     <div class="row product_bottom_border py-md-3" ng-repeat="product in category.responseProducts">
                                         <div class="col-sm-2">
-                                            <img src="@{{ product.productMainImageUrl }}" class="img-fluid  product-img" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';" ng-click="showRecordFun(product)">
+                                            <img ng-if="product.productMainImageUrl" src="@{{ product.productMainImageUrl }}" class="img-fluid  product-img" onerror="" ng-click="showRecordFun(product)">
                                         </div>
                                         <div class="col-sm-6">
                                             <h4 class="card-title" ng-click="showRecordFun(product)">@{{ product.product_name }}</h4>
@@ -218,7 +219,7 @@
                                     </div>
                                     <div class="row product_bottom_border py-md-3 text-center">
                                         <div class="col-sm-3" ng-repeat="product in category.responseProducts" ng-if="product.product_type=='starter'">
-                                            <img ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <img ng-if="product.productMainImageUrl" ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="">
                                             <h6 class="mt-3 mb-1" ng-click="showRecordFun(product)">@{{ product.product_name }}</h6>
                                             <p class="mb-0 p-list-p-tag">@{{ product.product_description }}</p>
                                         </div>
@@ -228,7 +229,7 @@
                                     </div>
                                     <div class="row product_bottom_border py-md-3 text-center">
                                         <div class="col-sm-3" ng-repeat="product in category.responseProducts" ng-if="product.product_type=='course'">
-                                            <img ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <img ng-if="product.productMainImageUrl" ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="">
                                             <h6 class="mt-3 mb-1" ng-click="showRecordFun(product)">@{{ product.product_name }}</h6>
                                             <p class="mb-0 p-list-p-tag">@{{ product.product_description }}</p>
                                         </div>
@@ -238,7 +239,7 @@
                                     </div>
                                     <div class="row product_bottom_border py-md-3 text-center">
                                         <div class="col-sm-3" ng-repeat="product in category.responseProducts" ng-if="product.product_type=='desert'">
-                                            <img ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <img ng-if="product.productMainImageUrl" ng-click="showRecordFun(product)" src="@{{ product.productMainImageUrl }}" class="img-fluid rounded" onerror="">
                                             <h6 class="mt-3 mb-1" ng-click="showRecordFun(product)">@{{ product.product_name }}</h6>
                                             <p class="mb-0 p-list-p-tag">@{{ product.product_description }}</p>
                                         </div>
@@ -255,142 +256,21 @@
         <div class="modal full fade" id="fullscreen_modal" tabindex="-1" role="dialog" aria-labelledby="fullscreen_modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-body d-flex align-items-center justify-content-center flex-column modal_bg" style="background-image: url(images/bg-white.png); background-size: contain;">
+                    <div class="modal-body d-flex align-items-center justify-content-center flex-column modal_bg" style="background-image: url({{ _getHomeUrl('assets/frontend/images/bg-white.png') }}); background-size: contain;">
                         <div class="container my-5">
                             <div class="text-center mb-4 text-uppercase">
-                                <h1 class="text-capitalize font-weight-bold">Zampoita<span style="color: #fff"> Allergy Guide</span></h1>
+                                <h1 class="text-capitalize font-weight-bold"><span style="color: #fff">{{ __('message_lang.lbl_allergy_guide') }}</span></h1>
                                 <p class="text-white mb-0">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                     tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
                             </div>
                             <div class="row">
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
+                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center" ng-repeat="allergy in allAllergies">
                                     <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/9.svg') }}" class="for-svg-size">
+                                        <img src="{{ _getHomeUrl('assets/allergy/') }}@{{allergy.image}}" class="for-svg-size">
                                         <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">pizza</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/10.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">tier cake</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/11.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">gluten</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/12.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">fruit</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/4.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">dinner</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/12.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">fruit</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/5.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">silverware</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/6.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">martini</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/7.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">seafood</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/8.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">donut</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/1.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">Grape</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/2.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">Ice Cream</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/3.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">beverage</h5>
-                                            <p class="text-secondary d-none">Lorem ipsum</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-1 p-2 text-center">
-                                    <div class="bg-light px-3 py-3">
-                                        <img src="{{ url('assets/front-menu/images/4.svg') }}" class="for-svg-size">
-                                        <div class="mt-3">
-                                            <h5 class="mb-2" style="font-weight: 600;">dinner</h5>
+                                            <h5 class="mb-2" style="font-weight: 600;">@{{allergy.name}}</h5>
                                             <p class="text-secondary d-none">Lorem ipsum</p>
                                         </div>
                                     </div>
@@ -430,13 +310,13 @@
                                 <div class="row">
                                     <div class="col-md-4 p-0">
                                         <div class="img-box">
-                                            <img src="@{{formCrudRequestData.productMainImageUrl}}" width="100%" class="img-fluid" id="ProductImg">              
+                                            <img ng-if="formCrudRequestData.productMainImageUrl" src="@{{formCrudRequestData.productMainImageUrl}}" width="100%" class="img-fluid" id="ProductImg">              
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <h1 class="product-title">@{{formCrudRequestData.productName}}</h1>
                                         <div class="productAllergiesDiv">
-                                            <img ng-repeat="allergy in formCrudRequestData.responseAllergies" src="{{ _getHomeUrl('assets/allergy/') }}@{{allergy.image}}" class="for-svg_height mr-1" onerror="this.onerror=null;this.src='{{ _getHomeUrl('assets/default/100_no_img.jpg') }}';">
+                                            <img ng-repeat="allergy in formCrudRequestData.responseAllergies" src="{{ _getHomeUrl('assets/allergy/') }}@{{allergy.image}}" class="for-svg_height mr-1" onerror="">
                                         </div>
                                         <div id="product" class="product-inf">
                                             <div class="tabs-content">

@@ -96,5 +96,8 @@ return [
     'copyright' => "Copyright",
     'lang_eng' => "English",
     'lang_spanish' => "Spanish",
+
+    /* Allergy */
+    'lbl_allergy_guide' => "Allergy Guide",
 ];
 ?>

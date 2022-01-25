@@ -84,6 +84,8 @@ $(document).ready(function () {
     });
     $(window).scroll(function () {
         scrollPos = $(window).scrollTop();
+        // console.log("scrollPos: " + scrollPos);
+        // console.log("navOffset: " + navOffset);
         if (scrollPos >= navOffset) {
             $("#search").addClass("fixed");
             $('.sticky-top ul').css('margin-top', "55px");
@@ -93,6 +95,8 @@ $(document).ready(function () {
         } else {
             $("#search").removeClass("fixed");
             $('.sticky-top ul').css('margin-top', "0px");
+            $('ul.nav-pills li a.active').removeClass('active');
+            $('ul.nav-pills li:first a').addClass('active');
         }
     });
 });

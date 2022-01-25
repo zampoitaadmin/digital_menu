@@ -268,7 +268,7 @@ class AuthController extends ApiController
                     'userInfo' => $user,
                     'branding' => $responseBranding,
                     'categories' => $responseCategories,
-                    // 'allAllergies' => $responseAllergies,
+                    'allAllergies' => $responseAllergies,
                 );
                 // _pre($responseData);
                 return response()->json([

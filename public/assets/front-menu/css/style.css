@@ -1314,5 +1314,7 @@ DEMO
 /* Start Css: By KR */
 .productAllergiesDiv{
     display: flex;
+    flex-wrap: wrap;
+    flex: 1;
 }
 /* End Css: By KR */

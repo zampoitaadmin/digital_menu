@@ -223,6 +223,9 @@ class AuthController extends ApiController
                                         }
                                     }
                                 }
+                                if(!empty($productInfo->product_description)){
+                                    $responseProducts[$productKey]->product_description = mb_strimwidth($productInfo->product_description, 0, 97, '...');
+                                }
                                 $responseProducts[$productKey]->product_price = _number_format($productInfo->product_price);
                                 $responseProducts[$productKey]->product_topa = _number_format($productInfo->product_topa);
                                 $responseProducts[$productKey]->product_1r = _number_format($productInfo->product_1r);
@@ -416,6 +419,9 @@ class AuthController extends ApiController
                         }
                     }
                 }
+                if(!empty($arrayInf->product_description)){
+                    $arrayInf->product_description = mb_strimwidth($arrayInf->product_description, 0, 97, '...');
+                }
                 $allergies = array();
                 $allergies = $this->objAllergy->getProductAllergies($arrayInf->product_id);
                 if($allergies){
@@ -429,7 +435,7 @@ class AuthController extends ApiController
                         }
                     }
                 }
-                $arrayInf->allergies = $allergies;
+                $arrayInf->responseAllergies = $allergies;
                 array_push($productArr, $arrayInf);
             }
         }
